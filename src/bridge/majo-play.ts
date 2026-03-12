@@ -115,7 +115,7 @@ export class MajoPlayController {
       if (i === this.opts.humanPlayerIndex) {
         this.players.push({
           id: `p${i}`,
-          name: 'あなた',
+          name: `P${i + 1} あなた`,
           type: 'human',
         });
         strategyNames.push('人間');
@@ -124,7 +124,7 @@ export class MajoPlayController {
         const strategy = getMajoStrategy(stratId);
         this.players.push({
           id: `p${i}`,
-          name: `${strategy.name}`,
+          name: `P${i + 1} ${strategy.name}`,
           type: 'ai',
           strategyId: stratId,
           personalityDesc: strategy.personality,
@@ -390,6 +390,20 @@ function categorizeAction(action: MajoAction): MajoActionChoice['category'] {
   }
 }
 
+/** state.fieldActionsからフィールド名を取得（スプシ反映） */
+function fieldName(state: MajoGameState, fieldId: string): string {
+  const fa = state.fieldActions.find((f) => f.id === fieldId);
+  return fa?.name ?? fieldId;
+}
+
+/** フィールド名＋コスト付き */
+function fieldNameWithCost(state: MajoGameState, fieldId: string): string {
+  const fa = state.fieldActions.find((f) => f.id === fieldId);
+  if (!fa) return fieldId;
+  const costStr = fa.cost === 'variable' ? '' : `(コスト${fa.cost})`;
+  return `${fa.name}${costStr}`;
+}
+
 function describeAction(action: MajoAction, state: MajoGameState, player: MajoPlayerState): string {
   switch (action.type) {
     case 'pass':
@@ -401,6 +415,7 @@ function describeAction(action: MajoAction, state: MajoGameState, player: MajoPl
       const details = action.details;
       switch (details.action) {
         case 'research': {
+          const rName = fieldName(state, 'research');
           const tool = state.toolSupply.find((t) => t.id === details.toolId);
           if (tool) {
             const dIds = details.discountToolIds || [];
@@ -416,32 +431,34 @@ function describeAction(action: MajoAction, state: MajoGameState, player: MajoPl
                 return s;
               }, 0) + (player.relics.some((r) => r.id === 'M54') ? 1 : 0);
               const eCost = Math.max(1, tool.cost - totalDiscount);
-              return `${prefix}研究 → ${tool.name}(魔力${tool.magicPower})を${eCost}マナで購入（${dNames}タップ）`;
+              return `${prefix}${rName} → ${tool.name}(魔力${tool.magicPower})を${eCost}マナで購入（${dNames}タップ）`;
             }
-            return `${prefix}研究 → ${tool.name}(コスト${tool.cost}, 魔力${tool.magicPower})を購入`;
+            return `${prefix}${rName} → ${tool.name}(コスト${tool.cost}, 魔力${tool.magicPower})を購入`;
           }
-          return `${prefix}研究 → ${details.toolId}を購入`;
+          return `${prefix}${rName} → ${details.toolId}を購入`;
         }
         case 'violence': {
+          const vName = fieldNameWithCost(state, 'violence');
           const saint = state.saintSupply.find((s) => s.id === details.saintId);
           const toolNames = details.tappedToolIds.map((id) => {
             const t = player.magicTools.find((tool) => tool.id === id);
             return t ? `${t.name}(${getEffectiveMagicPower(t, player.magicTools)})` : id;
           }).join('+');
-          if (saint) return `${prefix}横暴 → ${saint.name}(HP${saint.hp}/★${saint.victoryPoints})に挑戦 [${toolNames}]`;
-          return `${prefix}横暴 → ${details.saintId}に挑戦`;
+          if (saint) return `${prefix}${vName} → ${saint.name}(HP${saint.hp}/★${saint.victoryPoints})に挑戦 [${toolNames}]`;
+          return `${prefix}${vName} → ${details.saintId}に挑戦`;
         }
         case 'sacrifice': {
+          const sName = fieldNameWithCost(state, 'sacrifice');
           const saint = state.saintSupply.find((s) => s.id === details.saintId);
-          return `${prefix}生贄(コスト5) → ${saint?.name || details.saintId}に挑戦`;
+          return `${prefix}${sName} → ${saint?.name || details.saintId}に挑戦`;
         }
         case 'magic_shop':
-          return `${prefix}魔具店 → マナ+2`;
+          return `${prefix}${fieldName(state, 'magic_shop')} → マナ+2`;
         case 'cathedral':
-          return `${prefix}大聖堂 → SP獲得+マナ+1`;
+          return `${prefix}${fieldName(state, 'cathedral')} → SP獲得+マナ+1`;
         case 'prayer': {
           const relic = player.relics.find((r) => r.id === details.relicId);
-          return `${prefix}祈祷 → 聖遺物(${relic?.id})を捨ててマナ+3`;
+          return `${prefix}${fieldName(state, 'prayer')} → 聖遺物(${relic?.id})を捨ててマナ+3`;
         }
       }
       return `${prefix}フィールドアクション`;
@@ -465,10 +482,10 @@ function describeAction(action: MajoAction, state: MajoGameState, player: MajoPl
 
     case 'combat_select_saint': {
       const saint = state.saintSupply.find((s) => s.id === action.saintId);
-      const fieldName = action.fieldId === 'violence' ? '横暴(コスト2)' : '生贄(コスト5)';
+      const csFieldName = fieldNameWithCost(state, action.fieldId);
       const familiarPrefix = action.useFamiliar ? '【使い魔】' : '';
-      if (saint) return `${familiarPrefix}${fieldName} → ${saint.name}(HP${saint.hp}/★${saint.victoryPoints})に挑戦開始`;
-      return `${familiarPrefix}${fieldName} → 聖者に挑戦開始`;
+      if (saint) return `${familiarPrefix}${csFieldName} → ${saint.name}(HP${saint.hp}/★${saint.victoryPoints})に挑戦開始`;
+      return `${familiarPrefix}${csFieldName} → 聖者に挑戦開始`;
     }
 
     case 'combat_add_tool': {
