@@ -20,7 +20,7 @@ function selectToolsForCombat(player, targetHP) {
     }
     return selected;
 }
-function getAvailablePower(player) {
+function getAvailablePower(player, witchUsageCount = 0) {
     const availableTools = player.magicTools.filter((t) => !player.tappedToolIds.includes(t.id));
     let power = 0;
     for (const t of availableTools) {
@@ -28,6 +28,10 @@ function getAvailablePower(player) {
         if (t.type === '護符' && t.effect.includes('戦闘：魔力＋3')) {
             power += 3;
         }
+    }
+    // 魔女が魔力モードで使用済みなら永続ボーナス
+    if (player.witchTapped && player.witchMode === 'magic') {
+        power += 3 + witchUsageCount;
     }
     return power;
 }
@@ -47,7 +51,7 @@ function getCombatRelicPower(player) {
 }
 // 倒せる聖者リスト（戦闘聖遺物の魔力ブーストも考慮）
 function getKillableSaints(state, player) {
-    const toolPower = getAvailablePower(player);
+    const toolPower = getAvailablePower(player, state.witchUsageCount);
     const { power: relicPower } = getCombatRelicPower(player);
     const totalPower = toolPower + relicPower;
     return state.saintSupply
@@ -101,21 +105,50 @@ function selectExtraCombatTarget(state, player) {
     target.hp);
     return { saintId: target.id, toolIds };
 }
-function findResearchAction(actions, toolId) {
-    return actions.find((a) => (a.type === 'field_action' || a.type === 'use_familiar') &&
+// 使い魔を温存すべきか判定（ゲーム中1回きりなので重要な場面でのみ使う）
+// allowFamiliar=false の場合、field_action のみを返す
+function findResearchAction(actions, toolId, allowFamiliar = true) {
+    // まず通常のfield_actionを探す
+    const normal = actions.find((a) => a.type === 'field_action' &&
+        'details' in a && a.details.action === 'research' && a.details.toolId === toolId);
+    if (normal)
+        return normal;
+    // 通常がなければ使い魔を使う（許可されている場合のみ）
+    if (!allowFamiliar)
+        return undefined;
+    return actions.find((a) => a.type === 'use_familiar' &&
         'details' in a && a.details.action === 'research' && a.details.toolId === toolId);
 }
-function findViolenceAction(actions, saintId) {
-    // 新方式: combat_select_saint (violence)
-    const newStyle = actions.find((a) => a.type === 'combat_select_saint' && a.fieldId === 'violence' && a.saintId === saintId);
-    if (newStyle)
-        return newStyle;
-    // 旧方式フォールバック（使われないが念のため）
-    return actions.find((a) => (a.type === 'field_action' || a.type === 'use_familiar') &&
+function findViolenceAction(actions, saintId, allowFamiliar = true) {
+    // 新方式: combat_select_saint (violence) - useFamiliar=falseを優先
+    const normalCombat = actions.find((a) => a.type === 'combat_select_saint' && a.fieldId === 'violence' && a.saintId === saintId && !a.useFamiliar);
+    if (normalCombat)
+        return normalCombat;
+    // 使い魔版combat_select_saint
+    if (allowFamiliar) {
+        const familiarCombat = actions.find((a) => a.type === 'combat_select_saint' && a.fieldId === 'violence' && a.saintId === saintId && a.useFamiliar);
+        if (familiarCombat)
+            return familiarCombat;
+    }
+    // 旧方式フォールバック
+    const normalOld = actions.find((a) => a.type === 'field_action' &&
+        'details' in a && a.details.action === 'violence' && a.details.saintId === saintId);
+    if (normalOld)
+        return normalOld;
+    if (!allowFamiliar)
+        return undefined;
+    return actions.find((a) => a.type === 'use_familiar' &&
         'details' in a && a.details.action === 'violence' && a.details.saintId === saintId);
 }
-function findFieldAction(actions, actionName) {
-    return actions.find((a) => (a.type === 'field_action' || a.type === 'use_familiar') &&
+function findFieldAction(actions, actionName, allowFamiliar = true) {
+    // まず通常のfield_actionを探す
+    const normal = actions.find((a) => a.type === 'field_action' &&
+        'details' in a && a.details.action === actionName);
+    if (normal)
+        return normal;
+    if (!allowFamiliar)
+        return undefined;
+    return actions.find((a) => a.type === 'use_familiar' &&
         'details' in a && a.details.action === actionName);
 }
 function getToolCombatPower(t, allTools) {
@@ -227,10 +260,8 @@ function selectBestTurnRelic(state, player) {
                 break;
             }
             case 'M53': {
-                // 3コスト以下の魔導具をタダで獲得
-                if (state.toolSupply.some((t) => t.cost <= 3)) {
-                    return { relicId: relic.id, reasoning: `聖遺物で魔導具をタダで獲得！` };
-                }
+                // select_free_tool アクションで処理するため、ここではスキップ
+                // （selectFreeToolAction ヘルパーで処理）
                 break;
             }
             case 'M61': {
@@ -275,6 +306,45 @@ function selectBestTurnRelic(state, player) {
         }
     }
     return null;
+}
+// M53聖遺物: 3コスト以下の最適な魔導具をタダで獲得（select_free_tool）
+function selectFreeToolAction(state, player, playerId, actions) {
+    const freeToolActions = actions.filter((a) => a.type === 'select_free_tool');
+    if (freeToolActions.length === 0)
+        return null;
+    // 魔力が最も高いものを選ぶ
+    let best = null;
+    for (const act of freeToolActions) {
+        if (act.type !== 'select_free_tool')
+            continue;
+        const tool = state.toolSupply.find((t) => t.id === act.toolId);
+        if (!tool)
+            continue;
+        const power = getToolCombatPower(tool, player.magicTools);
+        if (!best || power > best.power) {
+            best = { action: act, power };
+        }
+    }
+    if (best) {
+        const tool = state.toolSupply.find((t) => t.id === best.action.toolId);
+        return {
+            action: best.action,
+            reasoning: `聖遺物M53で${tool?.name ?? '魔導具'}(魔力${best.power})をタダで獲得！`,
+        };
+    }
+    return null;
+}
+// M27水晶玉アンタップアクション
+function selectUntapToolAction(actions, player) {
+    const untapAction = actions.find((a) => a.type === 'untap_tool');
+    if (!untapAction)
+        return null;
+    // M27がタップされていてアンタップしたい場面: 戦闘に使いたい、割引に使いたい
+    // 基本的にタップされていたらアンタップする価値がある
+    return {
+        action: untapAction,
+        reasoning: `水晶玉(M27)をアンタップ → 再利用可能に`,
+    };
 }
 // 戦闘マルチステップ中の最適アクションを選ぶ
 function selectCombatStepAction(state, player, playerId, actions) {
@@ -376,58 +446,69 @@ const balanced = {
                 reasoning: bestRelic.reasoning,
             };
         }
-        // 1. VP持ちの聖者を倒せるなら最優先
+        // 0.1 M53: 魔導具タダ獲得
+        const freeTool = selectFreeToolAction(state, player, playerId, actions);
+        if (freeTool)
+            return freeTool;
+        // 0.2 M27: 水晶玉アンタップ
+        const untapM27 = selectUntapToolAction(actions, player);
+        if (untapM27)
+            return untapM27;
+        // 使い魔はVP聖者撃破のみ許可（1回きりなので温存）
+        const familiarForVP = killableSaints.length > 0 && killableSaints[0].victoryPoints >= 2;
+        // 1. VP持ちの聖者を倒せるなら最優先（VP聖者なら使い魔OK）
         if (killableSaints.length > 0 && killableSaints[0].victoryPoints > 0 && player.mana >= 2) {
             const target = killableSaints[0];
-            const act = findViolenceAction(actions, target.id);
+            const act = findViolenceAction(actions, target.id, familiarForVP);
             if (act) {
                 const optimized = buildCombatAction(state, act, player, target.hp);
                 return { action: optimized, reasoning: `${target.name}(HP${target.hp}/★${target.victoryPoints})を撃破！` };
             }
         }
-        // 2. 魔導具が足りない → 買う
+        // 2. 魔導具が足りない → 買う（使い魔は使わない）
         if (player.magicTools.length < 3) {
             const best = getBestToolToBuy(state, player);
             if (best) {
-                const act = findResearchAction(fieldActions, best.toolId);
+                const act = findResearchAction(fieldActions, best.toolId, false);
                 if (act)
                     return { action: act, reasoning: `${best.name}(コスト${best.cost}/魔力${best.power})を購入` };
             }
             // 買えないならマナを貯める
             if (player.mana <= 3) {
-                const shopAct = findFieldAction(fieldActions, 'magic_shop');
+                const shopAct = findFieldAction(fieldActions, 'magic_shop', false);
                 if (shopAct)
                     return { action: shopAct, reasoning: `魔導具購入のためマナ補充` };
             }
         }
-        // 3. 0星でも倒せる聖者がいれば倒す（聖遺物が手に入る）
+        // 3. 0星でも倒せる聖者がいれば倒す（使い魔は使わない）
         if (killableSaints.length > 0 && player.mana >= 2) {
             const target = killableSaints[0];
-            const act = findViolenceAction(actions, target.id);
+            const act = findViolenceAction(actions, target.id, false);
             if (act) {
                 const optimized = buildCombatAction(state, act, player, target.hp);
                 return { action: optimized, reasoning: `${target.name}(HP${target.hp})を倒して聖遺物${target.relicDraw}枚獲得` };
             }
         }
-        // 4. 魔導具を追加購入
+        // 4. 魔導具を追加購入（使い魔は使わない）
         const best = getBestToolToBuy(state, player);
         if (best) {
-            const act = findResearchAction(fieldActions, best.toolId);
+            const act = findResearchAction(fieldActions, best.toolId, false);
             if (act)
                 return { action: act, reasoning: `${best.name}(魔力${best.power})を追加購入` };
         }
-        // 5. マナ補充
+        // 5. マナ補充（使い魔は使わない）
         if (player.mana <= 3) {
-            const shopAct = findFieldAction(fieldActions, 'magic_shop');
+            const shopAct = findFieldAction(fieldActions, 'magic_shop', false);
             if (shopAct)
                 return { action: shopAct, reasoning: `マナ補充(現在${player.mana})` };
         }
-        // 6. 魔女（マナモード、魔導具揃ってから）
-        if (!player.witchTapped && player.magicTools.length >= 2) {
+        // 6. 魔女（マナモード）— ゲーム中1回きりなので温存
+        // ラウンド4以降 & 魔導具3個以上 & 使うと大きなリターンがある場合のみ
+        if (!player.witchTapped && player.magicTools.length >= 3 && state.round >= 4) {
             const witchAction = actions.find((a) => a.type === 'use_witch' && a.choice === 'mana');
             if (witchAction) {
                 const gain = 2 + state.witchUsageCount;
-                return { action: witchAction, reasoning: `魔女マナモード → +${gain}マナ` };
+                return { action: witchAction, reasoning: `魔女マナモード → +${gain}マナ（温存して最大効果）` };
             }
         }
         // 7. マナがあるなら魔具店（パスするよりマシ）
@@ -475,16 +556,26 @@ const aggressive = {
                 reasoning: bestRelic.reasoning,
             };
         }
-        // 1. 倒せる聖者がいればとにかく倒す
+        // 0.6 M53: 魔導具タダ獲得
+        const freeTool = selectFreeToolAction(state, player, playerId, actions);
+        if (freeTool)
+            return freeTool;
+        // 0.7 M27: 水晶玉アンタップ
+        const untapM27 = selectUntapToolAction(actions, player);
+        if (untapM27)
+            return untapM27;
+        // 使い魔は聖者撃破のみ許可（攻撃型でも1回きりなので温存）
+        const familiarForCombat = killableSaints.length > 0;
+        // 1. 倒せる聖者がいればとにかく倒す（聖者撃破なら使い魔OK）
         if (killableSaints.length > 0 && player.mana >= 2) {
             const target = killableSaints[0];
-            const act = findViolenceAction(actions, target.id);
+            const act = findViolenceAction(actions, target.id, true);
             if (act) {
                 const optimized = buildCombatAction(state, act, player, target.hp);
                 return { action: optimized, reasoning: `攻撃！${target.name}(HP${target.hp}/★${target.victoryPoints})を撃破！` };
             }
         }
-        // 2. 魔導具を買う（高魔力優先）
+        // 2. 魔導具を買う（高魔力優先、使い魔は使わない）
         const affordable = state.toolSupply
             .filter((t) => t.cost <= player.mana)
             .map((t) => ({ ...t, ep: getEffectiveMagicPower(t, player.magicTools) }))
@@ -492,26 +583,26 @@ const aggressive = {
             .sort((a, b) => b.ep - a.ep);
         if (affordable.length > 0) {
             const tool = affordable[0];
-            const act = findResearchAction(fieldActions, tool.id);
+            const act = findResearchAction(fieldActions, tool.id, false);
             if (act)
                 return { action: act, reasoning: `高魔力の${tool.name}(魔力${tool.ep})を購入` };
         }
-        // 3. マナ補充
+        // 3. マナ補充（使い魔は使わない）
         if (player.mana <= 2) {
-            const shopAct = findFieldAction(fieldActions, 'magic_shop');
+            const shopAct = findFieldAction(fieldActions, 'magic_shop', false);
             if (shopAct)
                 return { action: shopAct, reasoning: `マナ補充して攻撃に備える` };
         }
-        // 4. 魔女（マナモード）
-        if (!player.witchTapped && player.magicTools.length >= 1) {
+        // 4. 魔女（マナモード）— ラウンド3以降 & 魔導具2個以上
+        if (!player.witchTapped && player.magicTools.length >= 2 && state.round >= 3) {
             const witchAction = actions.find((a) => a.type === 'use_witch' && a.choice === 'mana');
             if (witchAction) {
                 const gain = 2 + state.witchUsageCount;
                 return { action: witchAction, reasoning: `魔女マナモード → +${gain}マナ` };
             }
         }
-        // 5. マナ稼ぎ（パスより良い）
-        const shopAct = findFieldAction(fieldActions, 'magic_shop');
+        // 5. マナ稼ぎ（パスより良い、使い魔は使わない）
+        const shopAct = findFieldAction(fieldActions, 'magic_shop', false);
         if (shopAct)
             return { action: shopAct, reasoning: `マナを貯めて次に備える` };
         return { action: passAction, reasoning: '力を溜める' };
@@ -556,61 +647,71 @@ const economist = {
                 reasoning: bestRelic.reasoning,
             };
         }
-        // 1. VP聖者を倒す
+        // M53: 魔導具タダ獲得（経済型は特に有効）
+        const freeTool = selectFreeToolAction(state, player, playerId, actions);
+        if (freeTool)
+            return freeTool;
+        // M27: 水晶玉アンタップ
+        const untapM27 = selectUntapToolAction(actions, player);
+        if (untapM27)
+            return untapM27;
+        // 使い魔はVP2以上の聖者撃破のみ許可（経済型は最も温存的）
+        const familiarForVP = killableSaints.length > 0 && killableSaints[0].victoryPoints >= 2;
+        // 1. VP聖者を倒す（VP2+なら使い魔OK）
         if (killableSaints.length > 0 && killableSaints[0].victoryPoints > 0 && player.mana >= 2) {
             const target = killableSaints[0];
-            const act = findViolenceAction(actions, target.id);
+            const act = findViolenceAction(actions, target.id, familiarForVP);
             if (act) {
                 const optimized = buildCombatAction(state, act, player, target.hp);
                 return { action: optimized, reasoning: `${target.name}(★${target.victoryPoints})を撃破` };
             }
         }
-        // 2. コスト削減の魔導具を優先
+        // 2. コスト削減の魔導具を優先（使い魔は使わない）
         const discountTools = state.toolSupply.filter((t) => t.effect.includes('コスト-') && t.cost <= player.mana);
         if (discountTools.length > 0 && player.magicTools.length < 4) {
             const tool = discountTools[0];
-            const act = findResearchAction(fieldActions, tool.id);
+            const act = findResearchAction(fieldActions, tool.id, false);
             if (act)
                 return { action: act, reasoning: `コスト削減の${tool.name}を購入` };
         }
-        // 3. コスパ良い魔導具
+        // 3. コスパ良い魔導具（使い魔は使わない）
         const best = getBestToolToBuy(state, player);
         if (best && player.magicTools.length < 4) {
-            const act = findResearchAction(fieldActions, best.toolId);
+            const act = findResearchAction(fieldActions, best.toolId, false);
             if (act)
                 return { action: act, reasoning: `${best.name}(魔力${best.power}/コスト${best.cost})を購入` };
         }
-        // 4. 0星聖者も聖遺物目当てで倒す（経済型の特徴：聖遺物エンジン）
+        // 4. 0星聖者も聖遺物目当てで倒す（使い魔は使わない）
         if (killableSaints.length > 0 && player.mana >= 2) {
             const target = killableSaints[0];
-            const act = findViolenceAction(actions, target.id);
+            const act = findViolenceAction(actions, target.id, false);
             if (act) {
                 const optimized = buildCombatAction(state, act, player, target.hp);
                 return { action: optimized, reasoning: `${target.name}を倒して聖遺物${target.relicDraw}枚獲得（エンジン構築）` };
             }
         }
-        // 5. マナ補充
+        // 5. マナ補充（使い魔は使わない）
         if (player.mana <= 3) {
-            const shopAct = findFieldAction(fieldActions, 'magic_shop');
+            const shopAct = findFieldAction(fieldActions, 'magic_shop', false);
             if (shopAct)
                 return { action: shopAct, reasoning: `マナ補充` };
         }
-        // 6. 魔女（遅めに使ってスタック最大化）
-        if (!player.witchTapped && player.magicTools.length >= 2 && state.round >= 3) {
+        // 6. 魔女（遅めに使ってスタック最大化）— ラウンド4以降に変更
+        if (!player.witchTapped && player.magicTools.length >= 2 && state.round >= 4) {
             const witchAction = actions.find((a) => a.type === 'use_witch' && a.choice === 'mana');
             if (witchAction) {
                 const gain = 2 + state.witchUsageCount;
-                return { action: witchAction, reasoning: `魔女マナモード → +${gain}マナ` };
+                return { action: witchAction, reasoning: `魔女マナモード → +${gain}マナ（スタック最大化）` };
             }
         }
-        // 7. まだ買えるなら買う
+        // 7. まだ買えるなら買う（使い魔は使わない）
         if (best) {
-            const act = findResearchAction(fieldActions, best.toolId);
+            const act = findResearchAction(fieldActions, best.toolId, false);
             if (act)
                 return { action: act, reasoning: `追加の${best.name}を購入` };
         }
-        // 8. マナ稼ぎ
-        const shopAct = findFieldAction(fieldActions, 'magic_shop');
+        // 8. マナ稼ぎ（使い魔は使わない）
+        const shopAct = findFieldAction(fieldActions, 'magic_shop', false);
         if (shopAct)
             return { action: shopAct, reasoning: `パスよりマナ補充` };
         return { action: passAction, reasoning: 'マナ温存' };

@@ -165,7 +165,7 @@ async function runAutoGame(verbose = true) {
         { id: 'p2', name: `${strategy3.name}`, type: 'ai', strategyId: strategy3.id },
         { id: 'p3', name: `${strategy4.name}`, type: 'ai', strategyId: strategy4.id },
     ];
-    let state = createMajoGame(players);
+    let state = await createMajoGame(players);
     let turnCount = 0;
     let lastRound = 0;
     if (verbose) {

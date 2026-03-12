@@ -1,5 +1,6 @@
 // 魔女ゲー ゲームエンジン
 import { ALL_TOOLS, ALL_SAINTS, ALL_RELICS, ALL_ACHIEVEMENTS } from './majo-cards.js';
+import { loadCardsFromSheet } from './majo-card-loader.js';
 const INITIAL_MANA = 3;
 const VICTORY_POINT_TARGET = 7;
 function shuffle(arr) {
@@ -21,12 +22,27 @@ function createFieldActions() {
         { id: 'prayer', name: '祈祷', maxSlots: 3, cost: 1, usedSlots: 0 },
     ];
 }
-export function createMajoGame(players) {
-    if (players.length < 2 || players.length > 4) {
-        throw new Error('プレイヤー数は2〜4人');
+export async function createMajoGame(players) {
+    if (players.length < 2 || players.length > 5) {
+        throw new Error('プレイヤー数は2〜5人');
     }
-    const shuffledSaints = shuffle([...ALL_SAINTS]);
-    const shuffledRelics = shuffle([...ALL_RELICS]);
+    // スプレッドシートからカードデータを読み込み（失敗時はハードコードにフォールバック）
+    let tools = ALL_TOOLS;
+    let saints = ALL_SAINTS;
+    let relics = ALL_RELICS;
+    let achievements = ALL_ACHIEVEMENTS;
+    try {
+        const cards = await loadCardsFromSheet();
+        tools = cards.tools;
+        saints = cards.saints;
+        relics = cards.relics;
+        achievements = cards.achievements;
+    }
+    catch (e) {
+        console.warn('スプレッドシート読み込み失敗、ハードコードデータを使用:', e.message);
+    }
+    const shuffledSaints = shuffle([...saints]);
+    const shuffledRelics = shuffle([...relics]);
     const playerStates = players.map((config) => ({
         config,
         mana: INITIAL_MANA,
@@ -41,7 +57,7 @@ export function createMajoGame(players) {
         lastPassiveVP: 0,
         passed: false,
     }));
-    const shuffledTools = shuffle([...ALL_TOOLS]);
+    const shuffledTools = shuffle([...tools]);
     const initialState = {
         players: playerStates,
         toolDeck: shuffledTools.slice(3), // 残りデッキ
@@ -49,7 +65,7 @@ export function createMajoGame(players) {
         saintSupply: shuffledSaints.splice(0, 3),
         saintDeck: shuffledSaints,
         relicDeck: shuffledRelics,
-        achievements: [...ALL_ACHIEVEMENTS],
+        achievements: [...achievements],
         fieldActions: createFieldActions(),
         round: 1,
         currentPlayerIndex: 0,
@@ -201,6 +217,14 @@ export function getAvailableActions(state, playerId) {
                     actions.push({ type: 'select_saint_discard', playerId, relicId: relic.id, saintId: saint.id });
                 }
             }
+            else if (relic.id === 'M53') {
+                // M53: 3コスト以下の魔導具を選んでタダで獲得
+                for (const tool of state.toolSupply) {
+                    if (tool.cost <= 3) {
+                        actions.push({ type: 'select_free_tool', playerId, relicId: relic.id, toolId: tool.id });
+                    }
+                }
+            }
             else {
                 actions.push({ type: 'use_relic', playerId, relicId: relic.id });
             }
@@ -210,6 +234,12 @@ export function getAvailableActions(state, playerId) {
     for (const tool of player.magicTools) {
         if (tool.type === '護符' && tool.effect.includes('手番：')) {
             actions.push({ type: 'use_tool_turn', playerId, toolId: tool.id });
+        }
+    }
+    // M27 水晶玉「いつでもアンタップしてよい」：タップ中ならアンタップアクションを生成
+    for (const tool of player.magicTools) {
+        if (tool.id === 'M27' && player.tappedToolIds.includes(tool.id)) {
+            actions.push({ type: 'untap_tool', playerId, toolId: tool.id });
         }
     }
     // M67追加戦闘（フィールド枠・マナコスト不要、魔導具は通常通りタップ必要）
@@ -490,6 +520,57 @@ export function executeAction(state, action) {
             };
             break;
         }
+        case 'untap_tool': {
+            // M27 水晶玉: いつでもアンタップしてよい
+            const p = getPlayer(newState, action.playerId);
+            if (!p.tappedToolIds.includes(action.toolId))
+                throw new Error(`魔導具 ${action.toolId} はタップされていない`);
+            const tool = p.magicTools.find((t) => t.id === action.toolId);
+            newState = updatePlayer(newState, action.playerId, {
+                tappedToolIds: p.tappedToolIds.filter((id) => id !== action.toolId),
+            });
+            newState = {
+                ...newState,
+                lastEvents: [...newState.lastEvents, `水晶玉「${tool?.name ?? action.toolId}」をアンタップ`],
+            };
+            break;
+        }
+        case 'select_free_tool': {
+            // M53: 指定した魔導具をタダで獲得、聖遺物を廃棄
+            const p = getPlayer(newState, action.playerId);
+            const tool = newState.toolSupply.find((t) => t.id === action.toolId);
+            if (!tool)
+                throw new Error(`魔導具 ${action.toolId} が売り場にない`);
+            if (tool.cost > 3)
+                throw new Error(`魔導具 ${action.toolId} はコスト${tool.cost}で3コスト以下ではない`);
+            newState = updatePlayer(newState, action.playerId, {
+                magicTools: [...p.magicTools, tool],
+                relics: p.relics.filter((r) => r.id !== action.relicId),
+            });
+            newState = {
+                ...newState,
+                toolSupply: newState.toolSupply.filter((t) => t.id !== action.toolId),
+                lastEvents: [...newState.lastEvents, `聖遺物M53使用: ${tool.name}(コスト${tool.cost})をタダで獲得`],
+            };
+            // 売り場補充
+            if (newState.toolDeck.length > 0) {
+                const replenished = newState.toolDeck[0];
+                newState = {
+                    ...newState,
+                    toolSupply: [...newState.toolSupply, replenished],
+                    toolDeck: newState.toolDeck.slice(1),
+                    lastEvents: [...newState.lastEvents, `魔導具補充: ${replenished.name}(コスト${replenished.cost}) が展示に追加されました`],
+                };
+            }
+            // 廃棄した聖遺物を山札の一番下へ
+            const relic = p.relics.find((r) => r.id === action.relicId);
+            if (relic) {
+                newState = { ...newState, relicDeck: [...newState.relicDeck, relic] };
+            }
+            // 実績チェック
+            newState = checkAchievements(newState, action.playerId);
+            break;
+        }
     }
     // 全プレイヤーのパッシブ聖遺物VPを再計算
     newState = recalcAllPassiveVP(newState);
@@ -633,8 +714,9 @@ function executeCombat(state, playerId, saintId, tappedToolIds, combatRelicIds =
     const saint = newState.saintSupply.find((s) => s.id === saintId);
     if (!saint)
         throw new Error(`聖者 ${saintId} が展示にいない`);
-    // 魔力計算（戦闘聖遺物のブーストを含む）
-    const power = calculateCombatPower(player, tappedToolIds, combatRelicIds, false, newState.witchUsageCount);
+    // 魔力計算（戦闘聖遺物のブーストを含む、魔女魔力モードも考慮）
+    const useWitchMagic = player.witchTapped && player.witchMode === 'magic';
+    const power = calculateCombatPower(player, tappedToolIds, combatRelicIds, useWitchMagic, newState.witchUsageCount);
     if (power < saint.hp) {
         // 魔力不足 → 撤退（マナは既に消費済み、ツール・聖者はそのまま）
         newState = {
@@ -754,19 +836,16 @@ function executeWitch(state, playerId, choice) {
         // 魔女マナモード：即時使用可能なアンタップマナとして追加
         newState = updatePlayer(newState, playerId, {
             witchTapped: true,
+            witchMode: 'mana',
             mana: player.mana + 2 + bonus,
         });
     }
     else {
-        // 魔力モードは戦闘時に加算されるので、ここではフラグだけ
-        // 実際には魔女の魔力は戦闘計算時に加算する
-        // ただし、魔女をタップしただけで魔力が「貯まる」わけではない
-        // → 戦闘時に「魔女をこの戦闘で使う」と宣言する形が正しい
-        // 簡易実装：魔女タップ時に一時的に魔力ブーストをフラグとして持つ
+        // 魔力モード：以降の全戦闘で魔力+(3+bonus)のボーナス（ゲーム終了まで永続）
         newState = updatePlayer(newState, playerId, {
             witchTapped: true,
+            witchMode: 'magic',
         });
-        // 注意: 魔力ブーストは calculateCombatPower で処理する
     }
     return newState;
 }
@@ -809,14 +888,27 @@ function executeRelic(state, playerId, relicId) {
             break;
         }
         case 'M53': {
-            // 3コスト以下の魔導具をタダで獲得
+            // M53は select_free_tool アクションで処理するため、ここには来ない
+            // フォールバック: 旧方式で呼ばれた場合の互換処理
             const freeTool = newState.toolSupply.find((t) => t.cost <= 3);
             if (freeTool) {
                 newState = updatePlayer(newState, playerId, {
                     magicTools: [...player.magicTools, freeTool],
                     relics: player.relics.filter((r) => r.id !== relicId),
                 });
-                newState.toolSupply = newState.toolSupply.filter((t) => t.id !== freeTool.id);
+                newState = {
+                    ...newState,
+                    toolSupply: newState.toolSupply.filter((t) => t.id !== freeTool.id),
+                };
+                // 売り場補充
+                if (newState.toolDeck.length > 0) {
+                    const replenished = newState.toolDeck[0];
+                    newState = {
+                        ...newState,
+                        toolSupply: [...newState.toolSupply, replenished],
+                        toolDeck: newState.toolDeck.slice(1),
+                    };
+                }
             }
             break;
         }
@@ -892,6 +984,8 @@ function executeRelic(state, playerId, relicId) {
                     newState = {
                         ...newState,
                         toolSupply: newState.toolSupply.filter((t) => t.id !== bestExchange.gain.id),
+                        // 捨てた魔導具を山札の一番下に戻す
+                        toolDeck: [...newState.toolDeck, bestExchange.discard],
                         lastEvents: [...newState.lastEvents, `🔄 聖遺物M65発動！${bestExchange.discard.name}(コスト${bestExchange.discard.cost})を捨てて${bestExchange.gain.name}(コスト${bestExchange.gain.cost})を獲得`],
                     };
                     // 魔導具補充
@@ -1072,7 +1166,7 @@ function recalcAllPassiveVP(state) {
 function advanceTurn(state) {
     // 勝利条件チェック
     if (state.players.some((p) => p.victoryPoints >= VICTORY_POINT_TARGET)) {
-        // 誰かが5VPに到達 → ラウンド最後の人まで続ける
+        // 誰かが7VPに到達 → ラウンド最後の人まで続ける
         // 最後の人 = startPlayerIndexの1つ前のプレイヤー
         const lastPlayerIndex = (state.startPlayerIndex - 1 + state.players.length) % state.players.length;
         if (state.currentPlayerIndex === lastPlayerIndex) {
@@ -1124,11 +1218,31 @@ export function getMajoFinalScores(state) {
         relics: p.relics.length,
         rank: 0,
     }));
-    scores.sort((a, b) => b.victoryPoints - a.victoryPoints);
+    // タイブレーカー: 勝利点 → 聖者数 → 魔導具数 → マナ(アンタップ+タップ)
+    scores.sort((a, b) => {
+        if (b.victoryPoints !== a.victoryPoints)
+            return b.victoryPoints - a.victoryPoints;
+        if (b.saints !== a.saints)
+            return b.saints - a.saints;
+        if (b.tools !== a.tools)
+            return b.tools - a.tools;
+        const manaA = state.players.find(p => p.config.id === a.playerId);
+        const manaB = state.players.find(p => p.config.id === b.playerId);
+        return (manaB.mana + manaB.tappedMana) - (manaA.mana + manaA.tappedMana);
+    });
     let rank = 1;
     for (let i = 0; i < scores.length; i++) {
-        if (i > 0 && scores[i].victoryPoints < scores[i - 1].victoryPoints) {
-            rank = i + 1;
+        if (i > 0) {
+            const prev = scores[i - 1];
+            const curr = scores[i];
+            const prevPlayer = state.players.find(p => p.config.id === prev.playerId);
+            const currPlayer = state.players.find(p => p.config.id === curr.playerId);
+            if (curr.victoryPoints < prev.victoryPoints ||
+                curr.saints < prev.saints ||
+                curr.tools < prev.tools ||
+                (currPlayer.mana + currPlayer.tappedMana) < (prevPlayer.mana + prevPlayer.tappedMana)) {
+                rank = i + 1;
+            }
         }
         scores[i].rank = rank;
     }

@@ -76,6 +76,7 @@ export interface MajoCombatState {
   saintId: string;
   selectedToolIds: string[];
   useFamiliar: boolean;
+  activatedAmuletIds: string[];  // 戦闘効果を発動した護符ID（選択式）
 }
 
 // ── ゲームステート ──
@@ -129,6 +130,7 @@ export type MajoAction =
   | { type: 'game_end' }
   | { type: 'combat_select_saint'; playerId: string; fieldId: 'violence' | 'sacrifice'; saintId: string; useFamiliar: boolean }
   | { type: 'combat_add_tool'; playerId: string; toolId: string }
+  | { type: 'combat_activate_amulet'; playerId: string; toolId: string }
   | { type: 'combat_execute'; playerId: string; combatRelicIds?: string[] }
   | { type: 'combat_retreat'; playerId: string }
   | { type: 'use_tool_turn'; playerId: string; toolId: string }

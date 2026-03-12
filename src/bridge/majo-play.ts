@@ -379,6 +379,7 @@ function categorizeAction(action: MajoAction): MajoActionChoice['category'] {
     case 'pass': return 'pass';
     case 'combat_select_saint': return 'field';
     case 'combat_add_tool': return 'field';
+    case 'combat_activate_amulet': return 'relic';
     case 'combat_execute': return 'field';
     case 'combat_retreat': return 'pass';
     case 'use_tool_turn': return 'field';
@@ -488,6 +489,11 @@ function describeAction(action: MajoAction, state: MajoGameState, player: MajoPl
       return `${tool.name}(魔力${toolPower})をタップ → 合計魔力${currentPower + toolPower}${saintInfo}`;
     }
 
+    case 'combat_activate_amulet': {
+      const amulet = player.magicTools.find((t) => t.id === action.toolId);
+      return `護符「${amulet?.name ?? action.toolId}」の戦闘効果発動: 魔力＋3（廃棄）`;
+    }
+
     case 'combat_execute': {
       const cs = state.combatState;
       if (cs) {
@@ -496,7 +502,7 @@ function describeAction(action: MajoAction, state: MajoGameState, player: MajoPl
           const t = player.magicTools.find((tt) => tt.id === id);
           if (!t) return sum;
           return sum + getEffectiveMagicPower(t, player.magicTools)
-            + (t.type === '護符' && t.effect.includes('戦闘：魔力＋3') ? 3 : 0);
+            + (t.type === '護符' && t.effect.includes('戦闘：魔力＋3') && cs.activatedAmuletIds.includes(id) ? 3 : 0);
         }, 0);
         if (saint) return `戦闘実行（合計魔力${totalPower} vs ${saint.name} HP${saint.hp}）`;
       }

@@ -262,7 +262,12 @@ export class MajoBoardSync {
             this.client.setMajoActions(null);
         }
         // ゲーム情報全体をボードに送信（ゲーム情報パネル用）
-        this.client.setMajoGameInfo(info);
+        // 人間ターン時はlastEventsをクリア（AIアクションオーバーレイが消えなくなるのを防止）
+        const infoForBoard = { ...info };
+        if (info.isHumanTurn) {
+            infoForBoard.lastEvents = [];
+        }
+        this.client.setMajoGameInfo(infoForBoard);
         this.client.sendState();
     }
     /** プレイヤーのマナ・タップマナ・VPカウンターを更新 */

@@ -19,6 +19,7 @@ export class MajoPlayController {
     cachedActions = [];
     finalScores = null;
     onUpdate = null;
+    _strategyNames = [];
     constructor(opts = {}) {
         this.opts = {
             humanPlayerIndex: opts.humanPlayerIndex ?? 0,
@@ -54,14 +55,32 @@ export class MajoPlayController {
             }
         }
         this.humanPlayerId = `p${this.opts.humanPlayerIndex}`;
-        this.state = createMajoGame(this.players);
-        this.addLog(`魔女ゲー開始！ ${strategyNames.join(' / ')}`);
+        // state は initGame() で非同期初期化
+        this.state = undefined;
+        this._strategyNames = strategyNames;
     }
     // ── Public API ──
     setOnUpdate(cb) {
         this.onUpdate = cb;
     }
+    isReady() {
+        return !!this.state;
+    }
     getGameInfo() {
+        if (!this.state) {
+            // state未初期化時のダミー情報
+            return {
+                round: 0, phase: 'action',
+                currentPlayerId: '', currentPlayerName: '',
+                isHumanTurn: false,
+                toolSupply: [], saintSupply: [],
+                relicDeckCount: 0, toolDeckCount: 0, saintDeckCount: 0,
+                fieldActions: [], players: [],
+                humanPlayerId: this.humanPlayerId,
+                availableActions: [], lastEvents: [], log: [],
+                gameOver: false, finalScores: null,
+            };
+        }
         const current = getCurrentPlayer(this.state);
         const isHumanTurn = current.config.id === this.humanPlayerId && !this.finished;
         // プレイヤー情報
@@ -148,8 +167,15 @@ export class MajoPlayController {
             resolve(0); // パスを選択して終了
         }
     }
+    /** スプレッドシートからカードデータを読み込みゲームを初期化 */
+    async initGame() {
+        this.state = await createMajoGame(this.players);
+        this.addLog(`魔女ゲー開始！ ${this._strategyNames.join(' / ')}`);
+    }
     // ── メインループ ──
     async run() {
+        if (!this.state)
+            await this.initGame();
         const MAX_TURNS = 300;
         let turnCount = 0;
         while (!isMajoGameOver(this.state) && !this.aborted) {
@@ -250,6 +276,8 @@ function categorizeAction(action) {
         case 'combat_retreat': return 'pass';
         case 'use_tool_turn': return 'field';
         case 'select_saint_discard': return 'relic';
+        case 'untap_tool': return 'field';
+        case 'select_free_tool': return 'relic';
         default: return 'field';
     }
 }
@@ -381,6 +409,16 @@ function describeAction(action, state, player) {
             if (saint)
                 return `聖者「${saint.name}」(HP${saint.hp}/★${saint.victoryPoints})を捨てて4マナ獲得`;
             return `聖者を捨てて4マナ獲得`;
+        }
+        case 'untap_tool': {
+            const tool = player.magicTools.find((t) => t.id === action.toolId);
+            return `水晶玉「${tool?.name ?? action.toolId}」をアンタップ`;
+        }
+        case 'select_free_tool': {
+            const tool = state.toolSupply.find((t) => t.id === action.toolId);
+            if (tool)
+                return `聖遺物M53 → ${tool.name}(コスト${tool.cost}, 魔力${tool.magicPower})をタダで獲得`;
+            return `聖遺物M53 → 魔導具をタダで獲得`;
         }
         default:
             return action.type;

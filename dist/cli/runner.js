@@ -343,8 +343,7 @@ async function runPlayMode(playerCount, verbose, strategyList, logFile) {
 // ========== エントリポイント ==========
 async function main() {
     const args = minimist(process.argv.slice(2), {
-        string: ['mode', 'log', 'strategies'],
-        number: ['players', 'games'],
+        string: ['mode', 'log', 'strategies', 'players', 'games'],
         boolean: ['verbose', 'help'],
         default: {
             mode: 'auto',
@@ -376,8 +375,8 @@ ${strategyIds.map((id) => `  ${id.padEnd(15)} ${strategies[id].name} — ${strat
         return;
     }
     const mode = args.mode;
-    const playerCount = Math.min(Math.max(args.players, 2), 5);
-    const gameCount = Math.max(args.games, 1);
+    const playerCount = Math.min(Math.max(parseInt(String(args.players), 10) || 3, 2), 5);
+    const gameCount = Math.max(parseInt(String(args.games), 10) || 1, 1);
     const verbose = args.verbose;
     const logFile = args.log ?? null;
     const strategyList = args.strategies

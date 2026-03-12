@@ -304,7 +304,12 @@ export class MajoBoardSync {
     }
 
     // ゲーム情報全体をボードに送信（ゲーム情報パネル用）
-    this.client.setMajoGameInfo(info as unknown as Record<string, unknown>);
+    // 人間ターン時はlastEventsをクリア（AIアクションオーバーレイが消えなくなるのを防止）
+    const infoForBoard = { ...info };
+    if (info.isHumanTurn) {
+      infoForBoard.lastEvents = [];
+    }
+    this.client.setMajoGameInfo(infoForBoard as unknown as Record<string, unknown>);
 
     this.client.sendState();
   }

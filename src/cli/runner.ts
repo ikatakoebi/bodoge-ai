@@ -447,8 +447,7 @@ async function runPlayMode(
 
 async function main(): Promise<void> {
   const args = minimist(process.argv.slice(2), {
-    string: ['mode', 'log', 'strategies'],
-    number: ['players', 'games'],
+    string: ['mode', 'log', 'strategies', 'players', 'games'],
     boolean: ['verbose', 'help'],
     default: {
       mode: 'auto',
@@ -482,8 +481,8 @@ ${strategyIds.map((id) => `  ${id.padEnd(15)} ${strategies[id].name} — ${strat
   }
 
   const mode = args.mode as 'auto' | 'play';
-  const playerCount = Math.min(Math.max(args.players as number, 2), 5);
-  const gameCount = Math.max(args.games as number, 1);
+  const playerCount = Math.min(Math.max(parseInt(String(args.players), 10) || 3, 2), 5);
+  const gameCount = Math.max(parseInt(String(args.games), 10) || 1, 1);
   const verbose = args.verbose as boolean;
   const logFile = args.log as string | null ?? null;
   const strategyList = args.strategies

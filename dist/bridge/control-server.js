@@ -12,7 +12,7 @@ import { MajoPlayController } from './majo-play.js';
 import { MajoBoardSync, MAJO_SHEET_ID } from './majo-board.js';
 import { majoStrategyIds, getMajoStrategy } from '../ai/majo-strategies.js';
 import { createGame, revealPointCard, submitSelection, resolveRound, isGameOver, getFinalScores, } from '../engine/game.js';
-const DEFAULT_BOARD_URL = 'http://localhost:3210';
+const DEFAULT_BOARD_URL = process.env.BOARD_URL || 'http://localhost:3210';
 // ── グローバル状態 ────────────────────────────────────────────────────────────
 let bridgeClient = null;
 let inlineCtrl = null;
@@ -1141,7 +1141,7 @@ function getHtml() {
           <summary style="font-size:11px;color:var(--text-muted);cursor:pointer">詳細設定</summary>
           <div style="margin-top:6px">
             <label>サーバーURL</label>
-            <input type="text" id="boardUrl" value="http://localhost:3210" placeholder="http://localhost:3210" />
+            <input type="text" id="boardUrl" value="${DEFAULT_BOARD_URL}" placeholder="${DEFAULT_BOARD_URL}" />
           </div>
         </details>
         <div>

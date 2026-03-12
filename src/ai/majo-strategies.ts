@@ -426,6 +426,16 @@ function selectCombatStepAction(
     }
   }
 
+  // 護符の戦闘効果が発動可能なら先に発動
+  const amuletAction = actions.find((a) => a.type === 'combat_activate_amulet');
+  if (amuletAction && 'toolId' in amuletAction) {
+    const tool = player.magicTools.find((t) => t.id === amuletAction.toolId);
+    return {
+      action: amuletAction,
+      reasoning: `護符「${tool?.name ?? ''}」の戦闘効果を発動（魔力＋3、廃棄）`,
+    };
+  }
+
   // 全最適ツールを追加済み → 戦闘実行
   const execAction = actions.find((a) => a.type === 'combat_execute');
   if (execAction) {
@@ -433,7 +443,7 @@ function selectCombatStepAction(
       const t = player.magicTools.find((tt) => tt.id === id);
       if (!t) return sum;
       return sum + getEffectiveMagicPower(t, player.magicTools)
-        + (t.type === '護符' && t.effect.includes('戦闘：魔力＋3') ? 3 : 0);
+        + (t.type === '護符' && t.effect.includes('戦闘：魔力＋3') && cs.activatedAmuletIds.includes(id) ? 3 : 0);
     }, 0);
     if (currentPower >= saint.hp) {
       return {

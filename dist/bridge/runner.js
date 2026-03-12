@@ -122,7 +122,7 @@ async function runPlay(args) {
     }
 }
 async function runServer(args) {
-    const port = args['port'] ?? 3216;
+    const port = args['port'] ?? parseInt(process.env.PORT || '3216', 10);
     const { startControlServer } = await import('./control-server.js');
     startControlServer(port);
     // サーバーは無限に動き続けるのでここでは何もしない

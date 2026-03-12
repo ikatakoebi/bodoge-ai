@@ -155,6 +155,7 @@ export function calculateCombatPower(
   useCombatRelics: string[] = [],
   useWitch: boolean = false,
   witchUsageCount: number = 0,
+  activatedAmuletIds: string[] = [],
 ): number {
   let power = 0;
 
@@ -163,8 +164,8 @@ export function calculateCombatPower(
     const tool = player.magicTools.find((t) => t.id === toolId);
     if (tool) {
       power += getEffectiveMagicPower(tool, player.magicTools);
-      // 護符の戦闘ボーナス
-      if (tool.type === '護符' && tool.effect.includes('戦闘：魔力＋3')) {
+      // 護符の戦闘ボーナス（選択式: activatedAmuletIdsに含まれる場合のみ）
+      if (tool.type === '護符' && tool.effect.includes('戦闘：魔力＋3') && activatedAmuletIds.includes(toolId)) {
         power += 3;
       }
     }
@@ -223,13 +224,11 @@ export function getAvailableActions(state: MajoGameState, playerId: string): Maj
   // 戦闘マルチステップ中の場合：戦闘専用アクションのみ返す
   if (state.combatState && state.combatState.playerId === playerId) {
     const cs = state.combatState;
-    const totalPower = calculateCombatPower(player, cs.selectedToolIds);
+    const totalPower = calculateCombatPower(player, cs.selectedToolIds, [], false, 0, cs.activatedAmuletIds);
 
     // 未タップかつ未選択の魔導具を追加できる
     for (const tool of player.magicTools) {
       if (!player.tappedToolIds.includes(tool.id) && !cs.selectedToolIds.includes(tool.id)) {
-        const toolPower = getEffectiveMagicPower(tool, player.magicTools)
-          + (tool.type === '護符' && tool.effect.includes('戦闘：魔力＋3') ? 3 : 0);
         actions.push({
           type: 'combat_add_tool',
           playerId,
@@ -238,9 +237,19 @@ export function getAvailableActions(state: MajoGameState, playerId: string): Maj
       }
     }
 
+    // 護符の戦闘効果発動（選択式: タップ済み護符で未発動のもの）
+    for (const toolId of cs.selectedToolIds) {
+      const tool = player.magicTools.find((t) => t.id === toolId);
+      if (tool && tool.type === '護符' && tool.effect.includes('戦闘：魔力＋3') && !cs.activatedAmuletIds.includes(toolId)) {
+        actions.push({
+          type: 'combat_activate_amulet',
+          playerId,
+          toolId,
+        });
+      }
+    }
+
     // 戦闘実行
-    const saint = state.saintSupply.find((s) => s.id === cs.saintId);
-    const saintHp = saint?.hp ?? 0;
     actions.push({
       type: 'combat_execute',
       playerId,
@@ -471,7 +480,7 @@ export function executeAction(state: MajoGameState, action: MajoAction): MajoGam
     case 'extra_combat': {
       // M67追加戦闘：フィールド枠・マナコスト不要、魔導具は通常通りタップ必要
       newState.extraCombatPlayerId = undefined;
-      newState = executeCombat(newState, action.playerId, action.saintId, action.tappedToolIds, action.combatRelicIds || []);
+      newState = executeCombat(newState, action.playerId, action.saintId, action.tappedToolIds, action.combatRelicIds || [], []);
       newState.consecutivePasses = 0;
       newState = advanceTurn(newState);
       break;
@@ -506,6 +515,7 @@ export function executeAction(state: MajoGameState, action: MajoAction): MajoGam
           saintId: action.saintId,
           selectedToolIds: [],
           useFamiliar: action.useFamiliar,
+          activatedAmuletIds: [],
         },
       };
       break;
@@ -524,12 +534,32 @@ export function executeAction(state: MajoGameState, action: MajoAction): MajoGam
       break;
     }
 
+    case 'combat_activate_amulet': {
+      // 護符の戦闘効果を発動（選択式）
+      if (!newState.combatState) throw new Error('戦闘状態がない');
+      newState = {
+        ...newState,
+        combatState: {
+          ...newState.combatState,
+          activatedAmuletIds: [...newState.combatState.activatedAmuletIds, action.toolId],
+        },
+      };
+      const amulet = getPlayer(newState, action.playerId).magicTools.find((t) => t.id === action.toolId);
+      if (amulet) {
+        newState = {
+          ...newState,
+          lastEvents: [...newState.lastEvents, `護符「${amulet.name}」の戦闘効果を発動: 魔力＋3（廃棄）`],
+        };
+      }
+      break;
+    }
+
     case 'combat_execute': {
       // combatStateの情報でexecuteCombatを呼ぶ。combatStateをクリア。手番を進める
       if (!newState.combatState) throw new Error('戦闘状態がない');
       const cs = newState.combatState;
       newState = { ...newState, combatState: undefined };
-      newState = executeCombat(newState, cs.playerId, cs.saintId, cs.selectedToolIds, action.combatRelicIds || []);
+      newState = executeCombat(newState, cs.playerId, cs.saintId, cs.selectedToolIds, action.combatRelicIds || [], cs.activatedAmuletIds);
       newState.consecutivePasses = 0;
       // M67追加戦闘フラグが立っていたら、同じプレイヤーの手番を続ける
       if (!newState.extraCombatPlayerId) {
@@ -810,15 +840,16 @@ function executeCombat(
   saintId: string,
   tappedToolIds: string[],
   combatRelicIds: string[] = [],
+  activatedAmuletIds: string[] = [],
 ): MajoGameState {
   let newState = { ...state };
   const player = getPlayer(newState, playerId);
   const saint = newState.saintSupply.find((s) => s.id === saintId);
   if (!saint) throw new Error(`聖者 ${saintId} が展示にいない`);
 
-  // 魔力計算（戦闘聖遺物のブーストを含む、魔女魔力モードも考慮）
+  // 魔力計算（戦闘聖遺物のブーストを含む、魔女魔力モードも考慮、護符は選択式）
   const useWitchMagic = player.witchTapped && player.witchMode === 'magic';
-  const power = calculateCombatPower(player, tappedToolIds, combatRelicIds, useWitchMagic, newState.witchUsageCount);
+  const power = calculateCombatPower(player, tappedToolIds, combatRelicIds, useWitchMagic, newState.witchUsageCount, activatedAmuletIds);
 
   if (power < saint.hp) {
     // 魔力不足 → 撤退（マナは既に消費済み、ツール・聖者はそのまま）
@@ -832,8 +863,8 @@ function executeCombat(
   // 魔導具をタップ
   const newTappedIds = [...new Set([...player.tappedToolIds, ...tappedToolIds])];
 
-  // 護符は戦闘で廃棄
-  const usedAmulets = tappedToolIds
+  // 護符は戦闘効果を発動した場合のみ廃棄（選択式）
+  const usedAmulets = activatedAmuletIds
     .map((id) => player.magicTools.find((t) => t.id === id))
     .filter((t) => t && t.type === '護符' && t.effect.includes('戦闘：魔力＋3'));
   const amuletIds = usedAmulets.map((t) => t!.id);
