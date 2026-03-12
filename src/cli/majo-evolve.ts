@@ -46,7 +46,20 @@ interface CardStats {
   tools: Record<string, ToolStats>;
   saints: Record<string, SaintStats>;
   relics: Record<string, RelicStats>;
+  strategies: Record<string, StrategyStats>;
+  gameLength: { totalRounds: number; totalTurns: number; games: number };
   totalGames: number;
+}
+
+interface StrategyStats {
+  id: string;
+  games: number;
+  totalVP: number;
+  wins: number;
+  totalTools: number;      // ゲーム終了時の魔道具数合計
+  totalSaints: number;     // ゲーム終了時の聖者数合計
+  totalRelics: number;     // ゲーム終了時の聖遺物数合計
+  totalMana: number;       // ゲーム終了時のマナ合計
 }
 
 interface ToolStats {
@@ -57,13 +70,21 @@ interface ToolStats {
   gamesWhenOwned: number;        // 所有したゲーム数（平均VP計算用）
   totalVPWhenNotOwned: number;   // 所有しなかった時の総VP
   gamesWhenNotOwned: number;     // 所有しなかったゲーム数
+  totalAcquireRound: number;     // 取得ラウンドの合計（平均計算用）
+  acquireCount: number;          // 取得回数（free_tool含む）
 }
 
 interface SaintStats {
   id: string;
   name: string;
+  hp: number;
+  vp: number;
   timesKilled: number;           // 撃破された回数
   killedByStrategy: Record<string, number>; // 戦略別撃破回数
+  totalVPWhenOwned: number;      // 所有した時の総VP
+  gamesWhenOwned: number;        // 所有したゲーム数
+  totalVPWhenNotOwned: number;   // 所有しなかった時の総VP
+  gamesWhenNotOwned: number;     // 所有しなかったゲーム数
 }
 
 interface RelicStats {
@@ -185,6 +206,8 @@ function initCardStats(): CardStats {
     tools: {},
     saints: {},
     relics: {},
+    strategies: {},
+    gameLength: { totalRounds: 0, totalTurns: 0, games: 0 },
     totalGames: 0,
   };
 }
@@ -196,6 +219,11 @@ function updateCardStats(
   _evolvedPlayerId: string,
 ): void {
   stats.totalGames++;
+
+  // ゲーム長統計
+  stats.gameLength.totalRounds += finalState.round;
+  stats.gameLength.totalTurns += finalState.history.length;
+  stats.gameLength.games++;
 
   // 全プレイヤーの最終状態からカード統計を更新
   for (const player of finalState.players) {
@@ -216,6 +244,8 @@ function updateCardStats(
           gamesWhenOwned: 0,
           totalVPWhenNotOwned: 0,
           gamesWhenNotOwned: 0,
+          totalAcquireRound: 0,
+          acquireCount: 0,
         };
       }
     }
@@ -229,6 +259,8 @@ function updateCardStats(
           gamesWhenOwned: 0,
           totalVPWhenNotOwned: 0,
           gamesWhenNotOwned: 0,
+          totalAcquireRound: 0,
+          acquireCount: 0,
         };
       }
       stats.tools[tool.id].timesBought++;
@@ -245,18 +277,53 @@ function updateCardStats(
     }
 
     // 聖者統計（このプレイヤーが獲得した聖者）
+    const ownedSaintIds = new Set(player.saints.map((s) => s.id));
     for (const saint of player.saints) {
       if (!stats.saints[saint.id]) {
         stats.saints[saint.id] = {
           id: saint.id,
           name: saint.name,
+          hp: saint.hp,
+          vp: saint.victoryPoints,
           timesKilled: 0,
           killedByStrategy: {},
+          totalVPWhenOwned: 0,
+          gamesWhenOwned: 0,
+          totalVPWhenNotOwned: 0,
+          gamesWhenNotOwned: 0,
         };
       }
       stats.saints[saint.id].timesKilled++;
+      stats.saints[saint.id].totalVPWhenOwned += playerVP;
+      stats.saints[saint.id].gamesWhenOwned++;
       const sk = stats.saints[saint.id].killedByStrategy;
       sk[strategyId] = (sk[strategyId] ?? 0) + 1;
+    }
+
+    // 未所持聖者の記録（聖者デッキ・展示にいる聖者 + 他プレイヤーが持つ聖者を含む全聖者）
+    for (const saintId of Object.keys(stats.saints)) {
+      if (!ownedSaintIds.has(saintId)) {
+        stats.saints[saintId].totalVPWhenNotOwned += playerVP;
+        stats.saints[saintId].gamesWhenNotOwned++;
+      }
+    }
+
+    // 聖者デッキ・展示の聖者もstats初期化（全聖者が記録されるように）
+    for (const saint of [...finalState.saintDeck, ...finalState.saintSupply]) {
+      if (!stats.saints[saint.id]) {
+        stats.saints[saint.id] = {
+          id: saint.id,
+          name: saint.name,
+          hp: saint.hp,
+          vp: saint.victoryPoints,
+          timesKilled: 0,
+          killedByStrategy: {},
+          totalVPWhenOwned: 0,
+          gamesWhenOwned: 0,
+          totalVPWhenNotOwned: 0,
+          gamesWhenNotOwned: 0,
+        };
+      }
     }
 
     // 聖遺物統計
@@ -274,14 +341,54 @@ function updateCardStats(
       stats.relics[relic.id].totalVPWhenOwned += playerVP;
       stats.relics[relic.id].gamesWhenOwned++;
     }
+
+    // 戦略統計
+    if (!stats.strategies[strategyId]) {
+      stats.strategies[strategyId] = {
+        id: strategyId,
+        games: 0,
+        totalVP: 0,
+        wins: 0,
+        totalTools: 0,
+        totalSaints: 0,
+        totalRelics: 0,
+        totalMana: 0,
+      };
+    }
+    const ss = stats.strategies[strategyId];
+    ss.games++;
+    ss.totalVP += playerVP;
+    if (scoreEntry?.rank === 1) ss.wins++;
+    ss.totalTools += player.magicTools.length;
+    ss.totalSaints += player.saints.length;
+    ss.totalRelics += player.relics.length;
+    ss.totalMana += player.mana + player.tappedMana;
   }
 
-  // use_relicアクションの使用回数をカウント
+  // use_relicアクションの使用回数をカウント + 魔道具取得ラウンド追跡
+  let currentRound = 1;
   for (const action of finalState.history) {
-    if (action.type === 'use_relic') {
+    if (action.type === 'round_end') {
+      currentRound++;
+    } else if (action.type === 'use_relic') {
       const relicId = action.relicId;
       if (stats.relics[relicId]) {
         stats.relics[relicId].timesUsed++;
+      }
+    } else if (
+      (action.type === 'field_action' || action.type === 'use_familiar') &&
+      action.details.action === 'research'
+    ) {
+      const toolId = action.details.toolId;
+      if (stats.tools[toolId]) {
+        stats.tools[toolId].totalAcquireRound += currentRound;
+        stats.tools[toolId].acquireCount++;
+      }
+    } else if (action.type === 'select_free_tool') {
+      const toolId = action.toolId;
+      if (stats.tools[toolId]) {
+        stats.tools[toolId].totalAcquireRound += currentRound;
+        stats.tools[toolId].acquireCount++;
       }
     }
   }
@@ -321,6 +428,7 @@ function saveCardStats(stats: CardStats): void {
     winCorrelation: t.gamesWhenOwned > 0 && t.gamesWhenNotOwned > 0
       ? (t.totalVPWhenOwned / t.gamesWhenOwned) - (t.totalVPWhenNotOwned / t.gamesWhenNotOwned)
       : 0,
+    avgAcquireRound: t.acquireCount > 0 ? t.totalAcquireRound / t.acquireCount : 0,
   })).sort((a, b) => b.winCorrelation - a.winCorrelation);
 
   const enrichedRelics = Object.entries(stats.relics).map(([id, r]) => ({
@@ -331,13 +439,31 @@ function saveCardStats(stats: CardStats): void {
 
   const enrichedSaints = Object.entries(stats.saints).map(([id, s]) => ({
     ...s,
-  })).sort((a, b) => b.timesKilled - a.timesKilled);
+    avgVPWhenOwned: s.gamesWhenOwned > 0 ? s.totalVPWhenOwned / s.gamesWhenOwned : 0,
+    avgVPWhenNotOwned: s.gamesWhenNotOwned > 0 ? s.totalVPWhenNotOwned / s.gamesWhenNotOwned : 0,
+    winCorrelation: s.gamesWhenOwned > 0 && s.gamesWhenNotOwned > 0
+      ? (s.totalVPWhenOwned / s.gamesWhenOwned) - (s.totalVPWhenNotOwned / s.gamesWhenNotOwned)
+      : 0,
+  })).sort((a, b) => b.winCorrelation - a.winCorrelation);
+
+  const enrichedStrategies = Object.values(stats.strategies).map((s) => ({
+    ...s,
+    avgVP: s.games > 0 ? s.totalVP / s.games : 0,
+    winRate: s.games > 0 ? s.wins / s.games : 0,
+    avgTools: s.games > 0 ? s.totalTools / s.games : 0,
+    avgSaints: s.games > 0 ? s.totalSaints / s.games : 0,
+    avgRelics: s.games > 0 ? s.totalRelics / s.games : 0,
+    avgMana: s.games > 0 ? s.totalMana / s.games : 0,
+  })).sort((a, b) => b.avgVP - a.avgVP);
 
   const output = {
     totalGames: stats.totalGames,
+    avgRounds: stats.gameLength.games > 0 ? stats.gameLength.totalRounds / stats.gameLength.games : 0,
+    avgTurns: stats.gameLength.games > 0 ? stats.gameLength.totalTurns / stats.gameLength.games : 0,
     tools: enrichedTools,
     saints: enrichedSaints,
     relics: enrichedRelics,
+    strategies: enrichedStrategies,
     savedAt: new Date().toISOString(),
   };
 
@@ -354,11 +480,12 @@ function formatParams(params: MajoParams): string {
   return [
     `VP重${params.saintVPWeight.toFixed(2)}`,
     `聖遺物重${params.saintRelicWeight.toFixed(2)}`,
-    `低HP${params.saintLowHPBonus.toFixed(2)}`,
+    `0VP重${params.saintZeroVPWeight.toFixed(2)}`,
     `魔導具max${params.toolBuyMaxCount.toFixed(1)}`,
-    `マナ閾${params.manaShopThreshold.toFixed(1)}`,
     `魔女R${params.witchRoundThreshold.toFixed(1)}`,
-    `使い魔VP${params.familiarVPThreshold.toFixed(1)}`,
+    `戦闘優先${params.combatBeforePurchase.toFixed(2)}`,
+    `聖遺物積極${params.relicAggressiveness.toFixed(2)}`,
+    `実績聖${params.achievementRelicWeight.toFixed(2)}`,
   ].join(' | ');
 }
 

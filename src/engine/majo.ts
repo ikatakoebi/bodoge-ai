@@ -6,7 +6,6 @@ import type {
   FieldAction, FieldActionId, MajoToolCard, MajoSaintCard, MajoRelicCard,
   MajoFinalScore, MajoAchievementCard, MajoCombatState,
 } from './majo-types.js';
-import { ALL_TOOLS, ALL_SAINTS, ALL_RELICS, ALL_ACHIEVEMENTS } from './majo-cards.js';
 import { loadCardsFromSheet } from './majo-card-loader.js';
 
 const INITIAL_MANA = 3;
@@ -39,20 +38,9 @@ export async function createMajoGame(players: PlayerConfig[]): Promise<MajoGameS
     throw new Error('プレイヤー数は2〜5人');
   }
 
-  // スプレッドシートからカードデータを読み込み（失敗時はハードコードにフォールバック）
-  let tools = ALL_TOOLS;
-  let saints = ALL_SAINTS;
-  let relics = ALL_RELICS;
-  let achievements = ALL_ACHIEVEMENTS;
-  try {
-    const cards = await loadCardsFromSheet();
-    tools = cards.tools;
-    saints = cards.saints;
-    relics = cards.relics;
-    achievements = cards.achievements;
-  } catch (e) {
-    console.warn('スプレッドシート読み込み失敗、ハードコードデータを使用:', (e as Error).message);
-  }
+  // スプレッドシートからカードデータを読み込み（キャッシュ済みなら即座）
+  const cards = await loadCardsFromSheet();
+  const { tools, saints, relics, achievements } = cards;
 
   const shuffledSaints = shuffle([...saints]);
   const shuffledRelics = shuffle([...relics]);
@@ -140,10 +128,12 @@ function updateField(state: MajoGameState, fieldId: FieldActionId, update: Parti
 
 // 魔導具の実効魔力（M26の杖の特殊効果考慮）
 export function getEffectiveMagicPower(tool: MajoToolCard, allTools: MajoToolCard[]): number {
-  if (tool.id === 'M26') {
-    // 手持ちの最大魔力の魔導具の魔力+3
-    const maxPower = Math.max(0, ...allTools.filter((t) => t.id !== 'M26').map((t) => t.magicPower));
-    return maxPower + 3;
+  // M26のような「最大魔力+N」効果をパース
+  const maxPowerMatch = tool.effect.match(/最大魔力の魔導具の魔力\+(\d+)/);
+  if (maxPowerMatch) {
+    const bonus = parseInt(maxPowerMatch[1], 10);
+    const maxPower = Math.max(0, ...allTools.filter((t) => t.id !== tool.id).map((t) => t.magicPower));
+    return maxPower + bonus;
   }
   return tool.magicPower;
 }
@@ -165,8 +155,11 @@ export function calculateCombatPower(
     if (tool) {
       power += getEffectiveMagicPower(tool, player.magicTools);
       // 護符の戦闘ボーナス（選択式: activatedAmuletIdsに含まれる場合のみ）
-      if (tool.type === '護符' && tool.effect.includes('戦闘：魔力＋3') && activatedAmuletIds.includes(toolId)) {
-        power += 3;
+      if (tool.type === '護符' && activatedAmuletIds.includes(toolId)) {
+        const amuletMatch = tool.effect.match(/戦闘：魔力＋(\d+)/);
+        if (amuletMatch) {
+          power += parseInt(amuletMatch[1], 10);
+        }
       }
     }
   }
@@ -240,7 +233,7 @@ export function getAvailableActions(state: MajoGameState, playerId: string): Maj
     // 護符の戦闘効果発動（選択式: タップ済み護符で未発動のもの）
     for (const toolId of cs.selectedToolIds) {
       const tool = player.magicTools.find((t) => t.id === toolId);
-      if (tool && tool.type === '護符' && tool.effect.includes('戦闘：魔力＋3') && !cs.activatedAmuletIds.includes(toolId)) {
+      if (tool && tool.type === '護符' && tool.effect.includes('戦闘：魔力＋') && !cs.activatedAmuletIds.includes(toolId)) {
         actions.push({
           type: 'combat_activate_amulet',
           playerId,
@@ -279,9 +272,11 @@ export function getAvailableActions(state: MajoGameState, playerId: string): Maj
           actions.push({ type: 'select_saint_discard', playerId, relicId: relic.id, saintId: saint.id });
         }
       } else if (relic.id === 'M53') {
-        // M53: 3コスト以下の魔導具を選んでタダで獲得
+        // M53: Nコスト以下の魔導具を選んでタダで獲得
+        const costMatch = relic.effect.match(/(\d+)コスト以下/);
+        const maxCost = costMatch ? parseInt(costMatch[1], 10) : 3;
         for (const tool of state.toolSupply) {
-          if (tool.cost <= 3) {
+          if (tool.cost <= maxCost) {
             actions.push({ type: 'select_free_tool', playerId, relicId: relic.id, toolId: tool.id });
           }
         }
@@ -546,9 +541,11 @@ export function executeAction(state: MajoGameState, action: MajoAction): MajoGam
       };
       const amulet = getPlayer(newState, action.playerId).magicTools.find((t) => t.id === action.toolId);
       if (amulet) {
+        const bonusMatch = amulet.effect.match(/戦闘：魔力＋(\d+)/);
+        const bonus = bonusMatch ? bonusMatch[1] : '?';
         newState = {
           ...newState,
-          lastEvents: [...newState.lastEvents, `護符「${amulet.name}」の戦闘効果を発動: 魔力＋3（廃棄）`],
+          lastEvents: [...newState.lastEvents, `護符「${amulet.name}」の戦闘効果を発動: 魔力＋${bonus}（廃棄）`],
         };
       }
       break;
@@ -605,22 +602,25 @@ export function executeAction(state: MajoGameState, action: MajoAction): MajoGam
     }
 
     case 'select_saint_discard': {
-      // M66: 指定した聖者を捨てて4マナ獲得、聖遺物を廃棄
+      // M66: 指定した聖者を捨ててNマナ獲得、聖遺物を廃棄
       const p = getPlayer(newState, action.playerId);
       const saint = p.saints.find((s) => s.id === action.saintId);
       if (!saint) throw new Error(`聖者 ${action.saintId} を所持していない`);
+      const relic = p.relics.find((r) => r.id === action.relicId);
+      const manaMatch = relic?.effect.match(/(\d+)マナを獲得/);
+      const manaGain = manaMatch ? parseInt(manaMatch[1], 10) : 5;
 
       newState = updatePlayer(newState, action.playerId, {
         saints: p.saints.filter((s) => s.id !== action.saintId),
         victoryPoints: p.victoryPoints - saint.victoryPoints,
-        tappedMana: p.tappedMana + 4,
+        tappedMana: p.tappedMana + manaGain,
         relics: p.relics.filter((r) => r.id !== action.relicId),
       });
       // 聖者を山札の一番下に戻す
       newState = { ...newState, saintDeck: [...newState.saintDeck, saint] };
       newState = {
         ...newState,
-        lastEvents: [...newState.lastEvents, `聖遺物M66使用: 聖者「${saint.name}」を捨て、4マナ獲得`],
+        lastEvents: [...newState.lastEvents, `聖遺物M66使用: 聖者「${saint.name}」を捨て、${manaGain}マナ獲得`],
       };
       break;
     }
@@ -645,7 +645,10 @@ export function executeAction(state: MajoGameState, action: MajoAction): MajoGam
       const p = getPlayer(newState, action.playerId);
       const tool = newState.toolSupply.find((t) => t.id === action.toolId);
       if (!tool) throw new Error(`魔導具 ${action.toolId} が売り場にない`);
-      if (tool.cost > 3) throw new Error(`魔導具 ${action.toolId} はコスト${tool.cost}で3コスト以下ではない`);
+      const freeRelic = p.relics.find((r) => r.id === action.relicId);
+      const freeCostMatch = freeRelic?.effect.match(/(\d+)コスト以下/);
+      const freeMaxCost = freeCostMatch ? parseInt(freeCostMatch[1], 10) : 3;
+      if (tool.cost > freeMaxCost) throw new Error(`魔導具 ${action.toolId} はコスト${tool.cost}で${freeMaxCost}コスト以下ではない`);
 
       newState = updatePlayer(newState, action.playerId, {
         magicTools: [...p.magicTools, tool],
@@ -866,15 +869,18 @@ function executeCombat(
   // 護符は戦闘効果を発動した場合のみ廃棄（選択式）
   const usedAmulets = activatedAmuletIds
     .map((id) => player.magicTools.find((t) => t.id === id))
-    .filter((t) => t && t.type === '護符' && t.effect.includes('戦闘：魔力＋3'));
+    .filter((t) => t && t.type === '護符' && t.effect.includes('戦闘：魔力＋'));
   const amuletIds = usedAmulets.map((t) => t!.id);
 
-  // 戦闘聖遺物のマナボーナス（M41/M42: 魔力+2, マナ+1）
+  // 戦闘聖遺物のマナボーナス（M41/M42: 魔力+2, マナ+2）
   let combatRelicMana = 0;
   for (const relicId of combatRelicIds) {
     const relic = player.relics.find((r) => r.id === relicId);
-    if (relic && relic.effect.includes('マナ＋1')) {
-      combatRelicMana += 1;
+    if (relic) {
+      const manaMatch = relic.effect.match(/マナ＋(\d+)/);
+      if (manaMatch) {
+        combatRelicMana += parseInt(manaMatch[1], 10);
+      }
     }
   }
 
@@ -1039,7 +1045,9 @@ function executeRelic(state: MajoGameState, playerId: string, relicId: string): 
     case 'M53': {
       // M53は select_free_tool アクションで処理するため、ここには来ない
       // フォールバック: 旧方式で呼ばれた場合の互換処理
-      const freeTool = newState.toolSupply.find((t) => t.cost <= 3);
+      const m53CostMatch = relic.effect.match(/(\d+)コスト以下/);
+      const m53MaxCost = m53CostMatch ? parseInt(m53CostMatch[1], 10) : 3;
+      const freeTool = newState.toolSupply.find((t) => t.cost <= m53MaxCost);
       if (freeTool) {
         newState = updatePlayer(newState, playerId, {
           magicTools: [...player.magicTools, freeTool],
@@ -1072,9 +1080,11 @@ function executeRelic(state: MajoGameState, playerId: string, relicId: string): 
       break;
     }
     case 'M61': {
-      // 魔導具所持数分のマナ：ラウンド中獲得なのでタップマナに追加
+      // [魔導具所持数+N]マナを獲得：ラウンド中獲得なのでタップマナに追加
+      const m61BonusMatch = relic.effect.match(/魔導具所持数\+(\d+)/);
+      const m61Bonus = m61BonusMatch ? parseInt(m61BonusMatch[1], 10) : 0;
       newState = updatePlayer(newState, playerId, {
-        tappedMana: player.tappedMana + player.magicTools.length,
+        tappedMana: player.tappedMana + player.magicTools.length + m61Bonus,
         relics: player.relics.filter((r) => r.id !== relicId),
       });
       break;
@@ -1088,11 +1098,15 @@ function executeRelic(state: MajoGameState, playerId: string, relicId: string): 
       break;
     }
     case 'M63': {
-      // 2アンタップマナを支払い、6タップマナを獲得
-      if (player.mana >= 2) {
+      // NマナをサプライにM戻し、Mマナを獲得
+      const m63CostMatch = relic.effect.match(/(\d+)マナをサプライに戻し/);
+      const m63GainMatch = relic.effect.match(/(\d+)マナを獲得/);
+      const m63ManaCost = m63CostMatch ? parseInt(m63CostMatch[1], 10) : 2;
+      const m63ManaGain = m63GainMatch ? parseInt(m63GainMatch[1], 10) : 6;
+      if (player.mana >= m63ManaCost) {
         newState = updatePlayer(newState, playerId, {
-          mana: player.mana - 2,
-          tappedMana: player.tappedMana + 6,
+          mana: player.mana - m63ManaCost,
+          tappedMana: player.tappedMana + m63ManaGain,
           relics: player.relics.filter((r) => r.id !== relicId),
         });
       }
@@ -1152,13 +1166,15 @@ function executeRelic(state: MajoGameState, playerId: string, relicId: string): 
       break;
     }
     case 'M66': {
-      // 聖者を1つ捨てて4マナ：ラウンド中獲得なのでタップマナに追加
+      // 聖者を1つ捨ててNマナ：ラウンド中獲得なのでタップマナに追加
       if (player.saints.length > 0) {
+        const m66ManaMatch = relic.effect.match(/(\d+)マナを獲得/);
+        const m66ManaGain = m66ManaMatch ? parseInt(m66ManaMatch[1], 10) : 5;
         const discardedSaint = player.saints[player.saints.length - 1]; // 最後の聖者を捨てる
         newState = updatePlayer(newState, playerId, {
           saints: player.saints.slice(0, -1),
           victoryPoints: player.victoryPoints - discardedSaint.victoryPoints,
-          tappedMana: player.tappedMana + 4,
+          tappedMana: player.tappedMana + m66ManaGain,
           relics: player.relics.filter((r) => r.id !== relicId),
         });
       }
@@ -1345,11 +1361,17 @@ function endRound(state: MajoGameState): MajoGameState {
     return endGame(state);
   }
 
+  // ラウンド終了をhistoryに記録
+  const stateWithHistory: MajoGameState = {
+    ...state,
+    history: [...state.history, { type: 'round_end' } as MajoAction],
+  };
+
   // フィールドリセット
   let newState: MajoGameState = {
-    ...state,
+    ...stateWithHistory,
     fieldActions: createFieldActions(),
-    round: state.round + 1,
+    round: stateWithHistory.round + 1,
     consecutivePasses: 0,
     currentPlayerIndex: state.startPlayerIndex,
   };

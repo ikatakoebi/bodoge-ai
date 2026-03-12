@@ -1,6 +1,6 @@
 /**
  * 魔女ゲー プレイコントローラー
- * コントロールパネル経由で人間 vs AI の対戦を管理する
+ * 複数人間 vs AI の対戦を管理する
  */
 import { createMajoGame, getCurrentPlayer, executeAction, getAvailableActions, isMajoGameOver, getMajoFinalScores, getPlayer, getEffectiveMagicPower, } from '../engine/majo.js';
 import { getMajoStrategy, getRandomMajoStrategy } from '../ai/majo-strategies.js';
@@ -8,12 +8,13 @@ import { getMajoStrategy, getRandomMajoStrategy } from '../ai/majo-strategies.js
 export class MajoPlayController {
     state;
     strategies = new Map();
-    humanPlayerId;
+    humanPlayerIds = new Set();
     opts;
     players = [];
     log = [];
     resolveAction = null;
     waitingForHuman = false;
+    waitingPlayerId = '';
     aborted = false;
     finished = false;
     cachedActions = [];
@@ -21,8 +22,10 @@ export class MajoPlayController {
     onUpdate = null;
     _strategyNames = [];
     constructor(opts = {}) {
+        const humanIndices = opts.humanPlayerIndices ?? [opts.humanPlayerIndices !== undefined ? 0 : 0];
         this.opts = {
-            humanPlayerIndex: opts.humanPlayerIndex ?? 0,
+            humanPlayerIndices: humanIndices.length > 0 ? humanIndices : [0],
+            humanNames: opts.humanNames ?? [],
             aiStrategies: opts.aiStrategies ?? [],
             aiDelay: opts.aiDelay ?? 800,
         };
@@ -30,21 +33,25 @@ export class MajoPlayController {
         const playerCount = 4;
         let aiIdx = 0;
         const strategyNames = [];
+        const humanIdxSet = new Set(this.opts.humanPlayerIndices);
         for (let i = 0; i < playerCount; i++) {
-            if (i === this.opts.humanPlayerIndex) {
+            if (humanIdxSet.has(i)) {
+                const humanIdx = this.opts.humanPlayerIndices.indexOf(i);
+                const humanName = this.opts.humanNames[humanIdx] || 'あなた';
                 this.players.push({
                     id: `p${i}`,
-                    name: 'あなた',
+                    name: `P${i + 1} ${humanName}`,
                     type: 'human',
                 });
-                strategyNames.push('人間');
+                this.humanPlayerIds.add(`p${i}`);
+                strategyNames.push(humanName);
             }
             else {
                 const stratId = this.opts.aiStrategies[aiIdx] ?? getRandomMajoStrategy().id;
                 const strategy = getMajoStrategy(stratId);
                 this.players.push({
                     id: `p${i}`,
-                    name: `${strategy.name}`,
+                    name: `P${i + 1} ${strategy.name}`,
                     type: 'ai',
                     strategyId: stratId,
                     personalityDesc: strategy.personality,
@@ -54,7 +61,6 @@ export class MajoPlayController {
                 aiIdx++;
             }
         }
-        this.humanPlayerId = `p${this.opts.humanPlayerIndex}`;
         // state は initGame() で非同期初期化
         this.state = undefined;
         this._strategyNames = strategyNames;
@@ -66,9 +72,22 @@ export class MajoPlayController {
     isReady() {
         return !!this.state;
     }
+    /** 人間プレイヤーかどうか */
+    isHumanPlayer(playerId) {
+        return this.humanPlayerIds.has(playerId);
+    }
+    /** 全人間プレイヤーIDを返す */
+    getHumanPlayerIds() {
+        return [...this.humanPlayerIds];
+    }
+    /** 現在アクション待ちの人間プレイヤーID（待ちでなければ空文字） */
+    getWaitingPlayerId() {
+        return this.waitingForHuman ? this.waitingPlayerId : '';
+    }
     getGameInfo() {
+        const humanIds = [...this.humanPlayerIds];
+        const firstHumanId = humanIds[0] ?? 'p0';
         if (!this.state) {
-            // state未初期化時のダミー情報
             return {
                 round: 0, phase: 'action',
                 currentPlayerId: '', currentPlayerName: '',
@@ -76,19 +95,20 @@ export class MajoPlayController {
                 toolSupply: [], saintSupply: [],
                 relicDeckCount: 0, toolDeckCount: 0, saintDeckCount: 0,
                 fieldActions: [], players: [],
-                humanPlayerId: this.humanPlayerId,
+                humanPlayerId: firstHumanId,
+                humanPlayerIds: humanIds,
                 availableActions: [], lastEvents: [], log: [],
                 gameOver: false, finalScores: null,
             };
         }
         const current = getCurrentPlayer(this.state);
-        const isHumanTurn = current.config.id === this.humanPlayerId && !this.finished;
+        const isHumanTurn = this.humanPlayerIds.has(current.config.id) && !this.finished;
         // プレイヤー情報
         const players = this.state.players.map((p) => ({
             id: p.config.id,
             name: p.config.name,
             strategy: p.config.strategyId ?? '人間',
-            isHuman: p.config.id === this.humanPlayerId,
+            isHuman: this.humanPlayerIds.has(p.config.id),
             mana: p.mana,
             tappedMana: p.tappedMana,
             vp: p.victoryPoints,
@@ -111,7 +131,7 @@ export class MajoPlayController {
         if (isHumanTurn && this.waitingForHuman) {
             availableActions = this.cachedActions.map((a, i) => ({
                 index: i,
-                description: describeAction(a, this.state, getPlayer(this.state, this.humanPlayerId)),
+                description: describeAction(a, this.state, getPlayer(this.state, current.config.id)),
                 category: categorizeAction(a),
             }));
         }
@@ -133,10 +153,11 @@ export class MajoPlayController {
             toolDeckCount: this.state.toolDeck.length,
             saintDeckCount: this.state.saintDeck.length,
             fieldActions: this.state.fieldActions.map((f) => ({
-                id: f.id, name: f.name, maxSlots: f.maxSlots, usedSlots: f.usedSlots,
+                id: f.id, name: f.name, maxSlots: f.maxSlots, usedSlots: f.usedSlots, cost: f.cost,
             })),
             players,
-            humanPlayerId: this.humanPlayerId,
+            humanPlayerId: firstHumanId,
+            humanPlayerIds: humanIds,
             availableActions,
             lastEvents: this.state.lastEvents,
             log: this.log.slice(-100),
@@ -144,14 +165,18 @@ export class MajoPlayController {
             finalScores: this.finalScores,
         };
     }
-    selectAction(index) {
+    selectAction(index, playerId) {
         if (!this.waitingForHuman)
             return false;
         if (index < 0 || index >= this.cachedActions.length)
             return false;
         if (!this.resolveAction)
             return false;
+        // playerIdが指定されてる場合、正しいプレイヤーかチェック
+        if (playerId && playerId !== this.waitingPlayerId)
+            return false;
         this.waitingForHuman = false;
+        this.waitingPlayerId = '';
         const resolve = this.resolveAction;
         this.resolveAction = null;
         resolve(index);
@@ -164,6 +189,7 @@ export class MajoPlayController {
             const resolve = this.resolveAction;
             this.resolveAction = null;
             this.waitingForHuman = false;
+            this.waitingPlayerId = '';
             resolve(0); // パスを選択して終了
         }
     }
@@ -172,6 +198,18 @@ export class MajoPlayController {
         this.state = await createMajoGame(this.players);
         this.addLog(`魔女ゲー開始！ ${this._strategyNames.join(' / ')}`);
     }
+    /** フィールドアクション名をボードのカード定義から上書き */
+    updateFieldActionNames(nameMap) {
+        if (!this.state)
+            return;
+        this.state = {
+            ...this.state,
+            fieldActions: this.state.fieldActions.map((fa) => ({
+                ...fa,
+                name: nameMap[fa.id] ?? fa.name,
+            })),
+        };
+    }
     // ── メインループ ──
     async run() {
         if (!this.state)
@@ -179,55 +217,65 @@ export class MajoPlayController {
         const MAX_TURNS = 300;
         let turnCount = 0;
         while (!isMajoGameOver(this.state) && !this.aborted) {
-            turnCount++;
-            if (turnCount > MAX_TURNS) {
-                this.addLog('⚠️ 最大ターン数超過 — ゲーム強制終了');
+            try {
+                turnCount++;
+                if (turnCount > MAX_TURNS) {
+                    this.addLog('⚠️ 最大ターン数超過 — ゲーム強制終了');
+                    break;
+                }
+                const current = getCurrentPlayer(this.state);
+                if (this.humanPlayerIds.has(current.config.id)) {
+                    // 人間のターン
+                    const actions = getAvailableActions(this.state, current.config.id);
+                    this.cachedActions = actions;
+                    this.waitingForHuman = true;
+                    this.waitingPlayerId = current.config.id;
+                    this.notifyUpdate();
+                    const selectedIndex = await new Promise((resolve) => {
+                        this.resolveAction = resolve;
+                    });
+                    if (this.aborted)
+                        break;
+                    const action = actions[selectedIndex];
+                    this.addLog(`🎮 ${current.config.name}: ${describeAction(action, this.state, current)}`);
+                    this.state = executeAction(this.state, action);
+                    this.cachedActions = [];
+                }
+                else {
+                    // AIのターン
+                    const strategy = this.strategies.get(current.config.id);
+                    if (!strategy) {
+                        this.addLog(`⚠️ 戦略が見つからない: ${current.config.id}`);
+                        break;
+                    }
+                    const { action, reasoning } = strategy.selectAction(this.state, current.config.id);
+                    const desc = describeAction(action, this.state, current);
+                    this.addLog(`${playerIcon(current.config.id)} ${current.config.name}: ${desc}`);
+                    if (reasoning) {
+                        this.addLog(`  💭 ${reasoning}`);
+                    }
+                    this.state = executeAction(this.state, action);
+                    // AIのアクション説明をlastEventsの先頭に追加（オーバーレイ表示用）
+                    this.state = {
+                        ...this.state,
+                        lastEvents: [desc, ...this.state.lastEvents],
+                    };
+                    // AIアクション後のディレイ
+                    await delay(this.opts.aiDelay);
+                }
+                // イベントログ追加
+                for (const ev of this.state.lastEvents) {
+                    this.addLog(`  📦 ${ev}`);
+                }
+                this.notifyUpdate();
+            }
+            catch (err) {
+                const msg = err instanceof Error ? err.message : String(err);
+                this.addLog(`❌ エラー: ${msg}`);
+                console.error('[majo] ゲームループエラー:', err);
+                this.notifyUpdate();
                 break;
             }
-            const current = getCurrentPlayer(this.state);
-            if (current.config.id === this.humanPlayerId) {
-                // 人間のターン
-                const actions = getAvailableActions(this.state, this.humanPlayerId);
-                this.cachedActions = actions;
-                this.waitingForHuman = true;
-                this.notifyUpdate();
-                const selectedIndex = await new Promise((resolve) => {
-                    this.resolveAction = resolve;
-                });
-                if (this.aborted)
-                    break;
-                const action = actions[selectedIndex];
-                this.addLog(`🎮 あなた: ${describeAction(action, this.state, getPlayer(this.state, this.humanPlayerId))}`);
-                this.state = executeAction(this.state, action);
-                this.cachedActions = [];
-            }
-            else {
-                // AIのターン
-                const strategy = this.strategies.get(current.config.id);
-                if (!strategy) {
-                    this.addLog(`⚠️ 戦略が見つからない: ${current.config.id}`);
-                    break;
-                }
-                const { action, reasoning } = strategy.selectAction(this.state, current.config.id);
-                const desc = describeAction(action, this.state, current);
-                this.addLog(`${playerIcon(current.config.id)} ${current.config.name}: ${desc}`);
-                if (reasoning) {
-                    this.addLog(`  💭 ${reasoning}`);
-                }
-                this.state = executeAction(this.state, action);
-                // AIのアクション説明をlastEventsの先頭に追加（オーバーレイ表示用）
-                this.state = {
-                    ...this.state,
-                    lastEvents: [desc, ...this.state.lastEvents],
-                };
-                // AIアクション後のディレイ
-                await delay(this.opts.aiDelay);
-            }
-            // イベントログ追加
-            for (const ev of this.state.lastEvents) {
-                this.addLog(`  📦 ${ev}`);
-            }
-            this.notifyUpdate();
         }
         // ゲーム終了
         this.finished = true;
@@ -236,7 +284,7 @@ export class MajoPlayController {
         this.addLog('━━━ ゲーム終了 ━━━');
         for (const s of this.finalScores) {
             const medal = s.rank === 1 ? '👑' : s.rank === 2 ? '🥈' : s.rank === 3 ? '🥉' : '  ';
-            const isHuman = s.playerId === this.humanPlayerId ? ' ← あなた' : '';
+            const isHuman = this.humanPlayerIds.has(s.playerId) ? ' ← あなた' : '';
             this.addLog(`${medal} ${s.rank}位 ${s.name}: ★${s.victoryPoints}VP${isHuman}`);
         }
         this.notifyUpdate();
@@ -248,38 +296,31 @@ export class MajoPlayController {
             this.log.shift();
     }
     notifyUpdate() {
-        this.onUpdate?.();
+        if (this.onUpdate)
+            this.onUpdate();
     }
 }
 // ── ユーティリティ ──
 function delay(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    return new Promise((r) => setTimeout(r, ms));
 }
-function playerIcon(id) {
-    switch (id) {
-        case 'p0': return '🔵';
-        case 'p1': return '🟣';
-        case 'p2': return '🟢';
-        case 'p3': return '🟡';
-        default: return '⚪';
-    }
+function playerIcon(playerId) {
+    const icons = ['🔴', '🟢', '🔵', '🟠', '🟣'];
+    const idx = parseInt(playerId.replace('p', ''), 10);
+    return icons[idx] ?? '⚪';
 }
-function categorizeAction(action) {
-    switch (action.type) {
-        case 'use_relic': return 'relic';
-        case 'extra_combat': return 'extra_combat';
-        case 'use_witch': return 'witch';
-        case 'pass': return 'pass';
-        case 'combat_select_saint': return 'field';
-        case 'combat_add_tool': return 'field';
-        case 'combat_execute': return 'field';
-        case 'combat_retreat': return 'pass';
-        case 'use_tool_turn': return 'field';
-        case 'select_saint_discard': return 'relic';
-        case 'untap_tool': return 'field';
-        case 'select_free_tool': return 'relic';
-        default: return 'field';
-    }
+/** state.fieldActionsからフィールド名を取得（スプシ反映） */
+function fieldName(state, fieldId) {
+    const fa = state.fieldActions.find((f) => f.id === fieldId);
+    return fa?.name ?? fieldId;
+}
+/** フィールド名＋コスト付き */
+function fieldNameWithCost(state, fieldId) {
+    const fa = state.fieldActions.find((f) => f.id === fieldId);
+    if (!fa)
+        return fieldId;
+    const costStr = fa.cost === 'variable' ? '' : `(コスト${fa.cost})`;
+    return `${fa.name}${costStr}`;
 }
 function describeAction(action, state, player) {
     switch (action.type) {
@@ -291,6 +332,7 @@ function describeAction(action, state, player) {
             const details = action.details;
             switch (details.action) {
                 case 'research': {
+                    const rName = fieldName(state, 'research');
                     const tool = state.toolSupply.find((t) => t.id === details.toolId);
                     if (tool) {
                         const dIds = details.discountToolIds || [];
@@ -308,33 +350,35 @@ function describeAction(action, state, player) {
                                 return s;
                             }, 0) + (player.relics.some((r) => r.id === 'M54') ? 1 : 0);
                             const eCost = Math.max(1, tool.cost - totalDiscount);
-                            return `${prefix}研究 → ${tool.name}(魔力${tool.magicPower})を${eCost}マナで購入（${dNames}タップ）`;
+                            return `${prefix}${rName} → ${tool.name}(魔力${tool.magicPower})を${eCost}マナで購入（${dNames}タップ）`;
                         }
-                        return `${prefix}研究 → ${tool.name}(コスト${tool.cost}, 魔力${tool.magicPower})を購入`;
+                        return `${prefix}${rName} → ${tool.name}(コスト${tool.cost}, 魔力${tool.magicPower})を購入`;
                     }
-                    return `${prefix}研究 → ${details.toolId}を購入`;
+                    return `${prefix}${rName} → ${details.toolId}を購入`;
                 }
                 case 'violence': {
+                    const vName = fieldNameWithCost(state, 'violence');
                     const saint = state.saintSupply.find((s) => s.id === details.saintId);
                     const toolNames = details.tappedToolIds.map((id) => {
                         const t = player.magicTools.find((tool) => tool.id === id);
                         return t ? `${t.name}(${getEffectiveMagicPower(t, player.magicTools)})` : id;
                     }).join('+');
                     if (saint)
-                        return `${prefix}横暴 → ${saint.name}(HP${saint.hp}/★${saint.victoryPoints})に挑戦 [${toolNames}]`;
-                    return `${prefix}横暴 → ${details.saintId}に挑戦`;
+                        return `${prefix}${vName} → ${saint.name}(HP${saint.hp}/★${saint.victoryPoints})に挑戦 [${toolNames}]`;
+                    return `${prefix}${vName} → ${details.saintId}に挑戦`;
                 }
                 case 'sacrifice': {
+                    const sName = fieldNameWithCost(state, 'sacrifice');
                     const saint = state.saintSupply.find((s) => s.id === details.saintId);
-                    return `${prefix}生贄(コスト5) → ${saint?.name || details.saintId}に挑戦`;
+                    return `${prefix}${sName} → ${saint?.name || details.saintId}に挑戦`;
                 }
                 case 'magic_shop':
-                    return `${prefix}魔具店 → マナ+2`;
+                    return `${prefix}${fieldName(state, 'magic_shop')} → マナ+2`;
                 case 'cathedral':
-                    return `${prefix}大聖堂 → SP獲得+マナ+1`;
+                    return `${prefix}${fieldName(state, 'cathedral')} → SP獲得+マナ+1`;
                 case 'prayer': {
                     const relic = player.relics.find((r) => r.id === details.relicId);
-                    return `${prefix}祈祷 → 聖遺物(${relic?.id})を捨ててマナ+3`;
+                    return `${prefix}${fieldName(state, 'prayer')} → 聖遺物(${relic?.id})を捨ててマナ+3`;
                 }
             }
             return `${prefix}フィールドアクション`;
@@ -355,11 +399,11 @@ function describeAction(action, state, player) {
         }
         case 'combat_select_saint': {
             const saint = state.saintSupply.find((s) => s.id === action.saintId);
-            const fieldName = action.fieldId === 'violence' ? '横暴(コスト2)' : '生贄(コスト5)';
+            const csFieldName = fieldNameWithCost(state, action.fieldId);
             const familiarPrefix = action.useFamiliar ? '【使い魔】' : '';
             if (saint)
-                return `${familiarPrefix}${fieldName} → ${saint.name}(HP${saint.hp}/★${saint.victoryPoints})に挑戦開始`;
-            return `${familiarPrefix}${fieldName} → 聖者に挑戦開始`;
+                return `${familiarPrefix}${csFieldName} → ${saint.name}(HP${saint.hp}/★${saint.victoryPoints})に挑戦開始`;
+            return `${familiarPrefix}${csFieldName} → 聖者に挑戦開始`;
         }
         case 'combat_add_tool': {
             const tool = player.magicTools.find((t) => t.id === action.toolId);
@@ -380,6 +424,10 @@ function describeAction(action, state, player) {
             const saintInfo = saint ? ` (vs ${saint.name} HP${saint.hp})` : '';
             return `${tool.name}(魔力${toolPower})をタップ → 合計魔力${currentPower + toolPower}${saintInfo}`;
         }
+        case 'combat_activate_amulet': {
+            const amulet = player.magicTools.find((t) => t.id === action.toolId);
+            return `護符「${amulet?.name ?? action.toolId}」の戦闘効果発動: 魔力＋3（廃棄）`;
+        }
         case 'combat_execute': {
             const cs = state.combatState;
             if (cs) {
@@ -389,7 +437,7 @@ function describeAction(action, state, player) {
                     if (!t)
                         return sum;
                     return sum + getEffectiveMagicPower(t, player.magicTools)
-                        + (t.type === '護符' && t.effect.includes('戦闘：魔力＋3') ? 3 : 0);
+                        + (t.type === '護符' && t.effect.includes('戦闘：魔力＋3') && cs.activatedAmuletIds.includes(id) ? 3 : 0);
                 }, 0);
                 if (saint)
                     return `戦闘実行（合計魔力${totalPower} vs ${saint.name} HP${saint.hp}）`;
@@ -421,6 +469,22 @@ function describeAction(action, state, player) {
             return `聖遺物M53 → 魔導具をタダで獲得`;
         }
         default:
-            return action.type;
+            return `アクション: ${action.type}`;
     }
 }
+function categorizeAction(action) {
+    switch (action.type) {
+        case 'pass': return 'pass';
+        case 'use_witch': return 'witch';
+        case 'use_relic': return 'relic';
+        case 'extra_combat': return 'extra_combat';
+        case 'combat_select_saint':
+        case 'combat_add_tool':
+        case 'combat_activate_amulet':
+        case 'combat_execute':
+        case 'combat_retreat':
+            return 'combat';
+        default: return 'field';
+    }
+}
+export { calculateCombatPower, getEffectiveMagicPower } from '../engine/majo.js';

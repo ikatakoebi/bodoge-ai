@@ -483,10 +483,6 @@ export class MajoBoardSync {
     const parts: string[] = [];
     parts.push(`R${info.round} ${info.currentPlayerName}`);
 
-    if (info.isHumanTurn) {
-      parts.push('YOUR TURN');
-    }
-
     if (info.lastEvents.length > 0) {
       parts.push(info.lastEvents.slice(0, 2).join(' / '));
     }

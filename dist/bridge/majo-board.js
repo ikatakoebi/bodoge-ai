@@ -94,10 +94,12 @@ export class MajoBoardSync {
         const areaY = fieldArea.y * 10;
         const areaH = fieldArea.height * 10;
         // 2段の縦配置: standardカード176px高, colStep=140px
-        // 2段合計 = 176 + 20(隙間) + 176 = 372px
-        const topMargin = Math.floor((areaH - (MAJO_CARD_HEIGHT * 2 + 20)) / 2);
+        // スロットインジケーター分(30px)を考慮した行間=50px
+        // 2段合計 = 176 + 50(隙間) + 176 = 402px
+        const ROW_GAP = 50;
+        const topMargin = Math.max(0, Math.floor((areaH - (MAJO_CARD_HEIGHT * 2 + ROW_GAP)) / 2));
         const row1Y = areaY + topMargin;
-        const row2Y = row1Y + MAJO_CARD_HEIGHT + 20; // 176 + 20 = 196px下
+        const row2Y = row1Y + MAJO_CARD_HEIGHT + ROW_GAP;
         const actionIds = Object.keys(FIELD_ACTION_CARD_MAP);
         for (let i = 0; i < actionIds.length; i++) {
             const defId = FIELD_ACTION_CARD_MAP[actionIds[i]];
@@ -132,11 +134,8 @@ export class MajoBoardSync {
                 baseY = (witchArea.y + witchArea.height / 2) * 10 - 21; // カウンター高さ42pxの中央
             }
             else {
-                // P3等の狭いエリア: p_saints下に配置
-                const saintsArea = this.client.getArea(`p_saints_${p.id}`);
-                baseY = saintsArea
-                    ? (saintsArea.y + saintsArea.height) * 10 + 10
-                    : (witchArea.y + witchArea.height) * 10 + 10;
+                // 狭いエリア: 魔女エリアの上に配置
+                baseY = witchArea.y * 10 - 42 - 10; // カウンター高さ42px + マージン10px
                 baseX = witchArea.x * 10 + 4;
             }
             const step = RO_COUNTER_WIDTH + RO_COUNTER_GAP; // 90px間隔
@@ -441,12 +440,7 @@ export class MajoBoardSync {
         if (info.lastEvents.length > 0) {
             parts.push(info.lastEvents.slice(0, 2).join(' / '));
         }
-        // スロット情報をアナウンスに含める
-        const slots = info.fieldActions.map((fa) => {
-            const max = fa.maxSlots < 0 ? '∞' : `${fa.maxSlots}`;
-            return `${fa.name}${fa.usedSlots}/${max}`;
-        }).join(' ');
-        parts.push(slots);
+        // スロット情報はボード上のスロットインジケーターで表示（アナウンスからは削除）
         return parts.join(' - ');
     }
 }

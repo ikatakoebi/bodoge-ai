@@ -550,7 +550,7 @@ async function handleMajoStart(body) {
         addLog(`ボード接続/セットアップスキップ: ${err.message} — コントロールパネルのみで動作`);
     }
     const ctrl = new MajoPlayController({
-        humanPlayerIndex: params.humanPlayerIndex ?? 0,
+        humanPlayerIndices: [params.humanPlayerIndex ?? 0],
         aiStrategies: requestedStrategies,
         aiDelay: params.aiDelay ?? 800,
     });

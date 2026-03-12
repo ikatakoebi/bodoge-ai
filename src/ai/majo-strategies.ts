@@ -4,26 +4,110 @@ import type { MajoGameState, MajoAction, MajoAIStrategy, MajoPlayerState, MajoTo
 import {
   getPlayer, getAvailableActions, calculateCombatPower, getEffectiveMagicPower,
 } from '../engine/majo.js';
+import { createParameterizedStrategy } from './majo-params.js';
+
+// 進化パラメータ（evolved-params.jsonから取得、generation 42 / fitness 5.64 / 36,000ゲーム）
+const EVOLVED_PARAMS = {
+  saintVPWeight: 3.6366063614357667,
+  saintRelicWeight: 0.9398540554574784,
+  saintLowHPBonus: 0.7417252342871385,
+  toolBuyMaxCount: 3.716585004115481,
+  toolPowerWeight: 1,
+  toolCostWeight: 0.11677511971195575,
+  manaShopThreshold: 1,
+  manaReserveForCombat: 1.760355792173542,
+  witchRoundThreshold: 1.8269779217940294,
+  witchMinTools: 0.932527811599175,
+  familiarVPThreshold: 2.3591065804402866,
+  combatPriority: 16.576431385290597,
+  purchasePriority: 4.125206121494939,
+  manaPriority: 7.506234465451989,
+  saintRelicPoolBonus: 0.6702692539811423,
+  saintZeroVPWeight: 2.023307598978197,
+  combatBeforePurchase: 0.5003491874770432,
+  purchaseBeforeShop: 0.6398947033171007,
+  witchMagicModeWeight: 0.42055093578500585,
+  relicAggressiveness: 0.5801649726226665,
+  untapRelicCombatThreshold: 2.35130984058988,
+  achievementRelicWeight: 0.8668959223739667,
+  achievementToolWeight: 0.2302824907522335,
+  familiarForPurchase: 0.1586524389169185,
+};
 
 // ── 共通ヘルパー ──
+
+// 護符の戦闘ボーナスを効果テキストからパースする
+function getAmuletCombatBonus(tool: MajoToolCard): number {
+  if (tool.type !== '護符') return 0;
+  const m = tool.effect.match(/戦闘：魔力＋(\d+)/);
+  return m ? parseInt(m[1], 10) : 0;
+}
 
 function selectToolsForCombat(player: MajoPlayerState, targetHP: number): string[] {
   const availableTools = player.magicTools
     .filter((t) => !player.tappedToolIds.includes(t.id))
     .map((t) => ({
       ...t,
-      effectivePower: getEffectiveMagicPower(t, player.magicTools) +
-        (t.type === '護符' && t.effect.includes('戦闘：魔力＋3') ? 3 : 0),
-    }))
-    .sort((a, b) => b.effectivePower - a.effectivePower);
+      basePower: getEffectiveMagicPower(t, player.magicTools),
+      amuletBonus: getAmuletCombatBonus(t),
+    }));
 
-  const selected: string[] = [];
-  let currentPower = 0;
+  // 護符以外のツール（低→高ソートで最小コスト組み合わせを探す）
+  const nonAmulets = availableTools
+    .filter((t) => t.amuletBonus === 0)
+    .sort((a, b) => a.basePower - b.basePower); // 低い方から
 
-  for (const tool of availableTools) {
+  // 最小魔力セットを選ぶ：まず高い方から貪欲に選んで倒せる最小数を確定、
+  // その後、各ツールをより小さいツールに置き換えてもまだ足りるか試す
+  const highFirst = [...nonAmulets].reverse(); // 高→低
+  const greedy: typeof nonAmulets = [];
+  let greedyPower = 0;
+
+  for (const tool of highFirst) {
+    if (greedyPower >= targetHP) break;
+    greedy.push(tool);
+    greedyPower += tool.basePower;
+  }
+
+  if (greedyPower >= targetHP) {
+    // 貪欲で足りた → 各ツールをより小さいもので置換可能か試す（余り最小化）
+    const used = new Set(greedy.map((t) => t.id));
+    for (let i = greedy.length - 1; i >= 0; i--) {
+      const current = greedy[i];
+      const powerWithout = greedyPower - current.basePower;
+      // このツールを抜いても足りるなら、不要
+      if (powerWithout >= targetHP) {
+        greedyPower = powerWithout;
+        greedy.splice(i, 1);
+        continue;
+      }
+      // より小さいツールで代替できるか
+      const deficit = targetHP - powerWithout;
+      const smaller = nonAmulets.find(
+        (t) => !used.has(t.id) && t.basePower >= deficit && t.basePower < current.basePower,
+      );
+      if (smaller) {
+        used.delete(current.id);
+        used.add(smaller.id);
+        greedyPower = powerWithout + smaller.basePower;
+        greedy[i] = smaller;
+      }
+    }
+    return greedy.map((t) => t.id);
+  }
+
+  // 護符なしで足りない場合、全ツール投入 + 護符追加
+  const selected = nonAmulets.map((t) => t.id);
+  let currentPower = nonAmulets.reduce((s, t) => s + t.basePower, 0);
+
+  const amulets = availableTools
+    .filter((t) => t.amuletBonus > 0)
+    .sort((a, b) => (b.basePower + b.amuletBonus) - (a.basePower + a.amuletBonus));
+
+  for (const tool of amulets) {
     if (currentPower >= targetHP) break;
     selected.push(tool.id);
-    currentPower += tool.effectivePower;
+    currentPower += tool.basePower + tool.amuletBonus;
   }
 
   return selected;
@@ -34,9 +118,7 @@ function getAvailablePower(player: MajoPlayerState, witchUsageCount: number = 0)
   let power = 0;
   for (const t of availableTools) {
     power += getEffectiveMagicPower(t, player.magicTools);
-    if (t.type === '護符' && t.effect.includes('戦闘：魔力＋3')) {
-      power += 3;
-    }
+    power += getAmuletCombatBonus(t);
   }
   // 魔女が魔力モードで使用済みなら永続ボーナス
   if (player.witchTapped && player.witchMode === 'magic') {
@@ -426,14 +508,29 @@ function selectCombatStepAction(
     }
   }
 
-  // 護符の戦闘効果が発動可能なら先に発動
-  const amuletAction = actions.find((a) => a.type === 'combat_activate_amulet');
-  if (amuletAction && 'toolId' in amuletAction) {
-    const tool = player.magicTools.find((t) => t.id === amuletAction.toolId);
-    return {
-      action: amuletAction,
-      reasoning: `護符「${tool?.name ?? ''}」の戦闘効果を発動（魔力＋3、廃棄）`,
-    };
+  // 護符の戦闘効果発動判断：ボーナスなしで倒せるなら温存、足りない時だけ発動
+  const amuletActions = actions.filter((a) => a.type === 'combat_activate_amulet');
+  if (amuletActions.length > 0) {
+    // 現在の魔力（護符ボーナスなし）を計算
+    const powerWithoutAmulet = cs.selectedToolIds.reduce((sum, id) => {
+      const t = player.magicTools.find((tt) => tt.id === id);
+      if (!t) return sum;
+      return sum + getEffectiveMagicPower(t, player.magicTools)
+        + (cs.activatedAmuletIds.includes(id) ? getAmuletCombatBonus(t) : 0);
+    }, 0);
+
+    if (powerWithoutAmulet < saint.hp) {
+      // 魔力不足 → 護符効果を発動して補う
+      const amuletAction = amuletActions[0];
+      if (amuletAction && 'toolId' in amuletAction) {
+        const tool = player.magicTools.find((t) => t.id === amuletAction.toolId);
+        return {
+          action: amuletAction,
+          reasoning: `魔力不足(${powerWithoutAmulet}<HP${saint.hp})、護符「${tool?.name ?? ''}」発動（魔力＋${tool ? getAmuletCombatBonus(tool) : '?'}、廃棄）`,
+        };
+      }
+    }
+    // 足りてるなら護符効果は温存（廃棄しない）
   }
 
   // 全最適ツールを追加済み → 戦闘実行
@@ -443,7 +540,7 @@ function selectCombatStepAction(
       const t = player.magicTools.find((tt) => tt.id === id);
       if (!t) return sum;
       return sum + getEffectiveMagicPower(t, player.magicTools)
-        + (t.type === '護符' && t.effect.includes('戦闘：魔力＋3') && cs.activatedAmuletIds.includes(id) ? 3 : 0);
+        + (cs.activatedAmuletIds.includes(id) ? getAmuletCombatBonus(t) : 0);
     }, 0);
     if (currentPower >= saint.hp) {
       return {
@@ -461,6 +558,40 @@ function selectCombatStepAction(
     }
   }
 
+  return null;
+}
+
+// 護符の手番効果（VP+1など）を選択
+// M28は魔力6のツールとして戦闘に使えるので、終盤まで温存する
+function selectToolTurnAction(
+  state: MajoGameState,
+  actions: MajoAction[],
+  player: MajoPlayerState,
+): { action: MajoAction; reasoning: string } | null {
+  const toolTurnActions = actions.filter((a) => a.type === 'use_tool_turn');
+  if (toolTurnActions.length === 0) return null;
+
+  // M28は魔力6のツールとして戦闘価値が高いので、使うタイミングは厳選
+  // 「もう終わりそう」AND「パスしかできない」の両方を満たす時だけ廃棄
+  // もう終わりそう = 自分VP6(使えば勝ち) OR 相手VP7到達
+  // パスしかできない = use_tool_turn以外の選択肢がpassだけ
+  const vpTarget = 7;
+  const gameNearEnd = player.victoryPoints >= vpTarget - 1
+    || state.players.some((p) => p.config.id !== player.config.id && p.victoryPoints >= vpTarget);
+  const onlyPassLeft = actions.filter((a) => a.type !== 'use_tool_turn').every((a) => a.type === 'pass');
+
+  if (!gameNearEnd || !onlyPassLeft) return null;
+
+  for (const act of toolTurnActions) {
+    if (act.type !== 'use_tool_turn') continue;
+    const tool = player.magicTools.find((t) => t.id === act.toolId);
+    if (tool) {
+      return {
+        action: act,
+        reasoning: `終盤：護符「${tool.name}」の手番効果を発動（${tool.effect}）`,
+      };
+    }
+  }
   return null;
 }
 
@@ -512,6 +643,10 @@ const balanced: MajoAIStrategy = {
     const extraCombat = selectExtraCombatAction(actions, state, player);
     if (extraCombat) return extraCombat;
 
+    // 護符の手番効果（VP+1など）は終盤で使う
+    const toolTurn = selectToolTurnAction(state, actions, player);
+    if (toolTurn) return toolTurn;
+
     const killableSaints = getKillableSaints(state, player);
 
     // 0. 有効な手番聖遺物があれば使う
@@ -529,11 +664,11 @@ const balanced: MajoAIStrategy = {
     const untapM27 = selectUntapToolAction(actions, player);
     if (untapM27) return untapM27;
 
-    // 使い魔はVP聖者撃破のみ許可（1回きりなので温存）
-    const familiarForVP = killableSaints.length > 0 && killableSaints[0].victoryPoints >= 2;
+    // 使い魔は聖者撃破なら許可（1回きりだが出し惜しみしない）
+    const familiarForVP = killableSaints.length > 0 && killableSaints[0].victoryPoints >= 1;
 
     // 1. VP持ちの聖者を倒せるなら最優先（VP聖者なら使い魔OK）
-    if (killableSaints.length > 0 && killableSaints[0].victoryPoints > 0 && player.mana >= 2) {
+    if (killableSaints.length > 0 && killableSaints[0].victoryPoints > 0 && player.mana >= 1) {
       const target = killableSaints[0];
       const act = findViolenceAction(actions, target.id, familiarForVP);
       if (act) {
@@ -543,7 +678,7 @@ const balanced: MajoAIStrategy = {
     }
 
     // 2. 魔導具が足りない → 買う（使い魔は使わない）
-    if (player.magicTools.length < 3) {
+    if (player.magicTools.length < 4) {
       const best = getBestToolToBuy(state, player);
       if (best) {
         const act = findResearchAction(fieldActions, best.toolId, false);
@@ -557,7 +692,7 @@ const balanced: MajoAIStrategy = {
     }
 
     // 3. 0星でも倒せる聖者がいれば倒す（使い魔は使わない）
-    if (killableSaints.length > 0 && player.mana >= 2) {
+    if (killableSaints.length > 0 && player.mana >= 1) {
       const target = killableSaints[0];
       const act = findViolenceAction(actions, target.id, false);
       if (act) {
@@ -579,9 +714,8 @@ const balanced: MajoAIStrategy = {
       if (shopAct) return { action: shopAct, reasoning: `マナ補充(現在${player.mana})` };
     }
 
-    // 6. 魔女（マナモード）— ゲーム中1回きりなので温存
-    // ラウンド4以降 & 魔導具3個以上 & 使うと大きなリターンがある場合のみ
-    if (!player.witchTapped && player.magicTools.length >= 3 && state.round >= 4) {
+    // 6. 魔女（マナモード）— ラウンド2以降 & 魔導具1個以上で積極的に使う
+    if (!player.witchTapped && player.magicTools.length >= 1 && state.round >= 2) {
       const witchAction = actions.find((a) => a.type === 'use_witch' && a.choice === 'mana');
       if (witchAction) {
         const gain = 2 + state.witchUsageCount;
@@ -618,6 +752,10 @@ const aggressive: MajoAIStrategy = {
     // 追加戦闘（M67）が可能なら最優先で実行
     const extraCombat = selectExtraCombatAction(actions, state, player);
     if (extraCombat) return extraCombat;
+
+    // 護符の手番効果（VP+1など）は終盤で使う
+    const toolTurn = selectToolTurnAction(state, actions, player);
+    if (toolTurn) return toolTurn;
 
     const killableSaints = getKillableSaints(state, player);
 
@@ -679,8 +817,8 @@ const aggressive: MajoAIStrategy = {
       if (shopAct) return { action: shopAct, reasoning: `マナ補充して攻撃に備える` };
     }
 
-    // 4. 魔女（マナモード）— ラウンド3以降 & 魔導具2個以上
-    if (!player.witchTapped && player.magicTools.length >= 2 && state.round >= 3) {
+    // 4. 魔女（マナモード）— 即時使用（ラウンド1から、魔導具0個でもOK）
+    if (!player.witchTapped && state.round >= 1) {
       const witchAction = actions.find((a) => a.type === 'use_witch' && a.choice === 'mana');
       if (witchAction) {
         const gain = 2 + state.witchUsageCount;
@@ -718,6 +856,10 @@ const economist: MajoAIStrategy = {
     const extraCombat = selectExtraCombatAction(actions, state, player);
     if (extraCombat) return extraCombat;
 
+    // 護符の手番効果（VP+1など）は終盤で使う
+    const toolTurn = selectToolTurnAction(state, actions, player);
+    if (toolTurn) return toolTurn;
+
     const killableSaints = getKillableSaints(state, player);
 
     // 0. 聖遺物を積極的に使う（経済型の特徴）
@@ -749,8 +891,8 @@ const economist: MajoAIStrategy = {
     const untapM27 = selectUntapToolAction(actions, player);
     if (untapM27) return untapM27;
 
-    // 使い魔はVP2以上の聖者撃破のみ許可（経済型は最も温存的）
-    const familiarForVP = killableSaints.length > 0 && killableSaints[0].victoryPoints >= 2;
+    // 使い魔はVP1以上の聖者撃破で許可（進化の知見を反映）
+    const familiarForVP = killableSaints.length > 0 && killableSaints[0].victoryPoints >= 1;
 
     // 1. VP聖者を倒す（VP2+なら使い魔OK）
     if (killableSaints.length > 0 && killableSaints[0].victoryPoints > 0 && player.mana >= 2) {
@@ -795,8 +937,8 @@ const economist: MajoAIStrategy = {
       if (shopAct) return { action: shopAct, reasoning: `マナ補充` };
     }
 
-    // 6. 魔女（遅めに使ってスタック最大化）— ラウンド4以降に変更
-    if (!player.witchTapped && player.magicTools.length >= 2 && state.round >= 4) {
+    // 6. 魔女（ラウンド2以降 & 魔導具1個以上）— 進化の知見を反映
+    if (!player.witchTapped && player.magicTools.length >= 1 && state.round >= 2) {
       const witchAction = actions.find((a) => a.type === 'use_witch' && a.choice === 'mana');
       if (witchAction) {
         const gain = 2 + state.witchUsageCount;
@@ -820,10 +962,13 @@ const economist: MajoAIStrategy = {
 
 // ── エクスポート ──
 
+const majoEvolved = createParameterizedStrategy(EVOLVED_PARAMS);
+
 export const majoStrategies: Record<string, MajoAIStrategy> = {
   majo_balanced: balanced,
   majo_aggressive: aggressive,
   majo_economist: economist,
+  majo_evolved: majoEvolved,
 };
 
 export const majoStrategyIds = Object.keys(majoStrategies);
