@@ -282,64 +282,72 @@ export class MajoPlayController {
     let turnCount = 0;
 
     while (!isMajoGameOver(this.state) && !this.aborted) {
-      turnCount++;
-      if (turnCount > MAX_TURNS) {
-        this.addLog('⚠️ 最大ターン数超過 — ゲーム強制終了');
-        break;
-      }
-
-      const current = getCurrentPlayer(this.state);
-
-      if (current.config.id === this.humanPlayerId) {
-        // 人間のターン
-        const actions = getAvailableActions(this.state, this.humanPlayerId);
-        this.cachedActions = actions;
-        this.waitingForHuman = true;
-        this.notifyUpdate();
-
-        const selectedIndex = await new Promise<number>((resolve) => {
-          this.resolveAction = resolve;
-        });
-
-        if (this.aborted) break;
-
-        const action = actions[selectedIndex];
-        this.addLog(`🎮 あなた: ${describeAction(action, this.state, getPlayer(this.state, this.humanPlayerId))}`);
-        this.state = executeAction(this.state, action);
-        this.cachedActions = [];
-      } else {
-        // AIのターン
-        const strategy = this.strategies.get(current.config.id);
-        if (!strategy) {
-          this.addLog(`⚠️ 戦略が見つからない: ${current.config.id}`);
+      try {
+        turnCount++;
+        if (turnCount > MAX_TURNS) {
+          this.addLog('⚠️ 最大ターン数超過 — ゲーム強制終了');
           break;
         }
 
-        const { action, reasoning } = strategy.selectAction(this.state, current.config.id);
-        const desc = describeAction(action, this.state, current);
-        this.addLog(`${playerIcon(current.config.id)} ${current.config.name}: ${desc}`);
-        if (reasoning) {
-          this.addLog(`  💭 ${reasoning}`);
+        const current = getCurrentPlayer(this.state);
+
+        if (current.config.id === this.humanPlayerId) {
+          // 人間のターン
+          const actions = getAvailableActions(this.state, this.humanPlayerId);
+          this.cachedActions = actions;
+          this.waitingForHuman = true;
+          this.notifyUpdate();
+
+          const selectedIndex = await new Promise<number>((resolve) => {
+            this.resolveAction = resolve;
+          });
+
+          if (this.aborted) break;
+
+          const action = actions[selectedIndex];
+          this.addLog(`🎮 あなた: ${describeAction(action, this.state, getPlayer(this.state, this.humanPlayerId))}`);
+          this.state = executeAction(this.state, action);
+          this.cachedActions = [];
+        } else {
+          // AIのターン
+          const strategy = this.strategies.get(current.config.id);
+          if (!strategy) {
+            this.addLog(`⚠️ 戦略が見つからない: ${current.config.id}`);
+            break;
+          }
+
+          const { action, reasoning } = strategy.selectAction(this.state, current.config.id);
+          const desc = describeAction(action, this.state, current);
+          this.addLog(`${playerIcon(current.config.id)} ${current.config.name}: ${desc}`);
+          if (reasoning) {
+            this.addLog(`  💭 ${reasoning}`);
+          }
+
+          this.state = executeAction(this.state, action);
+
+          // AIのアクション説明をlastEventsの先頭に追加（オーバーレイ表示用）
+          this.state = {
+            ...this.state,
+            lastEvents: [desc, ...this.state.lastEvents],
+          };
+
+          // AIアクション後のディレイ
+          await delay(this.opts.aiDelay);
         }
 
-        this.state = executeAction(this.state, action);
+        // イベントログ追加
+        for (const ev of this.state.lastEvents) {
+          this.addLog(`  📦 ${ev}`);
+        }
 
-        // AIのアクション説明をlastEventsの先頭に追加（オーバーレイ表示用）
-        this.state = {
-          ...this.state,
-          lastEvents: [desc, ...this.state.lastEvents],
-        };
-
-        // AIアクション後のディレイ
-        await delay(this.opts.aiDelay);
+        this.notifyUpdate();
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : String(err);
+        this.addLog(`❌ エラー: ${msg}`);
+        console.error('[majo] ゲームループエラー:', err);
+        this.notifyUpdate();
+        break;
       }
-
-      // イベントログ追加
-      for (const ev of this.state.lastEvents) {
-        this.addLog(`  📦 ${ev}`);
-      }
-
-      this.notifyUpdate();
     }
 
     // ゲーム終了
