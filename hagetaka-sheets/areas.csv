@@ -1,0 +1,18 @@
+area_id,name,x,y,width,height,visibility,per_player,bg_color
+point_deck,得点山札,2,36,10,18,hidden,false,#55555540
+point_current,場の得点,14,36,10,18,public,false,#f39c1230
+p_played_p0,P1出し,30,36,10,18,public,false,#3498db30
+p_played_p1,P2出し,42,36,10,18,public,false,#e74c3c30
+p_played_p2,P3出し,54,36,10,18,public,false,#9b59b630
+p_played_p3,P4出し,66,36,10,18,public,false,#f39c1230
+p_played_p4,P5出し,78,36,10,18,public,false,#1abc9c30
+p_hand_p0,P1 手札,2,90,150,18,public,false,#3498db20
+p_won_p0,P1 獲得,154,90,80,18,public,false,#3498db15
+p_hand_p1,P2 手札,2,0,150,18,public,false,#e74c3c20
+p_won_p1,P2 獲得,154,0,80,18,public,false,#e74c3c15
+p_hand_p2,P3 手札,2,72,150,18,public,false,#9b59b620
+p_won_p2,P3 獲得,154,72,80,18,public,false,#9b59b615
+p_hand_p3,P4 手札,2,18,150,18,public,false,#f39c1220
+p_won_p3,P4 獲得,154,18,80,18,public,false,#f39c1215
+p_hand_p4,P5 手札,2,54,150,18,public,false,#1abc9c20
+p_won_p4,P5 獲得,154,54,80,18,public,false,#1abc9c15

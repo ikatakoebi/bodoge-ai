@@ -1,0 +1,427 @@
+{
+  "gameId": "526440ec-705e-4eb6-94ae-593ba4a7c088",
+  "gameName": "ハゲタカの餌食",
+  "timestamp": "2026-03-11T21:48:22.872Z",
+  "players": [
+    {
+      "id": "player_1",
+      "name": "混沌型AI",
+      "type": "ai",
+      "strategyId": "chaotic",
+      "personalityDesc": "気まぐれ"
+    },
+    {
+      "id": "player_2",
+      "name": "経済学者型AI",
+      "type": "ai",
+      "strategyId": "economist",
+      "personalityDesc": "論理的"
+    },
+    {
+      "id": "player_3",
+      "name": "攻撃型AI",
+      "type": "ai",
+      "strategyId": "aggressive",
+      "personalityDesc": "強気"
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "pointCard": -4,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 15
+        },
+        {
+          "playerId": "player_2",
+          "card": 15
+        },
+        {
+          "playerId": "player_3",
+          "card": 15
+        }
+      ],
+      "winnerId": null,
+      "reasoning": {
+        "player_1": "あえて逆張り！プラスカードに最強の15を出す！みんな驚くでしょ？うふふ",
+        "player_2": "期待値最適化: -4点カードに対し強度15/15の15を選択。将来ハイバリューラウンド4回、マイナスリスク2回を考慮した最適解",
+        "player_3": "マイナス-4点なんて要らない！最強の15で押し付けを回避！力ずくで行くぜ！"
+      }
+    },
+    {
+      "round": 2,
+      "pointCard": 3,
+      "carryOver": [
+        -4
+      ],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 8
+        },
+        {
+          "playerId": "player_2",
+          "card": 14
+        },
+        {
+          "playerId": "player_3",
+          "card": 14
+        }
+      ],
+      "winnerId": "player_1",
+      "reasoning": {
+        "player_1": "んー…8かな。なんとなく！直感！",
+        "player_2": "期待値最適化: -1点カードに対し強度14/14の14を選択。将来ハイバリューラウンド4回、マイナスリスク2回を考慮した最適解",
+        "player_3": "マイナス-1点なんて要らない！最強の14で押し付けを回避！力ずくで行くぜ！"
+      }
+    },
+    {
+      "round": 3,
+      "pointCard": 8,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 4
+        },
+        {
+          "playerId": "player_2",
+          "card": 10
+        },
+        {
+          "playerId": "player_3",
+          "card": 13
+        }
+      ],
+      "winnerId": "player_3",
+      "reasoning": {
+        "player_1": "フフフ…今日の気分はこれ！4！理由？ないよ！それが私！",
+        "player_2": "期待値最適化: 8点カードに対し強度10/13の10を選択。将来ハイバリューラウンド3回、マイナスリスク2回を考慮した最適解",
+        "player_3": "8点！こんな美味しいカード、絶対に俺が取る！最強の13でぶちかます！"
+      }
+    },
+    {
+      "round": 4,
+      "pointCard": -2,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 11
+        },
+        {
+          "playerId": "player_2",
+          "card": 13
+        },
+        {
+          "playerId": "player_3",
+          "card": 12
+        }
+      ],
+      "winnerId": "player_1",
+      "reasoning": {
+        "player_1": "フフフ…今日の気分はこれ！11！理由？ないよ！それが私！",
+        "player_2": "期待値最適化: -2点カードに対し強度12/12の13を選択。将来ハイバリューラウンド3回、マイナスリスク2回を考慮した最適解",
+        "player_3": "マイナス-2点なんて要らない！最強の12で押し付けを回避！力ずくで行くぜ！"
+      }
+    },
+    {
+      "round": 5,
+      "pointCard": 2,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 14
+        },
+        {
+          "playerId": "player_2",
+          "card": 2
+        },
+        {
+          "playerId": "player_3",
+          "card": 9
+        }
+      ],
+      "winnerId": "player_1",
+      "reasoning": {
+        "player_1": "フフフ…今日の気分はこれ！14！理由？ないよ！それが私！",
+        "player_2": "期待値最適化: 2点カードに対し強度2/11の2を選択。将来ハイバリューラウンド3回、マイナスリスク2回を考慮した最適解",
+        "player_3": "2点か。まあ取っておこう。9で勝負に出る"
+      }
+    },
+    {
+      "round": 6,
+      "pointCard": 4,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 1
+        },
+        {
+          "playerId": "player_2",
+          "card": 5
+        },
+        {
+          "playerId": "player_3",
+          "card": 8
+        }
+      ],
+      "winnerId": "player_3",
+      "reasoning": {
+        "player_1": "あえて逆張り！プラスカードに最弱の1を出す！みんな驚くでしょ？うふふ",
+        "player_2": "期待値最適化: 4点カードに対し強度4/10の5を選択。将来ハイバリューラウンド3回、マイナスリスク2回を考慮した最適解",
+        "player_3": "4点か。まあ取っておこう。8で勝負に出る"
+      }
+    },
+    {
+      "round": 7,
+      "pointCard": -1,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 9
+        },
+        {
+          "playerId": "player_2",
+          "card": 12
+        },
+        {
+          "playerId": "player_3",
+          "card": 11
+        }
+      ],
+      "winnerId": "player_1",
+      "reasoning": {
+        "player_1": "フフフ…今日の気分はこれ！9！理由？ないよ！それが私！",
+        "player_2": "期待値最適化: -1点カードに対し強度9/9の12を選択。将来ハイバリューラウンド3回、マイナスリスク2回を考慮した最適解",
+        "player_3": "マイナス-1点なんて要らない！最強の11で押し付けを回避！力ずくで行くぜ！"
+      }
+    },
+    {
+      "round": 8,
+      "pointCard": 5,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 7
+        },
+        {
+          "playerId": "player_2",
+          "card": 3
+        },
+        {
+          "playerId": "player_3",
+          "card": 10
+        }
+      ],
+      "winnerId": "player_3",
+      "reasoning": {
+        "player_1": "んー…7かな。なんとなく！直感！",
+        "player_2": "期待値最適化: 5点カードに対し強度2/8の3を選択。将来ハイバリューラウンド3回、マイナスリスク2回を考慮した最適解",
+        "player_3": "5点！こんな美味しいカード、絶対に俺が取る！最強の10でぶちかます！"
+      }
+    },
+    {
+      "round": 9,
+      "pointCard": 7,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 10
+        },
+        {
+          "playerId": "player_2",
+          "card": 8
+        },
+        {
+          "playerId": "player_3",
+          "card": 7
+        }
+      ],
+      "winnerId": "player_1",
+      "reasoning": {
+        "player_1": "んー…10かな。なんとなく！直感！",
+        "player_2": "期待値最適化: 7点カードに対し強度5/7の8を選択。将来ハイバリューラウンド2回、マイナスリスク2回を考慮した最適解",
+        "player_3": "7点！こんな美味しいカード、絶対に俺が取る！最強の7でぶちかます！"
+      }
+    },
+    {
+      "round": 10,
+      "pointCard": 9,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 2
+        },
+        {
+          "playerId": "player_2",
+          "card": 9
+        },
+        {
+          "playerId": "player_3",
+          "card": 6
+        }
+      ],
+      "winnerId": "player_2",
+      "reasoning": {
+        "player_1": "フフフ…今日の気分はこれ！2！理由？ないよ！それが私！",
+        "player_2": "期待値最適化: 9点カードに対し強度5/6の9を選択。将来ハイバリューラウンド1回、マイナスリスク2回を考慮した最適解",
+        "player_3": "9点！こんな美味しいカード、絶対に俺が取る！最強の6でぶちかます！"
+      }
+    },
+    {
+      "round": 11,
+      "pointCard": -3,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 6
+        },
+        {
+          "playerId": "player_2",
+          "card": 11
+        },
+        {
+          "playerId": "player_3",
+          "card": 5
+        }
+      ],
+      "winnerId": "player_3",
+      "reasoning": {
+        "player_1": "フフフ…今日の気分はこれ！6！理由？ないよ！それが私！",
+        "player_2": "期待値最適化: -3点カードに対し強度5/5の11を選択。将来ハイバリューラウンド1回、マイナスリスク1回を考慮した最適解",
+        "player_3": "マイナス-3点なんて要らない！最強の5で押し付けを回避！力ずくで行くぜ！"
+      }
+    },
+    {
+      "round": 12,
+      "pointCard": 6,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 5
+        },
+        {
+          "playerId": "player_2",
+          "card": 4
+        },
+        {
+          "playerId": "player_3",
+          "card": 4
+        }
+      ],
+      "winnerId": "player_1",
+      "reasoning": {
+        "player_1": "フフフ…今日の気分はこれ！5！理由？ないよ！それが私！",
+        "player_2": "期待値最適化: 6点カードに対し強度2/4の4を選択。将来ハイバリューラウンド1回、マイナスリスク1回を考慮した最適解",
+        "player_3": "6点！こんな美味しいカード、絶対に俺が取る！最強の4でぶちかます！"
+      }
+    },
+    {
+      "round": 13,
+      "pointCard": 10,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 3
+        },
+        {
+          "playerId": "player_2",
+          "card": 7
+        },
+        {
+          "playerId": "player_3",
+          "card": 3
+        }
+      ],
+      "winnerId": "player_2",
+      "reasoning": {
+        "player_1": "あえて逆張り！プラスカードに最弱の3を出す！みんな驚くでしょ？うふふ",
+        "player_2": "期待値最適化: 10点カードに対し強度3/3の7を選択。将来ハイバリューラウンド0回、マイナスリスク1回を考慮した最適解",
+        "player_3": "10点！こんな美味しいカード、絶対に俺が取る！最強の3でぶちかます！"
+      }
+    },
+    {
+      "round": 14,
+      "pointCard": 1,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 13
+        },
+        {
+          "playerId": "player_2",
+          "card": 1
+        },
+        {
+          "playerId": "player_3",
+          "card": 1
+        }
+      ],
+      "winnerId": "player_1",
+      "reasoning": {
+        "player_1": "んー…13かな。なんとなく！直感！",
+        "player_2": "期待値計算: 相手の平均手強度7.0に対し自分の中央値3.5。勝率低下を確認。最小投資の1で温存を選択。将来高得点ラウンド残り0回",
+        "player_3": "たった1点？強い手は温存だ。最弱の1で消化"
+      }
+    },
+    {
+      "round": 15,
+      "pointCard": -5,
+      "carryOver": [],
+      "selections": [
+        {
+          "playerId": "player_1",
+          "card": 12
+        },
+        {
+          "playerId": "player_2",
+          "card": 6
+        },
+        {
+          "playerId": "player_3",
+          "card": 2
+        }
+      ],
+      "winnerId": "player_3",
+      "reasoning": {
+        "player_1": "んー…12かな。なんとなく！直感！",
+        "player_2": "期待値最適化: -5点カードに対し強度1/1の6を選択。将来ハイバリューラウンド0回、マイナスリスク0回を考慮した最適解",
+        "player_3": "マイナス-5点なんて要らない！最強の2で押し付けを回避！力ずくで行くぜ！"
+      }
+    }
+  ],
+  "finalScores": [
+    {
+      "playerId": "player_2",
+      "name": "経済学者型AI",
+      "score": 19,
+      "rank": 1
+    },
+    {
+      "playerId": "player_1",
+      "name": "混沌型AI",
+      "score": 12,
+      "rank": 2
+    },
+    {
+      "playerId": "player_3",
+      "name": "攻撃型AI",
+      "score": 9,
+      "rank": 3
+    }
+  ]
+}

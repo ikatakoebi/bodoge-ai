@@ -1,0 +1,6 @@
+template,size,size_width,size_height,back_color,back_text,back_image,border_color,border_radius,border_color_field,field,position,fontSize,bold,italic,shape,bgColor,height,textColor
+default,mini,,,,,,,,,,,,,,,,,
+point,mini,,,#555555,?,,#666,10,color,value,center,48,TRUE,,,,,#ffffff
+,,,,,,,,,,name,top,9,,,,,,,#ffffff
+hand,mini,,,#1a4a8a,★,,#2980b9,10,color,value,center,48,TRUE,,,,,#ffffff
+,,,,,,,,,,name,top,9,,,,,,,#ffffff

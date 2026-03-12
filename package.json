@@ -1,0 +1,26 @@
+{
+  "name": "bodoge-ai",
+  "version": "1.0.0",
+  "description": "ハゲタカの餌食 AI自動プレイエンジン",
+  "type": "module",
+  "scripts": {
+    "play": "tsx src/cli/runner.ts --mode play --verbose",
+    "auto": "tsx src/cli/runner.ts --mode auto --verbose",
+    "stats": "tsx src/cli/runner.ts --mode auto --games 100",
+    "bridge:replay": "npx tsx src/bridge/runner.ts replay",
+    "bridge:play": "npx tsx src/bridge/runner.ts play",
+    "bridge:server": "npx tsx src/bridge/runner.ts server"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "minimist": "^1.2.8",
+    "playwright": "^1.58.2",
+    "socket.io-client": "^4.8.3"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

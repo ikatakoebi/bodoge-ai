@@ -1,0 +1,11 @@
+action,to,from,filter_tag,count,perPlayer,faceUp,when,component
+remove,,,hand_b,,,,players < 2,
+remove,,,hand_c,,,,players < 3,
+remove,,,hand_d,,,,players < 4,
+remove,,,hand_e,,,,players < 5,
+deal,point_deck,,point,15,false,false,,cards
+deal,p_hand_p0,,hand_a,15,false,true,,cards
+deal,p_hand_p1,,hand_b,15,false,true,,cards
+deal,p_hand_p2,,hand_c,15,false,true,,cards
+deal,p_hand_p3,,hand_d,15,false,true,,cards
+deal,p_hand_p4,,hand_e,15,false,true,,cards
