@@ -159,11 +159,8 @@ export class MajoBoardSync {
         baseX = witchArea.x * 10 + cardsEndX + COUNTER_GAP;
         baseY = (witchArea.y + witchArea.height / 2) * 10 - 21; // カウンター高さ42pxの中央
       } else {
-        // P3等の狭いエリア: p_saints下に配置
-        const saintsArea = this.client.getArea(`p_saints_${p.id}`);
-        baseY = saintsArea
-          ? (saintsArea.y + saintsArea.height) * 10 + 10
-          : (witchArea.y + witchArea.height) * 10 + 10;
+        // 狭いエリア: 魔女エリアの上に配置
+        baseY = witchArea.y * 10 - 42 - 10; // カウンター高さ42px + マージン10px
         baseX = witchArea.x * 10 + 4;
       }
 

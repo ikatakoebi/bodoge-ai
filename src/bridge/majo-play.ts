@@ -262,6 +262,18 @@ export class MajoPlayController {
     this.addLog(`魔女ゲー開始！ ${this._strategyNames.join(' / ')}`);
   }
 
+  /** フィールドアクション名をボードのカード定義から上書き */
+  updateFieldActionNames(nameMap: Record<string, string>): void {
+    if (!this.state) return;
+    this.state = {
+      ...this.state,
+      fieldActions: this.state.fieldActions.map((fa) => ({
+        ...fa,
+        name: nameMap[fa.id] ?? fa.name,
+      })),
+    };
+  }
+
   // ── メインループ ──
 
   async run(): Promise<void> {
