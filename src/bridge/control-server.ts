@@ -22,7 +22,7 @@ import {
   getFinalScores,
 } from '../engine/game.js';
 
-const DEFAULT_BOARD_URL = 'http://localhost:3210';
+const DEFAULT_BOARD_URL = process.env.BOARD_URL || 'http://localhost:3210';
 
 // ── グローバル状態 ────────────────────────────────────────────────────────────
 
@@ -1241,7 +1241,7 @@ function getHtml(): string {
           <summary style="font-size:11px;color:var(--text-muted);cursor:pointer">詳細設定</summary>
           <div style="margin-top:6px">
             <label>サーバーURL</label>
-            <input type="text" id="boardUrl" value="http://localhost:3210" placeholder="http://localhost:3210" />
+            <input type="text" id="boardUrl" value="${DEFAULT_BOARD_URL}" placeholder="${DEFAULT_BOARD_URL}" />
           </div>
         </details>
         <div>
