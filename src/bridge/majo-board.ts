@@ -397,13 +397,12 @@ export class MajoBoardSync {
     }
   }
 
-  /** エンジンカードIDからボードインスタンスIDを解決（キャッシュ付き） */
+  /** エンジンカードIDからボードインスタンスIDを解決（キャッシュ付き、なければ動的生成） */
   private resolveInstance(engineId: string): string | null {
     if (this.instanceCache.has(engineId)) {
       return this.instanceCache.get(engineId)!;
     }
     const instances = this.client.getCardsByDefinition(engineId);
-    if (instances.length === 0) return null;
 
     const used = new Set(this.instanceCache.values());
     for (const inst of instances) {
@@ -412,7 +411,11 @@ export class MajoBoardSync {
         return inst.instanceId;
       }
     }
-    return null;
+
+    // ボードにインスタンスが存在しない場合は動的生成
+    const newInstanceId = this.client.createCardInstance(engineId);
+    this.instanceCache.set(engineId, newInstanceId);
+    return newInstanceId;
   }
 
   /** 魔女カード(M33)のタップ/アンタップ表示を同期 */
