@@ -1,6 +1,6 @@
 /**
  * 魔女ゲー プレイコントローラー
- * コントロールパネル経由で人間 vs AI の対戦を管理する
+ * 複数人間 vs AI の対戦を管理する
  */
 
 import {
@@ -18,15 +18,16 @@ import type {
 // ── 公開インターフェース ──
 
 export interface MajoPlayOptions {
-  humanPlayerIndex?: number;  // 人間のプレイヤー番号（0-3）。デフォルト0
-  aiStrategies?: string[];    // AI戦略ID（人間以外のプレイヤー用）
-  aiDelay?: number;           // AIアクション間のディレイ(ms)。デフォルト800
+  humanPlayerIndices?: number[];  // 人間のプレイヤー番号（0-3）。デフォルト[0]
+  humanNames?: string[];          // 人間プレイヤー名（省略時は「あなた」）
+  aiStrategies?: string[];        // AI戦略ID（人間以外のプレイヤー用）
+  aiDelay?: number;               // AIアクション間のディレイ(ms)。デフォルト800
 }
 
 export interface MajoActionChoice {
   index: number;
   description: string;
-  category: 'relic' | 'extra_combat' | 'field' | 'witch' | 'pass';
+  category: 'relic' | 'extra_combat' | 'field' | 'witch' | 'pass' | 'combat';
 }
 
 export interface MajoPlayerInfo {
@@ -65,7 +66,8 @@ export interface MajoGameInfo {
 
   // プレイヤー情報
   players: MajoPlayerInfo[];
-  humanPlayerId: string;
+  humanPlayerId: string;          // 後方互換（最初の人間プレイヤー）
+  humanPlayerIds: string[];       // 全人間プレイヤーID
 
   // 選択肢（人間ターンのみ）
   availableActions: MajoActionChoice[];
@@ -84,13 +86,19 @@ export interface MajoGameInfo {
 export class MajoPlayController {
   private state: MajoGameState;
   private strategies: Map<string, MajoAIStrategy> = new Map();
-  private humanPlayerId: string;
-  private opts: Required<MajoPlayOptions>;
+  private humanPlayerIds: Set<string> = new Set();
+  private opts: {
+    humanPlayerIndices: number[];
+    humanNames: string[];
+    aiStrategies: string[];
+    aiDelay: number;
+  };
   private players: PlayerConfig[] = [];
 
   private log: string[] = [];
   private resolveAction: ((index: number) => void) | null = null;
   private waitingForHuman = false;
+  private waitingPlayerId: string = '';
   private aborted = false;
   private finished = false;
   private cachedActions: MajoAction[] = [];
@@ -100,8 +108,10 @@ export class MajoPlayController {
   private _strategyNames: string[] = [];
 
   constructor(opts: MajoPlayOptions = {}) {
+    const humanIndices = opts.humanPlayerIndices ?? [opts.humanPlayerIndices !== undefined ? 0 : 0];
     this.opts = {
-      humanPlayerIndex: opts.humanPlayerIndex ?? 0,
+      humanPlayerIndices: humanIndices.length > 0 ? humanIndices : [0],
+      humanNames: opts.humanNames ?? [],
       aiStrategies: opts.aiStrategies ?? [],
       aiDelay: opts.aiDelay ?? 800,
     };
@@ -110,15 +120,19 @@ export class MajoPlayController {
     const playerCount = 4;
     let aiIdx = 0;
     const strategyNames: string[] = [];
+    const humanIdxSet = new Set(this.opts.humanPlayerIndices);
 
     for (let i = 0; i < playerCount; i++) {
-      if (i === this.opts.humanPlayerIndex) {
+      if (humanIdxSet.has(i)) {
+        const humanIdx = this.opts.humanPlayerIndices.indexOf(i);
+        const humanName = this.opts.humanNames[humanIdx] || 'あなた';
         this.players.push({
           id: `p${i}`,
-          name: `P${i + 1} あなた`,
+          name: `P${i + 1} ${humanName}`,
           type: 'human',
         });
-        strategyNames.push('人間');
+        this.humanPlayerIds.add(`p${i}`);
+        strategyNames.push(humanName);
       } else {
         const stratId = this.opts.aiStrategies[aiIdx] ?? getRandomMajoStrategy().id;
         const strategy = getMajoStrategy(stratId);
@@ -135,7 +149,6 @@ export class MajoPlayController {
       }
     }
 
-    this.humanPlayerId = `p${this.opts.humanPlayerIndex}`;
     // state は initGame() で非同期初期化
     this.state = undefined as unknown as MajoGameState;
     this._strategyNames = strategyNames;
@@ -151,9 +164,26 @@ export class MajoPlayController {
     return !!this.state;
   }
 
+  /** 人間プレイヤーかどうか */
+  isHumanPlayer(playerId: string): boolean {
+    return this.humanPlayerIds.has(playerId);
+  }
+
+  /** 全人間プレイヤーIDを返す */
+  getHumanPlayerIds(): string[] {
+    return [...this.humanPlayerIds];
+  }
+
+  /** 現在アクション待ちの人間プレイヤーID（待ちでなければ空文字） */
+  getWaitingPlayerId(): string {
+    return this.waitingForHuman ? this.waitingPlayerId : '';
+  }
+
   getGameInfo(): MajoGameInfo {
+    const humanIds = [...this.humanPlayerIds];
+    const firstHumanId = humanIds[0] ?? 'p0';
+
     if (!this.state) {
-      // state未初期化時のダミー情報
       return {
         round: 0, phase: 'action',
         currentPlayerId: '', currentPlayerName: '',
@@ -161,20 +191,21 @@ export class MajoPlayController {
         toolSupply: [], saintSupply: [],
         relicDeckCount: 0, toolDeckCount: 0, saintDeckCount: 0,
         fieldActions: [], players: [],
-        humanPlayerId: this.humanPlayerId,
+        humanPlayerId: firstHumanId,
+        humanPlayerIds: humanIds,
         availableActions: [], lastEvents: [], log: [],
         gameOver: false, finalScores: null,
       };
     }
     const current = getCurrentPlayer(this.state);
-    const isHumanTurn = current.config.id === this.humanPlayerId && !this.finished;
+    const isHumanTurn = this.humanPlayerIds.has(current.config.id) && !this.finished;
 
     // プレイヤー情報
     const players: MajoPlayerInfo[] = this.state.players.map((p) => ({
       id: p.config.id,
       name: p.config.name,
       strategy: p.config.strategyId ?? '人間',
-      isHuman: p.config.id === this.humanPlayerId,
+      isHuman: this.humanPlayerIds.has(p.config.id),
       mana: p.mana,
       tappedMana: p.tappedMana,
       vp: p.victoryPoints,
@@ -198,7 +229,7 @@ export class MajoPlayController {
     if (isHumanTurn && this.waitingForHuman) {
       availableActions = this.cachedActions.map((a, i) => ({
         index: i,
-        description: describeAction(a, this.state, getPlayer(this.state, this.humanPlayerId)),
+        description: describeAction(a, this.state, getPlayer(this.state, current.config.id)),
         category: categorizeAction(a),
       }));
     }
@@ -224,7 +255,8 @@ export class MajoPlayController {
         id: f.id, name: f.name, maxSlots: f.maxSlots, usedSlots: f.usedSlots, cost: f.cost,
       })),
       players,
-      humanPlayerId: this.humanPlayerId,
+      humanPlayerId: firstHumanId,
+      humanPlayerIds: humanIds,
       availableActions,
       lastEvents: this.state.lastEvents,
       log: this.log.slice(-100),
@@ -233,12 +265,15 @@ export class MajoPlayController {
     };
   }
 
-  selectAction(index: number): boolean {
+  selectAction(index: number, playerId?: string): boolean {
     if (!this.waitingForHuman) return false;
     if (index < 0 || index >= this.cachedActions.length) return false;
     if (!this.resolveAction) return false;
+    // playerIdが指定されてる場合、正しいプレイヤーかチェック
+    if (playerId && playerId !== this.waitingPlayerId) return false;
 
     this.waitingForHuman = false;
+    this.waitingPlayerId = '';
     const resolve = this.resolveAction;
     this.resolveAction = null;
     resolve(index);
@@ -252,6 +287,7 @@ export class MajoPlayController {
       const resolve = this.resolveAction;
       this.resolveAction = null;
       this.waitingForHuman = false;
+      this.waitingPlayerId = '';
       resolve(0); // パスを選択して終了
     }
   }
@@ -291,11 +327,12 @@ export class MajoPlayController {
 
         const current = getCurrentPlayer(this.state);
 
-        if (current.config.id === this.humanPlayerId) {
+        if (this.humanPlayerIds.has(current.config.id)) {
           // 人間のターン
-          const actions = getAvailableActions(this.state, this.humanPlayerId);
+          const actions = getAvailableActions(this.state, current.config.id);
           this.cachedActions = actions;
           this.waitingForHuman = true;
+          this.waitingPlayerId = current.config.id;
           this.notifyUpdate();
 
           const selectedIndex = await new Promise<number>((resolve) => {
@@ -305,7 +342,7 @@ export class MajoPlayController {
           if (this.aborted) break;
 
           const action = actions[selectedIndex];
-          this.addLog(`🎮 あなた: ${describeAction(action, this.state, getPlayer(this.state, this.humanPlayerId))}`);
+          this.addLog(`🎮 ${current.config.name}: ${describeAction(action, this.state, current)}`);
           this.state = executeAction(this.state, action);
           this.cachedActions = [];
         } else {
@@ -357,7 +394,7 @@ export class MajoPlayController {
     this.addLog('━━━ ゲーム終了 ━━━');
     for (const s of this.finalScores) {
       const medal = s.rank === 1 ? '👑' : s.rank === 2 ? '🥈' : s.rank === 3 ? '🥉' : '  ';
-      const isHuman = s.playerId === this.humanPlayerId ? ' ← あなた' : '';
+      const isHuman = this.humanPlayerIds.has(s.playerId) ? ' ← あなた' : '';
       this.addLog(`${medal} ${s.rank}位 ${s.name}: ★${s.victoryPoints}VP${isHuman}`);
     }
     this.notifyUpdate();
@@ -371,43 +408,20 @@ export class MajoPlayController {
   }
 
   private notifyUpdate() {
-    this.onUpdate?.();
+    if (this.onUpdate) this.onUpdate();
   }
 }
 
 // ── ユーティリティ ──
 
 function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise((r) => setTimeout(r, ms));
 }
 
-function playerIcon(id: string): string {
-  switch (id) {
-    case 'p0': return '🔵';
-    case 'p1': return '🟣';
-    case 'p2': return '🟢';
-    case 'p3': return '🟡';
-    default: return '⚪';
-  }
-}
-
-function categorizeAction(action: MajoAction): MajoActionChoice['category'] {
-  switch (action.type) {
-    case 'use_relic': return 'relic';
-    case 'extra_combat': return 'extra_combat';
-    case 'use_witch': return 'witch';
-    case 'pass': return 'pass';
-    case 'combat_select_saint': return 'field';
-    case 'combat_add_tool': return 'field';
-    case 'combat_activate_amulet': return 'relic';
-    case 'combat_execute': return 'field';
-    case 'combat_retreat': return 'pass';
-    case 'use_tool_turn': return 'field';
-    case 'select_saint_discard': return 'relic';
-    case 'untap_tool': return 'field';
-    case 'select_free_tool': return 'relic';
-    default: return 'field';
-  }
+function playerIcon(playerId: string): string {
+  const icons = ['🔴', '🟢', '🔵', '🟠', '🟣'];
+  const idx = parseInt(playerId.replace('p', ''), 10);
+  return icons[idx] ?? '⚪';
 }
 
 /** state.fieldActionsからフィールド名を取得（スプシ反映） */
@@ -573,6 +587,24 @@ function describeAction(action: MajoAction, state: MajoGameState, player: MajoPl
     }
 
     default:
-      return (action as any).type;
+      return `アクション: ${action.type}`;
   }
 }
+
+function categorizeAction(action: MajoAction): MajoActionChoice['category'] {
+  switch (action.type) {
+    case 'pass': return 'pass';
+    case 'use_witch': return 'witch';
+    case 'use_relic': return 'relic';
+    case 'extra_combat': return 'extra_combat';
+    case 'combat_select_saint':
+    case 'combat_add_tool':
+    case 'combat_activate_amulet':
+    case 'combat_execute':
+    case 'combat_retreat':
+      return 'combat';
+    default: return 'field';
+  }
+}
+
+export { calculateCombatPower, getEffectiveMagicPower } from '../engine/majo.js';
