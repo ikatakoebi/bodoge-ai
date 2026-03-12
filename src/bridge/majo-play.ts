@@ -61,7 +61,7 @@ export interface MajoGameInfo {
   saintDeckCount: number;
 
   // フィールド
-  fieldActions: Array<{ id: string; name: string; maxSlots: number; usedSlots: number }>;
+  fieldActions: Array<{ id: string; name: string; maxSlots: number; usedSlots: number; cost: number | 'variable' }>;
 
   // プレイヤー情報
   players: MajoPlayerInfo[];
@@ -147,7 +147,25 @@ export class MajoPlayController {
     this.onUpdate = cb;
   }
 
+  isReady(): boolean {
+    return !!this.state;
+  }
+
   getGameInfo(): MajoGameInfo {
+    if (!this.state) {
+      // state未初期化時のダミー情報
+      return {
+        round: 0, phase: 'action',
+        currentPlayerId: '', currentPlayerName: '',
+        isHumanTurn: false,
+        toolSupply: [], saintSupply: [],
+        relicDeckCount: 0, toolDeckCount: 0, saintDeckCount: 0,
+        fieldActions: [], players: [],
+        humanPlayerId: this.humanPlayerId,
+        availableActions: [], lastEvents: [], log: [],
+        gameOver: false, finalScores: null,
+      };
+    }
     const current = getCurrentPlayer(this.state);
     const isHumanTurn = current.config.id === this.humanPlayerId && !this.finished;
 
@@ -203,7 +221,7 @@ export class MajoPlayController {
       toolDeckCount: this.state.toolDeck.length,
       saintDeckCount: this.state.saintDeck.length,
       fieldActions: this.state.fieldActions.map((f) => ({
-        id: f.id, name: f.name, maxSlots: f.maxSlots, usedSlots: f.usedSlots,
+        id: f.id, name: f.name, maxSlots: f.maxSlots, usedSlots: f.usedSlots, cost: f.cost,
       })),
       players,
       humanPlayerId: this.humanPlayerId,
