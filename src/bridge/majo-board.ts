@@ -116,10 +116,12 @@ export class MajoBoardSync {
     const areaH = fieldArea.height * 10;
 
     // 2段の縦配置: standardカード176px高, colStep=140px
-    // 2段合計 = 176 + 20(隙間) + 176 = 372px
-    const topMargin = Math.floor((areaH - (MAJO_CARD_HEIGHT * 2 + 20)) / 2);
+    // スロットインジケーター分(30px)を考慮した行間=50px
+    // 2段合計 = 176 + 50(隙間) + 176 = 402px
+    const ROW_GAP = 50;
+    const topMargin = Math.max(0, Math.floor((areaH - (MAJO_CARD_HEIGHT * 2 + ROW_GAP)) / 2));
     const row1Y = areaY + topMargin;
-    const row2Y = row1Y + MAJO_CARD_HEIGHT + 20; // 176 + 20 = 196px下
+    const row2Y = row1Y + MAJO_CARD_HEIGHT + ROW_GAP;
 
     const actionIds = Object.keys(FIELD_ACTION_CARD_MAP);
     for (let i = 0; i < actionIds.length; i++) {
@@ -489,12 +491,7 @@ export class MajoBoardSync {
       parts.push(info.lastEvents.slice(0, 2).join(' / '));
     }
 
-    // スロット情報をアナウンスに含める
-    const slots = info.fieldActions.map((fa) => {
-      const max = fa.maxSlots < 0 ? '∞' : `${fa.maxSlots}`;
-      return `${fa.name}${fa.usedSlots}/${max}`;
-    }).join(' ');
-    parts.push(slots);
+    // スロット情報はボード上のスロットインジケーターで表示（アナウンスからは削除）
 
     return parts.join(' - ');
   }

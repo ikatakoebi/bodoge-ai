@@ -1,0 +1,853 @@
+{
+  "totalGames": 36000,
+  "tools": [
+    {
+      "id": "M26",
+      "name": "杖",
+      "timesBought": 18288,
+      "totalVPWhenOwned": 108103,
+      "gamesWhenOwned": 18288,
+      "totalVPWhenNotOwned": 511145,
+      "gamesWhenNotOwned": 125712,
+      "avgVPWhenOwned": 5.911143919510061,
+      "avgVPWhenNotOwned": 4.066000063637521,
+      "winCorrelation": 1.8451438558725402
+    },
+    {
+      "id": "M4",
+      "name": "魔導書",
+      "timesBought": 17383,
+      "totalVPWhenOwned": 91635,
+      "gamesWhenOwned": 17383,
+      "totalVPWhenNotOwned": 527601,
+      "gamesWhenNotOwned": 126614,
+      "avgVPWhenOwned": 5.2715296554104585,
+      "avgVPWhenNotOwned": 4.167003648885589,
+      "winCorrelation": 1.1045260065248694
+    },
+    {
+      "id": "M2",
+      "name": "杖",
+      "timesBought": 18662,
+      "totalVPWhenOwned": 97165,
+      "gamesWhenOwned": 18662,
+      "totalVPWhenNotOwned": 522083,
+      "gamesWhenNotOwned": 125338,
+      "avgVPWhenOwned": 5.2065694995177365,
+      "avgVPWhenNotOwned": 4.165400756354817,
+      "winCorrelation": 1.0411687431629195
+    },
+    {
+      "id": "M3",
+      "name": "杖",
+      "timesBought": 18501,
+      "totalVPWhenOwned": 95934,
+      "gamesWhenOwned": 18501,
+      "totalVPWhenNotOwned": 523314,
+      "gamesWhenNotOwned": 125499,
+      "avgVPWhenOwned": 5.185341332900924,
+      "avgVPWhenNotOwned": 4.1698658953457794,
+      "winCorrelation": 1.0154754375551445
+    },
+    {
+      "id": "M10",
+      "name": "魔導書",
+      "timesBought": 17255,
+      "totalVPWhenOwned": 88809,
+      "gamesWhenOwned": 17255,
+      "totalVPWhenNotOwned": 530439,
+      "gamesWhenNotOwned": 126745,
+      "avgVPWhenOwned": 5.146855983772819,
+      "avgVPWhenNotOwned": 4.185088169158547,
+      "winCorrelation": 0.9617678146142721
+    },
+    {
+      "id": "M16",
+      "name": "杖",
+      "timesBought": 16944,
+      "totalVPWhenOwned": 86815,
+      "gamesWhenOwned": 16944,
+      "totalVPWhenNotOwned": 532429,
+      "gamesWhenNotOwned": 127054,
+      "avgVPWhenOwned": 5.123642587346553,
+      "avgVPWhenNotOwned": 4.19057251247501,
+      "winCorrelation": 0.9330700748715426
+    },
+    {
+      "id": "M1",
+      "name": "魔剣",
+      "timesBought": 18488,
+      "totalVPWhenOwned": 93947,
+      "gamesWhenOwned": 18488,
+      "totalVPWhenNotOwned": 525301,
+      "gamesWhenNotOwned": 125512,
+      "avgVPWhenOwned": 5.081512332323669,
+      "avgVPWhenNotOwned": 4.185265153929505,
+      "winCorrelation": 0.8962471783941641
+    },
+    {
+      "id": "M17",
+      "name": "水晶玉",
+      "timesBought": 16966,
+      "totalVPWhenOwned": 85423,
+      "gamesWhenOwned": 16966,
+      "totalVPWhenNotOwned": 533825,
+      "gamesWhenNotOwned": 127034,
+      "avgVPWhenOwned": 5.034952257456089,
+      "avgVPWhenNotOwned": 4.202221452524521,
+      "winCorrelation": 0.8327308049315683
+    },
+    {
+      "id": "M8",
+      "name": "杖",
+      "timesBought": 18450,
+      "totalVPWhenOwned": 91742,
+      "gamesWhenOwned": 18450,
+      "totalVPWhenNotOwned": 527506,
+      "gamesWhenNotOwned": 125550,
+      "avgVPWhenOwned": 4.9724661246612465,
+      "avgVPWhenNotOwned": 4.201561131023497,
+      "winCorrelation": 0.7709049936377497
+    },
+    {
+      "id": "M14",
+      "name": "杖",
+      "timesBought": 18806,
+      "totalVPWhenOwned": 93411,
+      "gamesWhenOwned": 18806,
+      "totalVPWhenNotOwned": 525837,
+      "gamesWhenNotOwned": 125194,
+      "avgVPWhenOwned": 4.967084972880995,
+      "avgVPWhenNotOwned": 4.200177324791923,
+      "winCorrelation": 0.766907648089072
+    },
+    {
+      "id": "M15",
+      "name": "杖",
+      "timesBought": 18926,
+      "totalVPWhenOwned": 93688,
+      "gamesWhenOwned": 18926,
+      "totalVPWhenNotOwned": 525548,
+      "gamesWhenNotOwned": 125071,
+      "avgVPWhenOwned": 4.950227200676318,
+      "avgVPWhenNotOwned": 4.201997265553166,
+      "winCorrelation": 0.7482299351231525
+    },
+    {
+      "id": "M9",
+      "name": "杖",
+      "timesBought": 18448,
+      "totalVPWhenOwned": 91152,
+      "gamesWhenOwned": 18448,
+      "totalVPWhenNotOwned": 528092,
+      "gamesWhenNotOwned": 125550,
+      "avgVPWhenOwned": 4.941023417172593,
+      "avgVPWhenNotOwned": 4.206228594185584,
+      "winCorrelation": 0.7347948229870092
+    },
+    {
+      "id": "M5",
+      "name": "魔導書",
+      "timesBought": 17560,
+      "totalVPWhenOwned": 86816,
+      "gamesWhenOwned": 17560,
+      "totalVPWhenNotOwned": 532428,
+      "gamesWhenNotOwned": 126438,
+      "avgVPWhenOwned": 4.943963553530752,
+      "avgVPWhenNotOwned": 4.210980876002467,
+      "winCorrelation": 0.7329826775282848
+    },
+    {
+      "id": "M13",
+      "name": "魔剣",
+      "timesBought": 18859,
+      "totalVPWhenOwned": 93060,
+      "gamesWhenOwned": 18859,
+      "totalVPWhenNotOwned": 526184,
+      "gamesWhenNotOwned": 125139,
+      "avgVPWhenOwned": 4.934514025133888,
+      "avgVPWhenNotOwned": 4.204796266551595,
+      "winCorrelation": 0.7297177585822929
+    },
+    {
+      "id": "M22",
+      "name": "魔剣",
+      "timesBought": 17325,
+      "totalVPWhenOwned": 85348,
+      "gamesWhenOwned": 17325,
+      "totalVPWhenNotOwned": 533900,
+      "gamesWhenNotOwned": 126675,
+      "avgVPWhenOwned": 4.926291486291486,
+      "avgVPWhenNotOwned": 4.214722715610815,
+      "winCorrelation": 0.711568770680671
+    },
+    {
+      "id": "M7",
+      "name": "魔剣",
+      "timesBought": 18353,
+      "totalVPWhenOwned": 89884,
+      "gamesWhenOwned": 18353,
+      "totalVPWhenNotOwned": 529362,
+      "gamesWhenNotOwned": 125646,
+      "avgVPWhenOwned": 4.897509943878385,
+      "avgVPWhenNotOwned": 4.213122582493673,
+      "winCorrelation": 0.6843873613847116
+    },
+    {
+      "id": "M25",
+      "name": "魔剣",
+      "timesBought": 13167,
+      "totalVPWhenOwned": 64782,
+      "gamesWhenOwned": 13167,
+      "totalVPWhenNotOwned": 554466,
+      "gamesWhenNotOwned": 130833,
+      "avgVPWhenOwned": 4.920027341079972,
+      "avgVPWhenNotOwned": 4.237967485267478,
+      "winCorrelation": 0.6820598558124944
+    },
+    {
+      "id": "M21",
+      "name": "魔剣",
+      "timesBought": 17301,
+      "totalVPWhenOwned": 84593,
+      "gamesWhenOwned": 17301,
+      "totalVPWhenNotOwned": 534653,
+      "gamesWhenNotOwned": 126698,
+      "avgVPWhenOwned": 4.889486156869545,
+      "avgVPWhenNotOwned": 4.219900866627729,
+      "winCorrelation": 0.669585290241816
+    },
+    {
+      "id": "M20",
+      "name": "魔剣",
+      "timesBought": 17363,
+      "totalVPWhenOwned": 83728,
+      "gamesWhenOwned": 17363,
+      "totalVPWhenNotOwned": 535520,
+      "gamesWhenNotOwned": 126637,
+      "avgVPWhenOwned": 4.82220814375396,
+      "avgVPWhenNotOwned": 4.2287798984499005,
+      "winCorrelation": 0.5934282453040591
+    },
+    {
+      "id": "M11",
+      "name": "魔導書",
+      "timesBought": 17148,
+      "totalVPWhenOwned": 81163,
+      "gamesWhenOwned": 17148,
+      "totalVPWhenNotOwned": 538085,
+      "gamesWhenNotOwned": 126852,
+      "avgVPWhenOwned": 4.73308840681129,
+      "avgVPWhenNotOwned": 4.241833002238829,
+      "winCorrelation": 0.49125540457246064
+    },
+    {
+      "id": "M28",
+      "name": "護符",
+      "timesBought": 4974,
+      "totalVPWhenOwned": 23634,
+      "gamesWhenOwned": 4974,
+      "totalVPWhenNotOwned": 595614,
+      "gamesWhenNotOwned": 139026,
+      "avgVPWhenOwned": 4.751507840772015,
+      "avgVPWhenNotOwned": 4.284191446204307,
+      "winCorrelation": 0.4673163945677077
+    },
+    {
+      "id": "M27",
+      "name": "水晶玉",
+      "timesBought": 8213,
+      "totalVPWhenOwned": 38125,
+      "gamesWhenOwned": 8213,
+      "totalVPWhenNotOwned": 581123,
+      "gamesWhenNotOwned": 135787,
+      "avgVPWhenOwned": 4.642030926579812,
+      "avgVPWhenNotOwned": 4.2796659474029175,
+      "winCorrelation": 0.3623649791768946
+    },
+    {
+      "id": "M18",
+      "name": "水晶玉",
+      "timesBought": 17024,
+      "totalVPWhenOwned": 77402,
+      "gamesWhenOwned": 17024,
+      "totalVPWhenNotOwned": 541846,
+      "gamesWhenNotOwned": 126976,
+      "avgVPWhenOwned": 4.546640037593985,
+      "avgVPWhenNotOwned": 4.267310357862903,
+      "winCorrelation": 0.2793296797310818
+    },
+    {
+      "id": "M23",
+      "name": "水晶玉",
+      "timesBought": 14915,
+      "totalVPWhenOwned": 62497,
+      "gamesWhenOwned": 14915,
+      "totalVPWhenNotOwned": 556751,
+      "gamesWhenNotOwned": 129085,
+      "avgVPWhenOwned": 4.190211196781763,
+      "avgVPWhenNotOwned": 4.313057287833598,
+      "winCorrelation": -0.12284609105183542
+    },
+    {
+      "id": "M19",
+      "name": "護符",
+      "timesBought": 2686,
+      "totalVPWhenOwned": 7236,
+      "gamesWhenOwned": 2686,
+      "totalVPWhenNotOwned": 612000,
+      "gamesWhenNotOwned": 141311,
+      "avgVPWhenOwned": 2.6939687267311987,
+      "avgVPWhenNotOwned": 4.330873038900015,
+      "winCorrelation": -1.6369043121688165
+    },
+    {
+      "id": "M12",
+      "name": "護符",
+      "timesBought": 2348,
+      "totalVPWhenOwned": 6078,
+      "gamesWhenOwned": 2348,
+      "totalVPWhenNotOwned": 613170,
+      "gamesWhenNotOwned": 141652,
+      "avgVPWhenOwned": 2.5885860306643953,
+      "avgVPWhenNotOwned": 4.328706972015926,
+      "winCorrelation": -1.7401209413515306
+    },
+    {
+      "id": "M24",
+      "name": "護符",
+      "timesBought": 2699,
+      "totalVPWhenOwned": 6855,
+      "gamesWhenOwned": 2699,
+      "totalVPWhenNotOwned": 612393,
+      "gamesWhenNotOwned": 141301,
+      "avgVPWhenOwned": 2.5398295665061132,
+      "avgVPWhenNotOwned": 4.333960835379792,
+      "winCorrelation": -1.794131268873679
+    },
+    {
+      "id": "M6",
+      "name": "護符",
+      "timesBought": 2502,
+      "totalVPWhenOwned": 6241,
+      "gamesWhenOwned": 2502,
+      "totalVPWhenNotOwned": 613007,
+      "gamesWhenNotOwned": 141498,
+      "avgVPWhenOwned": 2.494404476418865,
+      "avgVPWhenNotOwned": 4.332266180440713,
+      "winCorrelation": -1.8378617040218477
+    }
+  ],
+  "saints": [
+    {
+      "id": "M87",
+      "name": "ケルビム",
+      "timesKilled": 19142,
+      "killedByStrategy": {
+        "majo_economist": 4807,
+        "majo_aggressive": 4976,
+        "majo_balanced": 4774,
+        "majo_evolved": 4585
+      }
+    },
+    {
+      "id": "M86",
+      "name": "メタトロン",
+      "timesKilled": 19079,
+      "killedByStrategy": {
+        "majo_evolved": 4621,
+        "majo_economist": 4928,
+        "majo_balanced": 4788,
+        "majo_aggressive": 4742
+      }
+    },
+    {
+      "id": "M88",
+      "name": "アズラエル",
+      "timesKilled": 19066,
+      "killedByStrategy": {
+        "majo_evolved": 4489,
+        "majo_economist": 4854,
+        "majo_balanced": 4851,
+        "majo_aggressive": 4872
+      }
+    },
+    {
+      "id": "M89",
+      "name": "セラフィム",
+      "timesKilled": 19044,
+      "killedByStrategy": {
+        "majo_evolved": 4893,
+        "majo_balanced": 4770,
+        "majo_economist": 4736,
+        "majo_aggressive": 4645
+      }
+    },
+    {
+      "id": "M85",
+      "name": "ウリエル",
+      "timesKilled": 18887,
+      "killedByStrategy": {
+        "majo_aggressive": 4811,
+        "majo_balanced": 4708,
+        "majo_economist": 4803,
+        "majo_evolved": 4565
+      }
+    },
+    {
+      "id": "M84",
+      "name": "ガブリエル",
+      "timesKilled": 18851,
+      "killedByStrategy": {
+        "majo_evolved": 4704,
+        "majo_economist": 4706,
+        "majo_balanced": 4730,
+        "majo_aggressive": 4711
+      }
+    },
+    {
+      "id": "M83",
+      "name": "セラフィム",
+      "timesKilled": 18628,
+      "killedByStrategy": {
+        "majo_balanced": 4742,
+        "majo_aggressive": 4583,
+        "majo_evolved": 4641,
+        "majo_economist": 4662
+      }
+    },
+    {
+      "id": "M81",
+      "name": "ケルビム",
+      "timesKilled": 18568,
+      "killedByStrategy": {
+        "majo_balanced": 4630,
+        "majo_evolved": 4656,
+        "majo_economist": 4599,
+        "majo_aggressive": 4683
+      }
+    },
+    {
+      "id": "M82",
+      "name": "アズラエル",
+      "timesKilled": 18503,
+      "killedByStrategy": {
+        "majo_economist": 4604,
+        "majo_aggressive": 4600,
+        "majo_evolved": 4718,
+        "majo_balanced": 4581
+      }
+    },
+    {
+      "id": "M90",
+      "name": "ガブリエル",
+      "timesKilled": 18218,
+      "killedByStrategy": {
+        "majo_economist": 4797,
+        "majo_aggressive": 4727,
+        "majo_balanced": 4770,
+        "majo_evolved": 3924
+      }
+    },
+    {
+      "id": "M80",
+      "name": "メタトロン",
+      "timesKilled": 17262,
+      "killedByStrategy": {
+        "majo_evolved": 6320,
+        "majo_economist": 3749,
+        "majo_balanced": 3593,
+        "majo_aggressive": 3600
+      }
+    },
+    {
+      "id": "M77",
+      "name": "セラフィム",
+      "timesKilled": 17256,
+      "killedByStrategy": {
+        "majo_evolved": 6218,
+        "majo_balanced": 3754,
+        "majo_aggressive": 3615,
+        "majo_economist": 3669
+      }
+    },
+    {
+      "id": "M94",
+      "name": "アズラエル",
+      "timesKilled": 17217,
+      "killedByStrategy": {
+        "majo_economist": 4486,
+        "majo_aggressive": 4408,
+        "majo_evolved": 3992,
+        "majo_balanced": 4331
+      }
+    },
+    {
+      "id": "M76",
+      "name": "アズラエル",
+      "timesKilled": 17154,
+      "killedByStrategy": {
+        "majo_economist": 3772,
+        "majo_balanced": 3613,
+        "majo_evolved": 6247,
+        "majo_aggressive": 3522
+      }
+    },
+    {
+      "id": "M78",
+      "name": "ガブリエル",
+      "timesKilled": 17070,
+      "killedByStrategy": {
+        "majo_economist": 3685,
+        "majo_evolved": 6067,
+        "majo_aggressive": 3585,
+        "majo_balanced": 3733
+      }
+    },
+    {
+      "id": "M79",
+      "name": "ウリエル",
+      "timesKilled": 17026,
+      "killedByStrategy": {
+        "majo_balanced": 3632,
+        "majo_evolved": 6245,
+        "majo_economist": 3586,
+        "majo_aggressive": 3563
+      }
+    },
+    {
+      "id": "M91",
+      "name": "ウリエル",
+      "timesKilled": 16733,
+      "killedByStrategy": {
+        "majo_evolved": 2752,
+        "majo_aggressive": 4638,
+        "majo_balanced": 4668,
+        "majo_economist": 4675
+      }
+    },
+    {
+      "id": "M92",
+      "name": "メタトロン",
+      "timesKilled": 16247,
+      "killedByStrategy": {
+        "majo_balanced": 4370,
+        "majo_evolved": 3098,
+        "majo_aggressive": 4385,
+        "majo_economist": 4394
+      }
+    },
+    {
+      "id": "M93",
+      "name": "ケルビム",
+      "timesKilled": 15842,
+      "killedByStrategy": {
+        "majo_economist": 4243,
+        "majo_balanced": 4290,
+        "majo_evolved": 3048,
+        "majo_aggressive": 4261
+      }
+    },
+    {
+      "id": "M73",
+      "name": "ウリエル",
+      "timesKilled": 14422,
+      "killedByStrategy": {
+        "majo_economist": 3123,
+        "majo_evolved": 5217,
+        "majo_balanced": 3007,
+        "majo_aggressive": 3075
+      }
+    },
+    {
+      "id": "M74",
+      "name": "メタトロン",
+      "timesKilled": 14402,
+      "killedByStrategy": {
+        "majo_aggressive": 3124,
+        "majo_evolved": 5130,
+        "majo_balanced": 3035,
+        "majo_economist": 3113
+      }
+    },
+    {
+      "id": "M71",
+      "name": "セラフィム",
+      "timesKilled": 14393,
+      "killedByStrategy": {
+        "majo_economist": 3050,
+        "majo_aggressive": 3098,
+        "majo_balanced": 3040,
+        "majo_evolved": 5205
+      }
+    },
+    {
+      "id": "M75",
+      "name": "ケルビム",
+      "timesKilled": 14351,
+      "killedByStrategy": {
+        "majo_aggressive": 2977,
+        "majo_balanced": 3117,
+        "majo_economist": 3062,
+        "majo_evolved": 5195
+      }
+    },
+    {
+      "id": "M72",
+      "name": "ガブリエル",
+      "timesKilled": 14326,
+      "killedByStrategy": {
+        "majo_evolved": 5127,
+        "majo_economist": 3130,
+        "majo_aggressive": 3022,
+        "majo_balanced": 3047
+      }
+    }
+  ],
+  "relics": [
+    {
+      "id": "M47",
+      "timesObtained": 23270,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 137484,
+      "gamesWhenOwned": 23270,
+      "avgVPWhenOwned": 5.908207993124194,
+      "useRate": 0
+    },
+    {
+      "id": "M51",
+      "timesObtained": 23274,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 136842,
+      "gamesWhenOwned": 23274,
+      "avgVPWhenOwned": 5.879608146429492,
+      "useRate": 0
+    },
+    {
+      "id": "M46",
+      "timesObtained": 23263,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 136701,
+      "gamesWhenOwned": 23263,
+      "avgVPWhenOwned": 5.8763272148905985,
+      "useRate": 0
+    },
+    {
+      "id": "M56",
+      "timesObtained": 5385,
+      "timesUsed": 17604,
+      "totalVPWhenOwned": 31622,
+      "gamesWhenOwned": 5385,
+      "avgVPWhenOwned": 5.872237697307336,
+      "useRate": 3.26908077994429
+    },
+    {
+      "id": "M45",
+      "timesObtained": 23097,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 135009,
+      "gamesWhenOwned": 23097,
+      "avgVPWhenOwned": 5.84530458501104,
+      "useRate": 0
+    },
+    {
+      "id": "M58",
+      "timesObtained": 5426,
+      "timesUsed": 17505,
+      "totalVPWhenOwned": 31666,
+      "gamesWhenOwned": 5426,
+      "avgVPWhenOwned": 5.835974935495761,
+      "useRate": 3.226133431625507
+    },
+    {
+      "id": "M63",
+      "timesObtained": 4820,
+      "timesUsed": 18110,
+      "totalVPWhenOwned": 27921,
+      "gamesWhenOwned": 4820,
+      "avgVPWhenOwned": 5.792738589211618,
+      "useRate": 3.7572614107883817
+    },
+    {
+      "id": "M59",
+      "timesObtained": 5449,
+      "timesUsed": 17629,
+      "totalVPWhenOwned": 31534,
+      "gamesWhenOwned": 5449,
+      "avgVPWhenOwned": 5.787116902183887,
+      "useRate": 3.235272527069187
+    },
+    {
+      "id": "M57",
+      "timesObtained": 5324,
+      "timesUsed": 17635,
+      "totalVPWhenOwned": 30642,
+      "gamesWhenOwned": 5324,
+      "avgVPWhenOwned": 5.755447032306536,
+      "useRate": 3.312359128474831
+    },
+    {
+      "id": "M60",
+      "timesObtained": 4894,
+      "timesUsed": 17992,
+      "totalVPWhenOwned": 27884,
+      "gamesWhenOwned": 4894,
+      "avgVPWhenOwned": 5.697588884348181,
+      "useRate": 3.676338373518594
+    },
+    {
+      "id": "M49",
+      "timesObtained": 23071,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 130906,
+      "gamesWhenOwned": 23071,
+      "avgVPWhenOwned": 5.674049672749339,
+      "useRate": 0
+    },
+    {
+      "id": "M64",
+      "timesObtained": 5159,
+      "timesUsed": 17820,
+      "totalVPWhenOwned": 29224,
+      "gamesWhenOwned": 5159,
+      "avgVPWhenOwned": 5.664663694514441,
+      "useRate": 3.4541577825159915
+    },
+    {
+      "id": "M65",
+      "timesObtained": 5051,
+      "timesUsed": 30369,
+      "totalVPWhenOwned": 28285,
+      "gamesWhenOwned": 5051,
+      "avgVPWhenOwned": 5.599881211641259,
+      "useRate": 6.012472777667789
+    },
+    {
+      "id": "M54",
+      "timesObtained": 22964,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 128481,
+      "gamesWhenOwned": 22964,
+      "avgVPWhenOwned": 5.594887650235151,
+      "useRate": 0
+    },
+    {
+      "id": "M53",
+      "timesObtained": 7591,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 41814,
+      "gamesWhenOwned": 7591,
+      "avgVPWhenOwned": 5.50836516927941,
+      "useRate": 0
+    },
+    {
+      "id": "M66",
+      "timesObtained": 23059,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 125015,
+      "gamesWhenOwned": 23059,
+      "avgVPWhenOwned": 5.421527386270003,
+      "useRate": 0
+    },
+    {
+      "id": "M62",
+      "timesObtained": 23056,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 124681,
+      "gamesWhenOwned": 23056,
+      "avgVPWhenOwned": 5.407746356696738,
+      "useRate": 0
+    },
+    {
+      "id": "M50",
+      "timesObtained": 22981,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 124072,
+      "gamesWhenOwned": 22981,
+      "avgVPWhenOwned": 5.398894739132326,
+      "useRate": 0
+    },
+    {
+      "id": "M67",
+      "timesObtained": 22983,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 123732,
+      "gamesWhenOwned": 22983,
+      "avgVPWhenOwned": 5.383631379715442,
+      "useRate": 0
+    },
+    {
+      "id": "M48",
+      "timesObtained": 23190,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 124812,
+      "gamesWhenOwned": 23190,
+      "avgVPWhenOwned": 5.382147477360931,
+      "useRate": 0
+    },
+    {
+      "id": "M55",
+      "timesObtained": 22989,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 123707,
+      "gamesWhenOwned": 22989,
+      "avgVPWhenOwned": 5.381138805515682,
+      "useRate": 0
+    },
+    {
+      "id": "M43",
+      "timesObtained": 5346,
+      "timesUsed": 17539,
+      "totalVPWhenOwned": 28585,
+      "gamesWhenOwned": 5346,
+      "avgVPWhenOwned": 5.346988402543958,
+      "useRate": 3.2807706696595584
+    },
+    {
+      "id": "M44",
+      "timesObtained": 5373,
+      "timesUsed": 17657,
+      "totalVPWhenOwned": 28673,
+      "gamesWhenOwned": 5373,
+      "avgVPWhenOwned": 5.336497301321422,
+      "useRate": 3.286246045040015
+    },
+    {
+      "id": "M52",
+      "timesObtained": 10874,
+      "timesUsed": 12288,
+      "totalVPWhenOwned": 57880,
+      "gamesWhenOwned": 10874,
+      "avgVPWhenOwned": 5.322788302372632,
+      "useRate": 1.1300349457421373
+    },
+    {
+      "id": "M41",
+      "timesObtained": 23423,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 103191,
+      "gamesWhenOwned": 23423,
+      "avgVPWhenOwned": 4.405541561712846,
+      "useRate": 0
+    },
+    {
+      "id": "M61",
+      "timesObtained": 10732,
+      "timesUsed": 12181,
+      "totalVPWhenOwned": 47022,
+      "gamesWhenOwned": 10732,
+      "avgVPWhenOwned": 4.3814759597465525,
+      "useRate": 1.1350167722698472
+    },
+    {
+      "id": "M42",
+      "timesObtained": 23415,
+      "timesUsed": 0,
+      "totalVPWhenOwned": 102482,
+      "gamesWhenOwned": 23415,
+      "avgVPWhenOwned": 4.376767029681828,
+      "useRate": 0
+    }
+  ],
+  "savedAt": "2026-03-12T17:47:14.377Z"
+}
