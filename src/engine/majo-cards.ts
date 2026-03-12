@@ -6,42 +6,42 @@ import type { MajoToolCard, MajoSaintCard, MajoRelicCard, MajoAchievementCard } 
 
 export const ALL_TOOLS: MajoToolCard[] = [
   // コスト2（6枚）
-  { id: 'M1',  name: '魔剣',   type: '魔剣',   cost: 2, magicPower: 3, effect: '聖者撃破：マナ＋1' },
-  { id: 'M2',  name: '杖',     type: '杖',     cost: 2, magicPower: 3, effect: '聖者撃破：マナ＋1' },
-  { id: 'M3',  name: '杖',     type: '杖',     cost: 2, magicPower: 3, effect: '聖者撃破：マナ＋1' },
-  { id: 'M4',  name: '魔導書', type: '魔導書', cost: 2, magicPower: 2, effect: '' },
-  { id: 'M5',  name: '魔導書', type: '魔導書', cost: 2, magicPower: 1, effect: '支払いの際、タップでコスト-1' },
-  { id: 'M6',  name: '護符',   type: '護符',   cost: 2, magicPower: 0, effect: '戦闘：魔力＋3。廃棄' },
+  { id: 'M1',  name: '魔剣',   type: '魔剣',   cost: 2, magicPower: 3, effect: '聖者撃破：マナ＋1', sealed: true },
+  { id: 'M2',  name: '杖',     type: '杖',     cost: 2, magicPower: 3, effect: '聖者撃破：マナ＋1', sealed: true },
+  { id: 'M3',  name: '杖',     type: '杖',     cost: 2, magicPower: 3, effect: '聖者撃破：マナ＋1', sealed: true },
+  { id: 'M4',  name: '魔導書', type: '魔導書', cost: 2, magicPower: 2, effect: '', sealed: false },
+  { id: 'M5',  name: '魔導書', type: '魔導書', cost: 2, magicPower: 1, effect: '支払いの際、タップでコスト-1', sealed: false },
+  { id: 'M6',  name: '護符',   type: '護符',   cost: 2, magicPower: 0, effect: '戦闘：魔力＋3。廃棄', sealed: false },
 
   // コスト3（6枚）
-  { id: 'M7',  name: '魔剣',   type: '魔剣',   cost: 3, magicPower: 4, effect: '聖者撃破：マナ＋1' },
-  { id: 'M8',  name: '杖',     type: '杖',     cost: 3, magicPower: 4, effect: '聖者撃破：マナ＋1' },
-  { id: 'M9',  name: '杖',     type: '杖',     cost: 3, magicPower: 4, effect: '聖者撃破：マナ＋1' },
-  { id: 'M10', name: '魔導書', type: '魔導書', cost: 3, magicPower: 3, effect: '' },
-  { id: 'M11', name: '魔導書', type: '魔導書', cost: 3, magicPower: 2, effect: '支払いの際、タップでコスト-1' },
-  { id: 'M12', name: '護符',   type: '護符',   cost: 3, magicPower: 1, effect: '戦闘：魔力＋3。廃棄' },
+  { id: 'M7',  name: '魔剣',   type: '魔剣',   cost: 3, magicPower: 4, effect: '聖者撃破：マナ＋1', sealed: true },
+  { id: 'M8',  name: '杖',     type: '杖',     cost: 3, magicPower: 4, effect: '聖者撃破：マナ＋1', sealed: true },
+  { id: 'M9',  name: '杖',     type: '杖',     cost: 3, magicPower: 4, effect: '聖者撃破：マナ＋1', sealed: true },
+  { id: 'M10', name: '魔導書', type: '魔導書', cost: 3, magicPower: 3, effect: '', sealed: false },
+  { id: 'M11', name: '魔導書', type: '魔導書', cost: 3, magicPower: 2, effect: '支払いの際、タップでコスト-1', sealed: false },
+  { id: 'M12', name: '護符',   type: '護符',   cost: 3, magicPower: 1, effect: '戦闘：魔力＋3。廃棄', sealed: false },
 
   // コスト4（7枚）
-  { id: 'M13', name: '魔剣',   type: '魔剣',   cost: 4, magicPower: 5, effect: '聖者撃破：マナ＋1' },
-  { id: 'M14', name: '杖',     type: '杖',     cost: 4, magicPower: 5, effect: '聖者撃破：マナ＋1' },
-  { id: 'M15', name: '杖',     type: '杖',     cost: 4, magicPower: 5, effect: '聖者撃破：マナ＋1' },
-  { id: 'M16', name: '杖',     type: '杖',     cost: 4, magicPower: 4, effect: '' },
-  { id: 'M17', name: '水晶玉', type: '水晶玉', cost: 4, magicPower: 4, effect: '' },
-  { id: 'M18', name: '水晶玉', type: '水晶玉', cost: 4, magicPower: 3, effect: '支払いの際、タップでコスト-1' },
-  { id: 'M19', name: '護符',   type: '護符',   cost: 4, magicPower: 2, effect: '戦闘：魔力＋3。廃棄' },
+  { id: 'M13', name: '魔剣',   type: '魔剣',   cost: 4, magicPower: 5, effect: '聖者撃破：マナ＋1', sealed: true },
+  { id: 'M14', name: '杖',     type: '杖',     cost: 4, magicPower: 5, effect: '聖者撃破：マナ＋1', sealed: true },
+  { id: 'M15', name: '杖',     type: '杖',     cost: 4, magicPower: 5, effect: '聖者撃破：マナ＋1', sealed: true },
+  { id: 'M16', name: '杖',     type: '杖',     cost: 4, magicPower: 4, effect: '', sealed: false },
+  { id: 'M17', name: '水晶玉', type: '水晶玉', cost: 4, magicPower: 4, effect: '', sealed: false },
+  { id: 'M18', name: '水晶玉', type: '水晶玉', cost: 4, magicPower: 3, effect: '支払いの際、タップでコスト-1', sealed: false },
+  { id: 'M19', name: '護符',   type: '護符',   cost: 4, magicPower: 2, effect: '戦闘：魔力＋3。廃棄', sealed: false },
 
   // コスト5（5枚）
-  { id: 'M20', name: '魔剣',   type: '魔剣',   cost: 5, magicPower: 5, effect: '聖者撃破：即時マナ＋1' },
-  { id: 'M21', name: '魔剣',   type: '魔剣',   cost: 5, magicPower: 5, effect: '聖者撃破：即時マナ＋1' },
-  { id: 'M22', name: '魔剣',   type: '魔剣',   cost: 5, magicPower: 5, effect: '聖者撃破：即時マナ＋1' },
-  { id: 'M23', name: '水晶玉', type: '水晶玉', cost: 5, magicPower: 3, effect: '支払いの際、タップでコスト-2' },
-  { id: 'M24', name: '護符',   type: '護符',   cost: 5, magicPower: 3, effect: '戦闘：魔力＋3。廃棄' },
+  { id: 'M20', name: '魔剣',   type: '魔剣',   cost: 5, magicPower: 5, effect: '聖者撃破：即時マナ＋1', sealed: true },
+  { id: 'M21', name: '魔剣',   type: '魔剣',   cost: 5, magicPower: 5, effect: '聖者撃破：即時マナ＋1', sealed: true },
+  { id: 'M22', name: '魔剣',   type: '魔剣',   cost: 5, magicPower: 5, effect: '聖者撃破：即時マナ＋1', sealed: true },
+  { id: 'M23', name: '水晶玉', type: '水晶玉', cost: 5, magicPower: 3, effect: '支払いの際、タップでコスト-2', sealed: false },
+  { id: 'M24', name: '護符',   type: '護符',   cost: 5, magicPower: 3, effect: '戦闘：魔力＋3。廃棄', sealed: false },
 
   // コスト6（4枚）
-  { id: 'M25', name: '魔剣',   type: '魔剣',   cost: 6, magicPower: 5, effect: '聖者撃破：即時マナ＋2' },
-  { id: 'M26', name: '杖',     type: '杖',     cost: 6, magicPower: 0, effect: '手持ちの最大魔力の魔導具の魔力+3として扱う' },
-  { id: 'M27', name: '水晶玉', type: '水晶玉', cost: 6, magicPower: 4, effect: 'いつでもアンタップしてよい' },
-  { id: 'M28', name: '護符',   type: '護符',   cost: 6, magicPower: 3, effect: '手番：勝利点＋1。廃棄' },
+  { id: 'M25', name: '魔剣',   type: '魔剣',   cost: 6, magicPower: 5, effect: '聖者撃破：即時マナ＋2', sealed: true },
+  { id: 'M26', name: '杖',     type: '杖',     cost: 6, magicPower: 0, effect: '手持ちの最大魔力の魔導具の魔力+3として扱う', sealed: false },
+  { id: 'M27', name: '水晶玉', type: '水晶玉', cost: 6, magicPower: 4, effect: 'いつでもアンタップしてよい', sealed: false },
+  { id: 'M28', name: '護符',   type: '護符',   cost: 6, magicPower: 3, effect: '手番：勝利点＋1。廃棄', sealed: false },
 ];
 
 // ── 聖者（24枚） ──

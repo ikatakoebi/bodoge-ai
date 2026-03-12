@@ -90,6 +90,13 @@ export class BridgeClient {
                 this._confirmTurnCallback();
             }
         });
+        // 魔女ゲー: ボードからのアクション選択
+        this.socket.on('play:majoAction', (data) => {
+            console.log(`[bridge] play:majoAction received: index=${data.index}`);
+            if (this._majoActionCallback) {
+                this._majoActionCallback(data.index);
+            }
+        });
     }
     _confirmTurnCallback = null;
     /** ターン確定シグナルのコールバック登録 */
@@ -135,6 +142,24 @@ export class BridgeClient {
     }
     getRoomId() {
         return this.roomId;
+    }
+    /** roomIdがセットされるまで待つ（最大5秒） */
+    waitForRoomId() {
+        if (this.roomId)
+            return Promise.resolve(this.roomId);
+        return new Promise((resolve, reject) => {
+            const interval = setInterval(() => {
+                if (this.roomId) {
+                    clearInterval(interval);
+                    clearTimeout(timeout);
+                    resolve(this.roomId);
+                }
+            }, 50);
+            const timeout = setTimeout(() => {
+                clearInterval(interval);
+                reject(new Error('[bridge] roomId not set after 5s'));
+            }, 5000);
+        });
     }
     /**
      * Bridgeがソースオブトゥルースとして動作中はtrueにする。
@@ -192,6 +217,14 @@ export class BridgeClient {
         const state = this.getState();
         return state.areas.find((a) => a.areaId === areaId);
     }
+    /** エリアのプロパティを更新 */
+    updateArea(areaId, updates) {
+        const state = this.getState();
+        const area = state.areas.find((a) => a.areaId === areaId);
+        if (!area)
+            return;
+        Object.assign(area, updates);
+    }
     moveCardToArea(instanceId, areaId, faceUp = true, offsetIndex = 0) {
         const state = this.getState();
         const area = state.areas.find((a) => a.areaId === areaId);
@@ -207,7 +240,7 @@ export class BridgeClient {
         const cardY = (area.y + area.height / 2) * CELL_SIZE - CARD_HEIGHT / 2;
         this.moveCardToPosition(instanceId, cardX, cardY, faceUp);
     }
-    moveCardToPosition(instanceId, x, y, faceUp) {
+    moveCardToPosition(instanceId, x, y, faceUp, rotation) {
         const state = this.getState();
         const card = state.cardInstances[instanceId];
         if (!card)
@@ -234,6 +267,9 @@ export class BridgeClient {
         if (faceUp !== undefined) {
             updated.face = faceUp ? 'up' : 'down';
             updated.visibility = faceUp ? 'public' : 'hidden';
+        }
+        if (rotation !== undefined) {
+            updated.rotation = rotation;
         }
         this.state = {
             ...state,
@@ -298,11 +334,27 @@ export class BridgeClient {
     _announcement = null;
     /** プレイモードで人間が操作するスロット (例: 'p0') */
     _humanSlot = null;
+    /** 魔女ゲー: ボードに表示するアクション選択肢 */
+    _majoActions = null;
+    /** 魔女ゲー: ゲーム状態全体（ボード上のゲーム情報パネル用） */
+    _majoGameInfo = null;
+    /** 魔女ゲー: ボードからのアクション選択コールバック */
+    _majoActionCallback = null;
     setAnnouncement(msg) {
         this._announcement = msg;
     }
     setHumanSlot(slot) {
         this._humanSlot = slot;
+    }
+    setMajoActions(actions) {
+        this._majoActions = actions;
+    }
+    setMajoGameInfo(info) {
+        this._majoGameInfo = info;
+    }
+    /** 魔女ゲー: ボードからのアクション選択イベントのコールバック登録 */
+    onMajoAction(callback) {
+        this._majoActionCallback = callback;
     }
     sendState() {
         if (!this.state)
@@ -313,6 +365,12 @@ export class BridgeClient {
         }
         if (this._humanSlot) {
             payload.humanSlot = this._humanSlot;
+        }
+        if (this._majoActions) {
+            payload.majoActions = this._majoActions;
+        }
+        if (this._majoGameInfo) {
+            payload.majoGameInfo = this._majoGameInfo;
         }
         this.socket.emit('sync:fullState', payload);
     }

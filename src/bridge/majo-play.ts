@@ -97,6 +97,7 @@ export class MajoPlayController {
   private finalScores: MajoFinalScore[] | null = null;
 
   private onUpdate: (() => void) | null = null;
+  private _strategyNames: string[] = [];
 
   constructor(opts: MajoPlayOptions = {}) {
     this.opts = {
@@ -135,8 +136,9 @@ export class MajoPlayController {
     }
 
     this.humanPlayerId = `p${this.opts.humanPlayerIndex}`;
-    this.state = createMajoGame(this.players);
-    this.addLog(`魔女ゲー開始！ ${strategyNames.join(' / ')}`);
+    // state は initGame() で非同期初期化
+    this.state = undefined as unknown as MajoGameState;
+    this._strategyNames = strategyNames;
   }
 
   // ── Public API ──
@@ -236,9 +238,16 @@ export class MajoPlayController {
     }
   }
 
+  /** スプレッドシートからカードデータを読み込みゲームを初期化 */
+  async initGame(): Promise<void> {
+    this.state = await createMajoGame(this.players);
+    this.addLog(`魔女ゲー開始！ ${this._strategyNames.join(' / ')}`);
+  }
+
   // ── メインループ ──
 
   async run(): Promise<void> {
+    if (!this.state) await this.initGame();
     const MAX_TURNS = 300;
     let turnCount = 0;
 
@@ -284,6 +293,12 @@ export class MajoPlayController {
         }
 
         this.state = executeAction(this.state, action);
+
+        // AIのアクション説明をlastEventsの先頭に追加（オーバーレイ表示用）
+        this.state = {
+          ...this.state,
+          lastEvents: [desc, ...this.state.lastEvents],
+        };
 
         // AIアクション後のディレイ
         await delay(this.opts.aiDelay);
@@ -344,6 +359,14 @@ function categorizeAction(action: MajoAction): MajoActionChoice['category'] {
     case 'extra_combat': return 'extra_combat';
     case 'use_witch': return 'witch';
     case 'pass': return 'pass';
+    case 'combat_select_saint': return 'field';
+    case 'combat_add_tool': return 'field';
+    case 'combat_execute': return 'field';
+    case 'combat_retreat': return 'pass';
+    case 'use_tool_turn': return 'field';
+    case 'select_saint_discard': return 'relic';
+    case 'untap_tool': return 'field';
+    case 'select_free_tool': return 'relic';
     default: return 'field';
   }
 }
@@ -360,7 +383,24 @@ function describeAction(action: MajoAction, state: MajoGameState, player: MajoPl
       switch (details.action) {
         case 'research': {
           const tool = state.toolSupply.find((t) => t.id === details.toolId);
-          if (tool) return `${prefix}研究 → ${tool.name}(コスト${tool.cost}, 魔力${tool.magicPower})を購入`;
+          if (tool) {
+            const dIds = details.discountToolIds || [];
+            if (dIds.length > 0) {
+              const dNames = dIds.map((id) => {
+                const dt = player.magicTools.find((t) => t.id === id);
+                return dt ? dt.name : id;
+              }).join('+');
+              const totalDiscount = dIds.reduce((s, id) => {
+                const dt = player.magicTools.find((t) => t.id === id);
+                if (dt?.effect.includes('コスト-2')) return s + 2;
+                if (dt?.effect.includes('コスト-1')) return s + 1;
+                return s;
+              }, 0) + (player.relics.some((r) => r.id === 'M54') ? 1 : 0);
+              const eCost = Math.max(1, tool.cost - totalDiscount);
+              return `${prefix}研究 → ${tool.name}(魔力${tool.magicPower})を${eCost}マナで購入（${dNames}タップ）`;
+            }
+            return `${prefix}研究 → ${tool.name}(コスト${tool.cost}, 魔力${tool.magicPower})を購入`;
+          }
           return `${prefix}研究 → ${details.toolId}を購入`;
         }
         case 'violence': {
@@ -402,6 +442,73 @@ function describeAction(action: MajoAction, state: MajoGameState, player: MajoPl
       const saint = state.saintSupply.find((s) => s.id === action.saintId);
       if (saint) return `⚔️追加戦闘(M67) → ${saint.name}(HP${saint.hp}/★${saint.victoryPoints})に挑戦`;
       return `⚔️追加戦闘(M67)`;
+    }
+
+    case 'combat_select_saint': {
+      const saint = state.saintSupply.find((s) => s.id === action.saintId);
+      const fieldName = action.fieldId === 'violence' ? '横暴(コスト2)' : '生贄(コスト5)';
+      const familiarPrefix = action.useFamiliar ? '【使い魔】' : '';
+      if (saint) return `${familiarPrefix}${fieldName} → ${saint.name}(HP${saint.hp}/★${saint.victoryPoints})に挑戦開始`;
+      return `${familiarPrefix}${fieldName} → 聖者に挑戦開始`;
+    }
+
+    case 'combat_add_tool': {
+      const tool = player.magicTools.find((t) => t.id === action.toolId);
+      if (!tool) return `魔導具(${action.toolId})を追加`;
+      const toolPower = getEffectiveMagicPower(tool, player.magicTools)
+        + (tool.type === '護符' && tool.effect.includes('戦闘：魔力＋3') ? 3 : 0);
+      const cs = state.combatState;
+      const currentSelectedIds = cs ? cs.selectedToolIds : [];
+      const currentPower = currentSelectedIds.reduce((sum, id) => {
+        const t = player.magicTools.find((tt) => tt.id === id);
+        if (!t) return sum;
+        return sum + getEffectiveMagicPower(t, player.magicTools)
+          + (t.type === '護符' && t.effect.includes('戦闘：魔力＋3') ? 3 : 0);
+      }, 0);
+      const saint = cs ? state.saintSupply.find((s) => s.id === cs.saintId) : null;
+      const saintInfo = saint ? ` (vs ${saint.name} HP${saint.hp})` : '';
+      return `${tool.name}(魔力${toolPower})をタップ → 合計魔力${currentPower + toolPower}${saintInfo}`;
+    }
+
+    case 'combat_execute': {
+      const cs = state.combatState;
+      if (cs) {
+        const saint = state.saintSupply.find((s) => s.id === cs.saintId);
+        const totalPower = cs.selectedToolIds.reduce((sum, id) => {
+          const t = player.magicTools.find((tt) => tt.id === id);
+          if (!t) return sum;
+          return sum + getEffectiveMagicPower(t, player.magicTools)
+            + (t.type === '護符' && t.effect.includes('戦闘：魔力＋3') ? 3 : 0);
+        }, 0);
+        if (saint) return `戦闘実行（合計魔力${totalPower} vs ${saint.name} HP${saint.hp}）`;
+      }
+      return `戦闘実行`;
+    }
+
+    case 'combat_retreat':
+      return `撤退（マナ消費済み、手番終了）`;
+
+    case 'use_tool_turn': {
+      const tool = player.magicTools.find((t) => t.id === action.toolId);
+      if (tool) return `護符「${tool.name}」の手番効果を使用（${tool.effect}）`;
+      return `護符の手番効果を使用`;
+    }
+
+    case 'select_saint_discard': {
+      const saint = player.saints.find((s) => s.id === action.saintId);
+      if (saint) return `聖者「${saint.name}」(HP${saint.hp}/★${saint.victoryPoints})を捨てて4マナ獲得`;
+      return `聖者を捨てて4マナ獲得`;
+    }
+
+    case 'untap_tool': {
+      const tool = player.magicTools.find((t) => t.id === action.toolId);
+      return `水晶玉「${tool?.name ?? action.toolId}」をアンタップ`;
+    }
+
+    case 'select_free_tool': {
+      const tool = state.toolSupply.find((t) => t.id === action.toolId);
+      if (tool) return `聖遺物M53 → ${tool.name}(コスト${tool.cost}, 魔力${tool.magicPower})をタダで獲得`;
+      return `聖遺物M53 → 魔導具をタダで獲得`;
     }
 
     default:

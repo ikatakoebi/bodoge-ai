@@ -136,7 +136,7 @@ async function runPlay(args: minimist.ParsedArgs): Promise<void> {
 }
 
 async function runServer(args: minimist.ParsedArgs): Promise<void> {
-  const port = (args['port'] as number | undefined) ?? 3216;
+  const port = (args['port'] as number | undefined) ?? parseInt(process.env.PORT || '3216', 10);
   const { startControlServer } = await import('./control-server.js');
   startControlServer(port);
   // サーバーは無限に動き続けるのでここでは何もしない

@@ -106,6 +106,11 @@ function findResearchAction(actions, toolId) {
         'details' in a && a.details.action === 'research' && a.details.toolId === toolId);
 }
 function findViolenceAction(actions, saintId) {
+    // 新方式: combat_select_saint (violence)
+    const newStyle = actions.find((a) => a.type === 'combat_select_saint' && a.fieldId === 'violence' && a.saintId === saintId);
+    if (newStyle)
+        return newStyle;
+    // 旧方式フォールバック（使われないが念のため）
     return actions.find((a) => (a.type === 'field_action' || a.type === 'use_familiar') &&
         'details' in a && a.details.action === 'violence' && a.details.saintId === saintId);
 }
@@ -138,8 +143,15 @@ function getBestToolToBuy(state, player) {
         .sort((a, b) => b.ratio - a.ratio);
     return affordable[0] || null;
 }
-// 戦闘アクションを最適化（必要な魔導具＋聖遺物を選択）
+// 戦闘アクションを最適化（combat_select_saint対応）
+// 注意: マルチステップ方式では、combat_select_saintを返すだけでよい
+// ツール選択はselectCombatStepActionが担当する
 function buildCombatAction(state, baseAction, player, targetHP) {
+    // combat_select_saint の場合はそのまま返す（ツール選択はマルチステップで実施）
+    if (baseAction.type === 'combat_select_saint') {
+        return baseAction;
+    }
+    // 旧方式（field_action/use_familiar）のフォールバック
     const toolsToTap = selectToolsForCombat(player, targetHP);
     const toolPower = toolsToTap.reduce((sum, id) => {
         const t = player.magicTools.find((tool) => tool.id === id);
@@ -151,11 +163,9 @@ function buildCombatAction(state, baseAction, player, targetHP) {
         return sum + p;
     }, 0);
     const combatRelics = selectCombatRelics(player, targetHP, toolPower);
-    // M67: 追加戦闘聖遺物（倒せる聖者が2体以上で未タップ魔導具が残る場合に使う）
     if ('details' in baseAction && (baseAction.details.action === 'violence' || baseAction.details.action === 'sacrifice')) {
         const saintId = baseAction.details.saintId;
         if (shouldUseM67(state, player, saintId)) {
-            // 1回目の戦闘後にまだ未タップ魔導具が残るか確認
             const remainingUntapped = player.magicTools.filter((t) => !player.tappedToolIds.includes(t.id) && !toolsToTap.includes(t.id));
             if (remainingUntapped.length > 0) {
                 combatRelics.push('M67');
@@ -266,6 +276,57 @@ function selectBestTurnRelic(state, player) {
     }
     return null;
 }
+// 戦闘マルチステップ中の最適アクションを選ぶ
+function selectCombatStepAction(state, player, playerId, actions) {
+    if (!state.combatState || state.combatState.playerId !== playerId)
+        return null;
+    const cs = state.combatState;
+    const saint = state.saintSupply.find((s) => s.id === cs.saintId);
+    if (!saint)
+        return null;
+    // 最適ツール選択リストを計算（現在選択済みを除く）
+    const alreadySelected = new Set(cs.selectedToolIds);
+    const tempPlayer = { ...player, tappedToolIds: [...player.tappedToolIds, ...cs.selectedToolIds] };
+    const optimalTools = selectToolsForCombat(tempPlayer, saint.hp);
+    // まだ最適リストに含まれるツールで未追加のものがあれば追加
+    const nextTool = optimalTools.find((id) => !alreadySelected.has(id));
+    if (nextTool) {
+        const addAction = actions.find((a) => a.type === 'combat_add_tool' && a.toolId === nextTool);
+        if (addAction) {
+            const tool = player.magicTools.find((t) => t.id === nextTool);
+            return {
+                action: addAction,
+                reasoning: `${saint.name}(HP${saint.hp})に向けて${tool?.name ?? nextTool}を追加`,
+            };
+        }
+    }
+    // 全最適ツールを追加済み → 戦闘実行
+    const execAction = actions.find((a) => a.type === 'combat_execute');
+    if (execAction) {
+        const currentPower = cs.selectedToolIds.reduce((sum, id) => {
+            const t = player.magicTools.find((tt) => tt.id === id);
+            if (!t)
+                return sum;
+            return sum + getEffectiveMagicPower(t, player.magicTools)
+                + (t.type === '護符' && t.effect.includes('戦闘：魔力＋3') ? 3 : 0);
+        }, 0);
+        if (currentPower >= saint.hp) {
+            return {
+                action: execAction,
+                reasoning: `魔力${currentPower}で${saint.name}(HP${saint.hp})を撃破！`,
+            };
+        }
+        // 魔力不足でも最大限追加したので撤退
+        const retreatAction = actions.find((a) => a.type === 'combat_retreat');
+        if (retreatAction) {
+            return {
+                action: retreatAction,
+                reasoning: `魔力不足(${currentPower} < HP${saint.hp})のため撤退`,
+            };
+        }
+    }
+    return null;
+}
 // 追加戦闘アクションがあれば選択
 function selectExtraCombatAction(actions, state, player) {
     const extraActions = actions.filter((a) => a.type === 'extra_combat');
@@ -298,6 +359,10 @@ const balanced = {
         const actions = getAvailableActions(state, playerId);
         const fieldActions = actions.filter((a) => a.type === 'field_action' || a.type === 'use_familiar');
         const passAction = actions.find((a) => a.type === 'pass');
+        // 戦闘マルチステップ中の処理
+        const combatStep = selectCombatStepAction(state, player, playerId, actions);
+        if (combatStep)
+            return combatStep;
         // 追加戦闘（M67）が可能なら最優先で実行
         const extraCombat = selectExtraCombatAction(actions, state, player);
         if (extraCombat)
@@ -314,7 +379,7 @@ const balanced = {
         // 1. VP持ちの聖者を倒せるなら最優先
         if (killableSaints.length > 0 && killableSaints[0].victoryPoints > 0 && player.mana >= 2) {
             const target = killableSaints[0];
-            const act = findViolenceAction(fieldActions, target.id);
+            const act = findViolenceAction(actions, target.id);
             if (act) {
                 const optimized = buildCombatAction(state, act, player, target.hp);
                 return { action: optimized, reasoning: `${target.name}(HP${target.hp}/★${target.victoryPoints})を撃破！` };
@@ -338,7 +403,7 @@ const balanced = {
         // 3. 0星でも倒せる聖者がいれば倒す（聖遺物が手に入る）
         if (killableSaints.length > 0 && player.mana >= 2) {
             const target = killableSaints[0];
-            const act = findViolenceAction(fieldActions, target.id);
+            const act = findViolenceAction(actions, target.id);
             if (act) {
                 const optimized = buildCombatAction(state, act, player, target.hp);
                 return { action: optimized, reasoning: `${target.name}(HP${target.hp})を倒して聖遺物${target.relicDraw}枚獲得` };
@@ -383,6 +448,10 @@ const aggressive = {
         const actions = getAvailableActions(state, playerId);
         const fieldActions = actions.filter((a) => a.type === 'field_action' || a.type === 'use_familiar');
         const passAction = actions.find((a) => a.type === 'pass');
+        // 戦闘マルチステップ中の処理
+        const combatStep = selectCombatStepAction(state, player, playerId, actions);
+        if (combatStep)
+            return combatStep;
         // 追加戦闘（M67）が可能なら最優先で実行
         const extraCombat = selectExtraCombatAction(actions, state, player);
         if (extraCombat)
@@ -409,7 +478,7 @@ const aggressive = {
         // 1. 倒せる聖者がいればとにかく倒す
         if (killableSaints.length > 0 && player.mana >= 2) {
             const target = killableSaints[0];
-            const act = findViolenceAction(fieldActions, target.id);
+            const act = findViolenceAction(actions, target.id);
             if (act) {
                 const optimized = buildCombatAction(state, act, player, target.hp);
                 return { action: optimized, reasoning: `攻撃！${target.name}(HP${target.hp}/★${target.victoryPoints})を撃破！` };
@@ -459,6 +528,10 @@ const economist = {
         const actions = getAvailableActions(state, playerId);
         const fieldActions = actions.filter((a) => a.type === 'field_action' || a.type === 'use_familiar');
         const passAction = actions.find((a) => a.type === 'pass');
+        // 戦闘マルチステップ中の処理
+        const combatStep = selectCombatStepAction(state, player, playerId, actions);
+        if (combatStep)
+            return combatStep;
         // 追加戦闘（M67）が可能なら最優先で実行
         const extraCombat = selectExtraCombatAction(actions, state, player);
         if (extraCombat)
@@ -486,7 +559,7 @@ const economist = {
         // 1. VP聖者を倒す
         if (killableSaints.length > 0 && killableSaints[0].victoryPoints > 0 && player.mana >= 2) {
             const target = killableSaints[0];
-            const act = findViolenceAction(fieldActions, target.id);
+            const act = findViolenceAction(actions, target.id);
             if (act) {
                 const optimized = buildCombatAction(state, act, player, target.hp);
                 return { action: optimized, reasoning: `${target.name}(★${target.victoryPoints})を撃破` };
@@ -510,7 +583,7 @@ const economist = {
         // 4. 0星聖者も聖遺物目当てで倒す（経済型の特徴：聖遺物エンジン）
         if (killableSaints.length > 0 && player.mana >= 2) {
             const target = killableSaints[0];
-            const act = findViolenceAction(fieldActions, target.id);
+            const act = findViolenceAction(actions, target.id);
             if (act) {
                 const optimized = buildCombatAction(state, act, player, target.hp);
                 return { action: optimized, reasoning: `${target.name}を倒して聖遺物${target.relicDraw}枚獲得（エンジン構築）` };

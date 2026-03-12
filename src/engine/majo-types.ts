@@ -11,6 +11,7 @@ export interface MajoToolCard {
   cost: number;       // マナコスト
   magicPower: number; // 魔力値
   effect: string;     // カードテキスト
+  sealed: boolean;    // 封：trueならラウンド終了時にマナを生まない
 }
 
 export interface MajoSaintCard {
@@ -34,6 +35,7 @@ export interface MajoAchievementCard {
   name: string;
   condition: string;
   victoryPoints: number;
+  holderId?: string;  // 現在の保持者プレイヤーID（未達成ならundefined）
 }
 
 // ── フィールドアクション ──
@@ -59,10 +61,21 @@ export interface MajoPlayerState {
   saints: MajoSaintCard[];
   relics: MajoRelicCard[];
   witchTapped: boolean;       // 魔女使用済み（ゲーム中1回）
+  witchMode?: 'magic' | 'mana'; // 魔女の使用モード（魔力 or マナ）
   familiarTapped: boolean;    // 使い魔使用済み（ゲーム中1回）
   victoryPoints: number;
   lastPassiveVP: number;      // 前回計算時のパッシブ聖遺物VP（差分管理用）
   passed: boolean;            // 現在のパスサイクルでパスしたか
+}
+
+// ── 戦闘中間状態 ──
+
+export interface MajoCombatState {
+  playerId: string;
+  fieldId: 'violence' | 'sacrifice';
+  saintId: string;
+  selectedToolIds: string[];
+  useFamiliar: boolean;
 }
 
 // ── ゲームステート ──
@@ -99,6 +112,8 @@ export interface MajoGameState {
   manaRefundPlayerId?: string;
   // M67聖遺物：追加戦闘可能フラグ（combatで消費、次のviolence/sacrificeをコスト0で追加実行可能）
   extraCombatPlayerId?: string;
+  // 戦闘マルチステップ：聖者選択→魔道具追加→実行 の途中状態
+  combatState?: MajoCombatState;
 }
 
 // ── アクション ──
@@ -111,10 +126,18 @@ export type MajoAction =
   | { type: 'use_relic'; playerId: string; relicId: string }
   | { type: 'extra_combat'; playerId: string; saintId: string; tappedToolIds: string[]; combatRelicIds?: string[] }
   | { type: 'round_end' }
-  | { type: 'game_end' };
+  | { type: 'game_end' }
+  | { type: 'combat_select_saint'; playerId: string; fieldId: 'violence' | 'sacrifice'; saintId: string; useFamiliar: boolean }
+  | { type: 'combat_add_tool'; playerId: string; toolId: string }
+  | { type: 'combat_execute'; playerId: string; combatRelicIds?: string[] }
+  | { type: 'combat_retreat'; playerId: string }
+  | { type: 'use_tool_turn'; playerId: string; toolId: string }
+  | { type: 'select_saint_discard'; playerId: string; relicId: string; saintId: string }
+  | { type: 'untap_tool'; playerId: string; toolId: string }
+  | { type: 'select_free_tool'; playerId: string; relicId: string; toolId: string };
 
 export type FieldActionDetails =
-  | { action: 'research'; toolId: string }           // 研究：買う魔導具のID
+  | { action: 'research'; toolId: string; discountToolIds?: string[] } // 研究：買う魔導具のID + 割引用タップする魔導具
   | { action: 'violence'; saintId: string; tappedToolIds: string[]; combatRelicIds?: string[] } // 横暴：戦う聖者＋タップする魔導具＋戦闘聖遺物
   | { action: 'magic_shop' }                          // 魔具店：マナ2個
   | { action: 'cathedral' }                           // 大聖堂：SPトークン＋マナ1

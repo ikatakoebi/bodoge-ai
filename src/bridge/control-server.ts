@@ -321,7 +321,7 @@ async function handleConnect(body: string): Promise<object> {
     new Promise((_, reject) => setTimeout(() => reject(new Error('接続タイムアウト (10秒)')), 10000)),
   ]);
 
-  currentRoomId = bridgeClient.getRoomId();
+  currentRoomId = await bridgeClient.waitForRoomId();
   // ボード接続直後のクリーンな状態を保存（リプレイ再開始時のリセット用）
   cleanBoardState = JSON.parse(JSON.stringify(bridgeClient.getState()));
   addLog(`接続しました！ルームID: ${currentRoomId}`);
@@ -604,7 +604,7 @@ async function handleMajoStart(body: string): Promise<object> {
         bridgeClient.waitForState(),
         new Promise((_, reject) => setTimeout(() => reject(new Error('接続タイムアウト')), 10000)),
       ]);
-      currentRoomId = bridgeClient.getRoomId();
+      currentRoomId = await bridgeClient.waitForRoomId();
       addLog(`ボード接続完了 (ルーム: ${currentRoomId})`);
     }
 
@@ -648,6 +648,7 @@ async function handleMajoStart(body: string): Promise<object> {
   // ボード同期セットアップ
   if (boardSync) {
     majoBoardSync = boardSync;
+    boardSync.setController(ctrl);
     ctrl.setOnUpdate(() => {
       if (majoBoardSync && majoPlayCtrl) {
         majoBoardSync.sync(majoPlayCtrl.getGameInfo());
@@ -2473,6 +2474,19 @@ export function startControlServer(port = 3216): void {
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
         res.writeHead(200);
         res.end(getHtml());
+        return;
+      }
+
+      // 観戦リダイレクト: 常に正しいルームIDへ転送
+      if (url === '/spectate' && req.method === 'GET') {
+        if (currentRoomId) {
+          res.writeHead(302, { Location: `http://localhost:3210/?spectate=${currentRoomId}` });
+          res.end();
+        } else {
+          res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+          res.writeHead(404);
+          res.end('ルームがありません。ゲームを開始してください。');
+        }
         return;
       }
 
