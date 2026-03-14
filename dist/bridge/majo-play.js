@@ -126,6 +126,9 @@ export class MajoPlayController {
             familiarUsed: p.familiarTapped,
             passed: p.passed,
             hasStartPlayer: this.state.players.indexOf(p) === this.state.startPlayerIndex,
+            achievements: this.state.achievements
+                .filter((a) => a.holderId === p.config.id)
+                .map((a) => ({ id: a.id, name: a.name, vp: a.victoryPoints })),
         }));
         // 選択肢
         let availableActions = [];

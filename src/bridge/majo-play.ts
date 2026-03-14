@@ -45,6 +45,7 @@ export interface MajoPlayerInfo {
   familiarUsed: boolean;
   passed: boolean;
   hasStartPlayer: boolean;
+  achievements: Array<{ id: string; name: string; vp: number }>;
 }
 
 export interface MajoGameInfo {
@@ -224,6 +225,9 @@ export class MajoPlayController {
       familiarUsed: p.familiarTapped,
       passed: p.passed,
       hasStartPlayer: this.state.players.indexOf(p) === this.state.startPlayerIndex,
+      achievements: this.state.achievements
+        .filter((a) => a.holderId === p.config.id)
+        .map((a) => ({ id: a.id, name: a.name, vp: a.victoryPoints })),
     }));
 
     // 選択肢

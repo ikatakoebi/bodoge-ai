@@ -2358,9 +2358,11 @@ function getHtml(): string {
       const saints = p.saints.length > 0
         ? p.saints.map(s => s.name + '(★' + s.vp + ')').join(', ')
         : 'なし';
-      const relics = p.relics.length > 0
-        ? p.relics.map(r => r.id).join(', ')
-        : 'なし';
+      const relicParts = p.relics.map(r => r.id);
+      if (p.achievements && p.achievements.length > 0) {
+        relicParts.push(...p.achievements.map(a => '🏆' + a.name + '(★' + a.vp + ')'));
+      }
+      const relics = relicParts.length > 0 ? relicParts.join(', ') : 'なし';
       const spBadge = p.hasStartPlayer ? ' 👑SP' : '';
       return '<div class="' + cls + '">' +
         '<div class="majo-player-header"><span>' + icon + ' ' + escHtml(p.name) +
