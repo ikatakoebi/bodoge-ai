@@ -41,6 +41,8 @@ export class MajoBoardSync {
     tapManaCounters = new Map();
     /** プレイヤーID → VPカウンターID */
     vpCounters = new Map();
+    /** プレイヤーID → SPカウンターID */
+    spCounters = new Map();
     /** 管理対象エリア一覧（初期化時に構築） */
     managedAreas = [];
     constructor(client) {
@@ -172,6 +174,17 @@ export class MajoBoardSync {
                 readonly: true,
             };
             this.vpCounters.set(p.id, vpId);
+            // SPカウンター（スタートプレイヤー表示、持ってる人だけ値1）
+            const spId = `sp_${p.id}`;
+            counters[spId] = {
+                counterId: spId,
+                name: `SP`,
+                value: p.hasStartPlayer ? 1 : 0,
+                min: 0, max: 1, step: 1,
+                x: baseX + step * 3, y: baseY,
+                readonly: true,
+            };
+            this.spCounters.set(p.id, spId);
         }
         // スロットカウンターは廃止（200px幅のカウンターが100px間隔に収まらないため）
         // スロット情報はアナウンステキストに含める
@@ -298,6 +311,13 @@ export class MajoBoardSync {
             if (vpId) {
                 try {
                     this.client.updateCounter(vpId, p.vp);
+                }
+                catch { /* ignore */ }
+            }
+            const spId = this.spCounters.get(p.id);
+            if (spId) {
+                try {
+                    this.client.updateCounter(spId, p.hasStartPlayer ? 1 : 0);
                 }
                 catch { /* ignore */ }
             }

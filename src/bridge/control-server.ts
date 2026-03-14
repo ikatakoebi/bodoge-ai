@@ -638,7 +638,7 @@ async function handleMajoStart(body: string): Promise<object> {
   }
 
   const ctrl = new MajoPlayController({
-    humanPlayerIndices: [params.humanPlayerIndex ?? 0],
+    humanPlayerIndices: [params.humanPlayerIndex ?? Math.floor(Math.random() * 4)],
     aiStrategies: requestedStrategies,
     aiDelay: params.aiDelay ?? 800,
   });
