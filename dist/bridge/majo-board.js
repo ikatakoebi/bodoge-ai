@@ -59,16 +59,6 @@ export class MajoBoardSync {
     async init(info) {
         this.client.setSuppressIncoming(true);
         this.client.setHumanSlot(info.humanPlayerId);
-        // デバッグ: ボード上の全カードインスタンスを確認
-        const allInstances = this.client.getState().cardInstances;
-        const allDefs = Object.values(allInstances).map((i) => i.definitionId);
-        const toolIds = info.toolSupply.map(t => t.id);
-        console.log(`[majo-board] init: ボード上のインスタンス数=${Object.keys(allInstances).length}`);
-        console.log(`[majo-board] init: 展示魔導具=${JSON.stringify(toolIds)}`);
-        for (const tid of toolIds) {
-            const found = allDefs.filter(d => d === tid);
-            console.log(`[majo-board] init: ${tid} → ボード上に${found.length}個のインスタンス`);
-        }
         // 管理対象エリアを構築
         this.managedAreas = [...MANAGED_AREAS];
         for (const p of info.players) {
@@ -192,12 +182,6 @@ export class MajoBoardSync {
         // 魔導具展示
         if (info.toolSupply.length !== 3) {
             console.warn(`[majo-board] toolSupply枚数異常: ${info.toolSupply.length}枚 (期待3枚)`, info.toolSupply.map(t => t.id));
-        }
-        for (const t of info.toolSupply) {
-            const resolved = this.resolveInstance(t.id);
-            if (!resolved) {
-                console.error(`[majo-board] ❌ toolSupplyカード ${t.id}(${t.name}) のインスタンスが見つからない！`);
-            }
         }
         this.placeCards(info.toolSupply.map((t) => t.id), 'magic_supply', true, placedInstanceIds);
         // 聖者展示
