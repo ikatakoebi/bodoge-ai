@@ -230,7 +230,12 @@ export class MajoBoardSync {
         p.tools.map((t) => t.tapped),
       );
       this.placeCards(p.saints.map((s) => s.id), `p_saints_${p.id}`, true, placedInstanceIds);
-      this.placeCards(p.relics.map((r) => r.id), `p_relics_${p.id}`, true, placedInstanceIds);
+      const relicIds = p.relics.map((r) => r.id);
+      // 獲得済み実績カードも聖遺物エリアに配置
+      if (p.achievements) {
+        relicIds.push(...p.achievements.map((a) => a.id));
+      }
+      this.placeCards(relicIds, `p_relics_${p.id}`, true, placedInstanceIds);
 
       // 魔女カード(M33)・使い魔(M37)のタップ表示
       this.syncWitchCard(p);
