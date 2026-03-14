@@ -738,7 +738,7 @@ function handleStatus(): object {
     status: inlineCtrl?.statusMessage ?? '',
     roundResult: inlineCtrl?.roundResult ?? '',
     scores: currentMode === 'play' ? (playInfo?.scores ?? {}) : (inlineCtrl?.scores ?? {}),
-    logs: logs.slice(-100),
+    logs: logs.slice(-500),
     strategies: strategyList,
     replayLoaded: replayData !== null,
     replayInfo: replayData ? {
@@ -2361,9 +2361,10 @@ function getHtml(): string {
       const relics = p.relics.length > 0
         ? p.relics.map(r => r.id).join(', ')
         : 'なし';
+      const spBadge = p.hasStartPlayer ? ' 👑SP' : '';
       return '<div class="' + cls + '">' +
         '<div class="majo-player-header"><span>' + icon + ' ' + escHtml(p.name) +
-        (p.isHuman ? ' (あなた)' : '') + '</span>' +
+        (p.isHuman ? ' (あなた)' : '') + spBadge + '</span>' +
         '<span>★' + p.vp + 'VP | マナ ' + p.mana + (p.tappedMana > 0 ? '(タップ' + p.tappedMana + ')' : '') + '</span></div>' +
         '<div class="majo-player-stats">魔導具: ' + tools + '</div>' +
         '<div class="majo-player-stats">聖者: ' + saints + '</div>' +

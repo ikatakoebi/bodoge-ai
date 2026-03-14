@@ -125,6 +125,7 @@ export class MajoPlayController {
             witchUsed: p.witchTapped,
             familiarUsed: p.familiarTapped,
             passed: p.passed,
+            hasStartPlayer: this.state.players.indexOf(p) === this.state.startPlayerIndex,
         }));
         // 選択肢
         let availableActions = [];
@@ -160,7 +161,7 @@ export class MajoPlayController {
             humanPlayerIds: humanIds,
             availableActions,
             lastEvents: this.state.lastEvents,
-            log: this.log.slice(-100),
+            log: this.log.slice(-500),
             gameOver: this.finished,
             finalScores: this.finalScores,
         };
@@ -252,7 +253,7 @@ export class MajoPlayController {
                     const desc = describeAction(action, this.state, current);
                     this.addLog(`${playerIcon(current.config.id)} ${current.config.name}: ${desc}`);
                     if (reasoning) {
-                        this.addLog(`  💭 ${reasoning}`);
+                        this.addLog(`\t\t💭 ${reasoning}`);
                     }
                     this.state = executeAction(this.state, action);
                     // AIのアクション説明をlastEventsの先頭に追加（オーバーレイ表示用）
@@ -265,7 +266,7 @@ export class MajoPlayController {
                 }
                 // イベントログ追加
                 for (const ev of this.state.lastEvents) {
-                    this.addLog(`  📦 ${ev}`);
+                    this.addLog(`\t\t📦 ${ev}`);
                 }
                 this.notifyUpdate();
             }
