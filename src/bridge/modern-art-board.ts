@@ -7,6 +7,7 @@ import type { BridgeClient } from './client.js';
 import type { ModernArtGameInfo } from '../engine/modern-art-types.js';
 
 const COL_STEP = 140; // px (colStep = 14単位 × 10px)
+const ROW_STEP = 190; // px (rowStep = 19単位 × 10px)
 const CARD_HEIGHT = 176;
 
 export class ModernArtBoardSync {
@@ -100,12 +101,11 @@ export class ModernArtBoardSync {
     if (!area) return;
 
     const areaPixelX = area.x * 10;
+    const areaPixelY = area.y * 10;
     const areaPixelW = area.width * 10;
 
-    // カード間隔: エリア幅に応じて自動調整
-    const spacing = cardIds.length > 1
-      ? Math.min(COL_STEP, Math.floor((areaPixelW - 126) / (cardIds.length - 1)))
-      : COL_STEP;
+    // executeSetupと同じグリッド配置: colStep間隔で折り返し
+    const maxCols = Math.max(1, Math.floor(areaPixelW / COL_STEP));
 
     for (let i = 0; i < cardIds.length; i++) {
       const cardId = cardIds[i];
@@ -113,8 +113,10 @@ export class ModernArtBoardSync {
       if (!instanceId) continue;
       placed.add(instanceId);
 
-      const x = areaPixelX + 4 + i * spacing;
-      const y = (area.y + area.height / 2) * 10 - CARD_HEIGHT / 2;
+      const col = i % maxCols;
+      const row = Math.floor(i / maxCols);
+      const x = areaPixelX + 4 + col * COL_STEP;
+      const y = areaPixelY + 4 + row * ROW_STEP;
 
       try {
         this.client.moveCardToPosition(instanceId, x, y, faceUp);
