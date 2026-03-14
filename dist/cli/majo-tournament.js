@@ -20,7 +20,7 @@ async function runGame(strategies) {
         type: 'ai',
         strategyId: `evolved_${s.name}`,
     }));
-    const aiStrategies = strategies.map((s) => createParameterizedStrategy(s.params));
+    const aiStrategies = strategies.map((s) => s.strategy);
     let state = await createMajoGame(players);
     let turns = 0;
     while (!isMajoGameOver(state) && turns < MAX_TURNS) {
@@ -45,12 +45,36 @@ async function runGame(strategies) {
     return { winner, scores };
 }
 async function main() {
-    const names = ['alpha', 'beta', 'gamma', 'delta'];
-    const loaded = names.map((n) => {
-        const data = loadParams(n);
-        console.log(chalk.gray(`  ${n}: gen${data.generation} fitness=${data.fitness.toFixed(2)}`));
-        return { name: n, ...data };
-    });
+    // 全進化世代を読み込み
+    const evolvedNames = ['beta', 'gamma', 'delta'];
+    const strategyMap = {};
+    const names = [];
+    // 最新進化型
+    const latestPath = path.join(DATA_DIR, 'evolved-params.json');
+    const latestData = JSON.parse(fs.readFileSync(latestPath, 'utf-8'));
+    console.log(chalk.gray(`  v3(latest): gen${latestData.generation} fitness=${latestData.fitness.toFixed(2)}`));
+    strategyMap['v3_latest'] = createParameterizedStrategy(latestData.params);
+    names.push('v3_latest');
+    // 新パラメータのデフォルト値（旧世代に補完用）
+    const newParamDefaults = {
+        violenceMinVP: 2, violenceMinMana: 6, prayerEarlyRound: 2, sacrificeMinRelics: 3,
+        effectManaBonus: 0.5, effectCombatBonus: 0.5, effectDrawBonus: 0.3,
+        effectUntapBonus: 1.0, effectVPBonus: 1.0,
+        phaseEarlyEnd: 2, phaseLateStart: 4, combatPriorityLate: 1.5,
+        purchasePriorityEarly: 1.5, manaShopThresholdLate: 4,
+        vpDeficitCombatBoost: 0.5, vpLeadPurchaseBoost: 0.3, opponentSPAwareness: 0.5,
+    };
+    // 過去の進化世代（不足パラメータはデフォルトで補完）
+    for (const n of evolvedNames) {
+        try {
+            const data = loadParams(n);
+            const filled = { ...newParamDefaults, ...data.params };
+            console.log(chalk.gray(`  ${n}: gen${data.generation} fitness=${data.fitness.toFixed(2)} (params: ${Object.keys(data.params).length}→${Object.keys(filled).length})`));
+            strategyMap[n] = createParameterizedStrategy(filled);
+            names.push(n);
+        }
+        catch { /* skip missing */ }
+    }
     const numGames = 2000;
     console.log(chalk.bold(`\n╔══════════════════════════════════════════╗`));
     console.log(chalk.bold(`║  魔女ゲー トーナメント (${numGames}ゲーム)       ║`));
@@ -63,9 +87,9 @@ async function main() {
         if ((i + 1) % 100 === 0 || i === 0) {
             process.stdout.write(`\r  対戦中... ${i + 1}/${numGames}`);
         }
-        // 席順をランダムにシャッフル
-        const shuffled = [...loaded].sort(() => Math.random() - 0.5);
-        const strategies = shuffled.map((s) => ({ name: s.name, params: s.params }));
+        // 全員参加、席順だけシャッフル
+        const shuffled = [...names].sort(() => Math.random() - 0.5);
+        const strategies = shuffled.map((n) => ({ name: n, strategy: strategyMap[n] }));
         const { winner, scores } = await runGame(strategies);
         for (const score of scores) {
             const r = results[score.name];
@@ -98,23 +122,7 @@ async function main() {
         const avgR = (r.totalRelics / r.games).toFixed(1).padStart(5);
         console.log(`  ${medal} ${(i + 1)}位  ${r.name.padEnd(8)} ${winPct}%   ${avgVP}VP  ${wins}勝  ${avgS}   ${avgT}   ${avgR}`);
     }
-    // パラメータ比較
-    console.log(chalk.bold('\n╔══ パラメータ比較 ══════════════════════════╗\n'));
-    const paramKeys = Object.keys(loaded[0].params);
-    const important = [
-        'saintVPWeight', 'saintRelicWeight', 'saintZeroVPWeight',
-        'toolBuyMaxCount', 'toolPowerWeight',
-        'combatPriority', 'purchasePriority', 'manaPriority',
-        'witchRoundThreshold', 'witchMagicModeWeight',
-        'manaReserveForCombat', 'relicAggressiveness',
-        'familiarVPThreshold', 'familiarForPurchase',
-        'combatBeforePurchase',
-    ];
-    console.log(chalk.bold(`  ${'パラメータ'.padEnd(26)} ${'alpha'.padStart(7)} ${'beta'.padStart(7)} ${'gamma'.padStart(7)} ${'delta'.padStart(7)}`));
-    for (const key of important) {
-        const vals = loaded.map((l) => (l.params[key]).toFixed(2).padStart(7));
-        console.log(`  ${String(key).padEnd(26)} ${vals.join(' ')}`);
-    }
+    // パラメータ比較は省略（固定戦略はパラメータベースではない）
     console.log(chalk.bold('\n╚══════════════════════════════════════════╝'));
 }
 main().catch(console.error);

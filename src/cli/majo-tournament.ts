@@ -37,7 +37,7 @@ function loadParams(name: string): { params: MajoParams; fitness: number; genera
   return { params: data.params, fitness: data.fitness, generation: data.generation };
 }
 
-async function runGame(strategies: { name: string; params: MajoParams }[]): Promise<{ winner: string; scores: { name: string; vp: number; saints: number; tools: number; relics: number }[] }> {
+async function runGame(strategies: { name: string; strategy: any }[]): Promise<{ winner: string; scores: { name: string; vp: number; saints: number; tools: number; relics: number }[] }> {
   const players: PlayerConfig[] = strategies.map((s, i) => ({
     id: `p${i}`,
     name: s.name,
@@ -45,7 +45,7 @@ async function runGame(strategies: { name: string; params: MajoParams }[]): Prom
     strategyId: `evolved_${s.name}`,
   }));
 
-  const aiStrategies = strategies.map((s) => createParameterizedStrategy(s.params));
+  const aiStrategies = strategies.map((s) => s.strategy);
 
   let state = await createMajoGame(players);
   let turns = 0;
@@ -75,12 +75,38 @@ async function runGame(strategies: { name: string; params: MajoParams }[]): Prom
 }
 
 async function main() {
-  const names = ['alpha', 'beta', 'gamma', 'delta'];
-  const loaded = names.map((n) => {
-    const data = loadParams(n);
-    console.log(chalk.gray(`  ${n}: gen${data.generation} fitness=${data.fitness.toFixed(2)}`));
-    return { name: n, ...data };
-  });
+  // 全進化世代を読み込み
+  const evolvedNames = ['beta', 'gamma', 'delta'];
+  const strategyMap: Record<string, any> = {};
+  const names: string[] = [];
+
+  // 最新進化型
+  const latestPath = path.join(DATA_DIR, 'evolved-params.json');
+  const latestData = JSON.parse(fs.readFileSync(latestPath, 'utf-8'));
+  console.log(chalk.gray(`  v3(latest): gen${latestData.generation} fitness=${latestData.fitness.toFixed(2)}`));
+  strategyMap['v3_latest'] = createParameterizedStrategy(latestData.params);
+  names.push('v3_latest');
+
+  // 新パラメータのデフォルト値（旧世代に補完用）
+  const newParamDefaults: Record<string, number> = {
+    violenceMinVP: 2, violenceMinMana: 6, prayerEarlyRound: 2, sacrificeMinRelics: 3,
+    effectManaBonus: 0.5, effectCombatBonus: 0.5, effectDrawBonus: 0.3,
+    effectUntapBonus: 1.0, effectVPBonus: 1.0,
+    phaseEarlyEnd: 2, phaseLateStart: 4, combatPriorityLate: 1.5,
+    purchasePriorityEarly: 1.5, manaShopThresholdLate: 4,
+    vpDeficitCombatBoost: 0.5, vpLeadPurchaseBoost: 0.3, opponentSPAwareness: 0.5,
+  };
+
+  // 過去の進化世代（不足パラメータはデフォルトで補完）
+  for (const n of evolvedNames) {
+    try {
+      const data = loadParams(n);
+      const filled = { ...newParamDefaults, ...data.params };
+      console.log(chalk.gray(`  ${n}: gen${data.generation} fitness=${data.fitness.toFixed(2)} (params: ${Object.keys(data.params).length}→${Object.keys(filled).length})`));
+      strategyMap[n] = createParameterizedStrategy(filled as MajoParams);
+      names.push(n);
+    } catch { /* skip missing */ }
+  }
 
   const numGames = 2000;
 
@@ -98,9 +124,9 @@ async function main() {
       process.stdout.write(`\r  対戦中... ${i + 1}/${numGames}`);
     }
 
-    // 席順をランダムにシャッフル
-    const shuffled = [...loaded].sort(() => Math.random() - 0.5);
-    const strategies = shuffled.map((s) => ({ name: s.name, params: s.params }));
+    // 全員参加、席順だけシャッフル
+    const shuffled = [...names].sort(() => Math.random() - 0.5);
+    const strategies = shuffled.map((n) => ({ name: n, strategy: strategyMap[n] }));
 
     const { winner, scores } = await runGame(strategies);
 
@@ -139,23 +165,7 @@ async function main() {
     console.log(`  ${medal} ${(i + 1)}位  ${r.name.padEnd(8)} ${winPct}%   ${avgVP}VP  ${wins}勝  ${avgS}   ${avgT}   ${avgR}`);
   }
 
-  // パラメータ比較
-  console.log(chalk.bold('\n╔══ パラメータ比較 ══════════════════════════╗\n'));
-  const paramKeys = Object.keys(loaded[0].params) as (keyof MajoParams)[];
-  const important = [
-    'saintVPWeight', 'saintRelicWeight', 'saintZeroVPWeight',
-    'toolBuyMaxCount', 'toolPowerWeight',
-    'combatPriority', 'purchasePriority', 'manaPriority',
-    'witchRoundThreshold', 'witchMagicModeWeight',
-    'manaReserveForCombat', 'relicAggressiveness',
-    'familiarVPThreshold', 'familiarForPurchase',
-    'combatBeforePurchase',
-  ];
-  console.log(chalk.bold(`  ${'パラメータ'.padEnd(26)} ${'alpha'.padStart(7)} ${'beta'.padStart(7)} ${'gamma'.padStart(7)} ${'delta'.padStart(7)}`));
-  for (const key of important) {
-    const vals = loaded.map((l) => ((l.params as unknown as Record<string, number>)[key]).toFixed(2).padStart(7));
-    console.log(`  ${String(key).padEnd(26)} ${vals.join(' ')}`);
-  }
+  // パラメータ比較は省略（固定戦略はパラメータベースではない）
 
   console.log(chalk.bold('\n╚══════════════════════════════════════════╝'));
 }
