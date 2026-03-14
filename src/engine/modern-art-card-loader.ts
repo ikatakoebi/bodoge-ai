@@ -11,7 +11,7 @@ let sheetUrl: string | null = null;
 
 /** スプレッドシートIDを設定 */
 export function setModernArtSheetId(sheetId: string): void {
-  sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=0`;
+  sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
   cachedCards = null; // ID変更時はキャッシュクリア
 }
 

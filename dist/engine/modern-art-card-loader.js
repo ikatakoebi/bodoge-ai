@@ -6,7 +6,7 @@ let cachedCards = null;
 let sheetUrl = null;
 /** スプレッドシートIDを設定 */
 export function setModernArtSheetId(sheetId) {
-    sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=0`;
+    sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
     cachedCards = null; // ID変更時はキャッシュクリア
 }
 /** スプレッドシートからカードデータを読み込む */
