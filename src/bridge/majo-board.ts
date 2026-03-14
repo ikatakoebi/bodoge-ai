@@ -416,6 +416,7 @@ export class MajoBoardSync {
     }
 
     // ボードにインスタンスが存在しない場合は動的生成
+    console.warn(`[majo-board] resolveInstance動的生成: ${engineId} (ボードに既存インスタンスなし)`);
     const newInstanceId = this.client.createCardInstance(engineId);
     this.instanceCache.set(engineId, newInstanceId);
     return newInstanceId;
