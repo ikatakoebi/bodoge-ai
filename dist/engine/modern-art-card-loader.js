@@ -1,14 +1,7 @@
 // Modern Art ゲームデータ：Google Sheetsから読み込み
-// シート構成: cards, config, deal, values
+// シート構成（魔女ゲーと統一）: cards, areas, counters, templates, setup
 const VALID_ARTISTS = new Set(['Lite Metal', 'Yoko', 'Christin P', 'Karl Gitter', 'Krypto']);
 const VALID_AUCTION_TYPES = new Set(['open', 'once_around', 'sealed', 'fixed_price', 'double']);
-// シートgid（API作成時に決まった値）
-const SHEET_GIDS = {
-    cards: 610505371,
-    config: 1889636086,
-    deal: 1011904364,
-    values: 417227694,
-};
 // ── キャッシュ ──
 let cachedData = null;
 let spreadsheetId = null;
@@ -23,17 +16,13 @@ export async function loadModernArtGameData() {
         return cachedData;
     if (!spreadsheetId)
         throw new Error('Modern ArtのスプレッドシートIDが設定されていません。setModernArtSheetId()を呼んでください');
-    const baseUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv`;
-    const [cardsCsv, configCsv, dealCsv, valuesCsv] = await Promise.all([
-        fetchSheet(baseUrl, SHEET_GIDS.cards),
-        fetchSheet(baseUrl, SHEET_GIDS.config),
-        fetchSheet(baseUrl, SHEET_GIDS.deal),
-        fetchSheet(baseUrl, SHEET_GIDS.values),
+    // gviz URL（シート名指定、魔女ゲーと同じ方式）
+    const [cardsCsv, setupCsv] = await Promise.all([
+        fetchSheetByName(spreadsheetId, 'cards'),
+        fetchSheetByName(spreadsheetId, 'setup'),
     ]);
     const cards = parseCardsCsv(cardsCsv);
-    const config = parseConfigCsv(configCsv);
-    const deal = parseDealCsv(dealCsv);
-    const values = parseValuesCsv(valuesCsv);
+    const { config, deal, values } = parseSetupCsv(setupCsv);
     cachedData = { cards, config, deal, values };
     console.log(`[modern-art] ${cards.length}枚カード, 初期資金${config.initialMoney}, ${config.roundCount}ラウンド`);
     return cachedData;
@@ -47,13 +36,18 @@ export async function loadModernArtCards() {
 export function clearModernArtCardCache() {
     cachedData = null;
 }
-// ── フェッチ ──
-async function fetchSheet(baseUrl, gid) {
-    const url = `${baseUrl}&gid=${gid}`;
-    const res = await fetch(url, { redirect: 'follow' });
-    if (!res.ok)
-        throw new Error(`シート取得失敗 (gid=${gid}): ${res.status}`);
-    return res.text();
+// ── フェッチ（gviz URL、シート名指定） ──
+async function fetchSheetByName(sheetId, sheetName) {
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}&headers=1`;
+    const res = await fetch(url, {
+        headers: { 'User-Agent': 'BodogeAI/1.0' },
+        redirect: 'follow',
+    });
+    const text = await res.text();
+    if (!res.ok || text.trimStart().startsWith('<!')) {
+        throw new Error(`シート "${sheetName}" 取得失敗: ${res.status}`);
+    }
+    return text;
 }
 // ── CSVパース共通 ──
 function parseCsvLine(line) {
@@ -91,9 +85,6 @@ function parseCsvLine(line) {
     }
     fields.push(current);
     return fields;
-}
-function parseCsvLines(csv) {
-    return csv.split('\n').map(l => l.replace(/\r$/, '')).filter(l => l.trim()).map(parseCsvLine);
 }
 // ── cardsシート ──
 function parseCardsCsv(csv) {
@@ -134,55 +125,40 @@ function parseCardsCsv(csv) {
         throw new Error('有効なカードが0枚');
     return cards;
 }
-// ── configシート ──
-function parseConfigCsv(csv) {
-    const rows = parseCsvLines(csv);
-    const map = new Map();
-    // ヘッダー行(key,value)の後にデータ
-    for (let i = 1; i < rows.length; i++) {
-        const key = rows[i][0]?.trim();
-        const val = rows[i][1]?.trim();
-        if (key)
-            map.set(key, val);
-    }
-    return {
-        initialMoney: parseInt(map.get('initialMoney') || '100', 10),
-        roundCount: parseInt(map.get('roundCount') || '4', 10),
-        roundEndCardCount: parseInt(map.get('roundEndCardCount') || '5', 10),
-        playerMin: parseInt(map.get('playerMin') || '3', 10),
-        playerMax: parseInt(map.get('playerMax') || '5', 10),
-    };
-}
-// ── dealシート ──
-function parseDealCsv(csv) {
-    const rows = parseCsvLines(csv);
-    // ヘッダー: players, round1, round2, round3, round4
+// ── setupシート（config/deal/values統合） ──
+function parseSetupCsv(csv) {
+    const lines = csv.split('\n').map(l => l.replace(/\r$/, '')).filter(l => l.trim());
+    const configMap = new Map();
     const deal = {};
-    for (let i = 1; i < rows.length; i++) {
-        const playerCount = parseInt(rows[i][0]?.trim(), 10);
-        if (isNaN(playerCount))
-            continue;
-        const rounds = [];
-        for (let j = 1; j < rows[i].length; j++) {
-            const v = parseInt(rows[i][j]?.trim(), 10);
-            if (!isNaN(v))
-                rounds.push(v);
+    let artistValuesStr = '30,20,10';
+    for (let i = 1; i < lines.length; i++) {
+        const fields = parseCsvLine(lines[i]);
+        const action = fields[0]?.trim();
+        const key = fields[1]?.trim();
+        const value = fields[2]?.trim();
+        if (action === 'config' && key) {
+            if (key === 'artistValues') {
+                artistValuesStr = value;
+            }
+            else {
+                configMap.set(key, value);
+            }
         }
-        deal[playerCount] = rounds;
+        else if (action === 'deal' && key) {
+            const playerCount = parseInt(key, 10);
+            if (!isNaN(playerCount) && value) {
+                deal[playerCount] = value.split(',').map(v => parseInt(v.trim(), 10));
+            }
+        }
     }
-    return deal;
-}
-// ── valuesシート ──
-function parseValuesCsv(csv) {
-    const rows = parseCsvLines(csv);
-    // ヘッダー: rank, value
-    const rankValues = [];
-    for (let i = 1; i < rows.length; i++) {
-        const val = parseInt(rows[i][1]?.trim(), 10);
-        if (!isNaN(val))
-            rankValues.push(val);
-    }
-    if (rankValues.length === 0)
-        throw new Error('valuesシートが空');
-    return { rankValues };
+    const config = {
+        initialMoney: parseInt(configMap.get('initialMoney') || '100', 10),
+        roundCount: parseInt(configMap.get('roundCount') || '4', 10),
+        roundEndCardCount: parseInt(configMap.get('roundEndCardCount') || '5', 10),
+        playerMin: parseInt(configMap.get('playerMin') || '3', 10),
+        playerMax: parseInt(configMap.get('playerMax') || '5', 10),
+    };
+    const rankValues = artistValuesStr.split(',').map(v => parseInt(v.trim(), 10));
+    const values = { rankValues };
+    return { config, deal, values };
 }

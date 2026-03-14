@@ -1,18 +1,10 @@
 // Modern Art ゲームデータ：Google Sheetsから読み込み
-// シート構成: cards, config, deal, values
+// シート構成（魔女ゲーと統一）: cards, areas, counters, templates, setup
 
 import type { ModernArtCard, ArtistName, AuctionType } from './modern-art-types.js';
 
 const VALID_ARTISTS: Set<string> = new Set(['Lite Metal', 'Yoko', 'Christin P', 'Karl Gitter', 'Krypto']);
 const VALID_AUCTION_TYPES: Set<string> = new Set(['open', 'once_around', 'sealed', 'fixed_price', 'double']);
-
-// シートgid（API作成時に決まった値）
-const SHEET_GIDS = {
-  cards: 610505371,
-  config: 1889636086,
-  deal: 1011904364,
-  values: 417227694,
-};
 
 // ── 型定義 ──
 
@@ -25,12 +17,10 @@ export interface ModernArtConfig {
 }
 
 export interface ModernArtDeal {
-  // playerCount -> [round1枚数, round2枚数, ...]
   [playerCount: number]: number[];
 }
 
 export interface ModernArtValues {
-  // rank(1,2,3) -> value(30,20,10)
   rankValues: number[];
 }
 
@@ -57,19 +47,14 @@ export async function loadModernArtGameData(): Promise<ModernArtGameData> {
   if (cachedData) return cachedData;
   if (!spreadsheetId) throw new Error('Modern ArtのスプレッドシートIDが設定されていません。setModernArtSheetId()を呼んでください');
 
-  const baseUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv`;
-
-  const [cardsCsv, configCsv, dealCsv, valuesCsv] = await Promise.all([
-    fetchSheet(baseUrl, SHEET_GIDS.cards),
-    fetchSheet(baseUrl, SHEET_GIDS.config),
-    fetchSheet(baseUrl, SHEET_GIDS.deal),
-    fetchSheet(baseUrl, SHEET_GIDS.values),
+  // gviz URL（シート名指定、魔女ゲーと同じ方式）
+  const [cardsCsv, setupCsv] = await Promise.all([
+    fetchSheetByName(spreadsheetId, 'cards'),
+    fetchSheetByName(spreadsheetId, 'setup'),
   ]);
 
   const cards = parseCardsCsv(cardsCsv);
-  const config = parseConfigCsv(configCsv);
-  const deal = parseDealCsv(dealCsv);
-  const values = parseValuesCsv(valuesCsv);
+  const { config, deal, values } = parseSetupCsv(setupCsv);
 
   cachedData = { cards, config, deal, values };
   console.log(`[modern-art] ${cards.length}枚カード, 初期資金${config.initialMoney}, ${config.roundCount}ラウンド`);
@@ -87,13 +72,19 @@ export function clearModernArtCardCache(): void {
   cachedData = null;
 }
 
-// ── フェッチ ──
+// ── フェッチ（gviz URL、シート名指定） ──
 
-async function fetchSheet(baseUrl: string, gid: number): Promise<string> {
-  const url = `${baseUrl}&gid=${gid}`;
-  const res = await fetch(url, { redirect: 'follow' });
-  if (!res.ok) throw new Error(`シート取得失敗 (gid=${gid}): ${res.status}`);
-  return res.text();
+async function fetchSheetByName(sheetId: string, sheetName: string): Promise<string> {
+  const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}&headers=1`;
+  const res = await fetch(url, {
+    headers: { 'User-Agent': 'BodogeAI/1.0' },
+    redirect: 'follow',
+  });
+  const text = await res.text();
+  if (!res.ok || text.trimStart().startsWith('<!')) {
+    throw new Error(`シート "${sheetName}" 取得失敗: ${res.status}`);
+  }
+  return text;
 }
 
 // ── CSVパース共通 ──
@@ -129,10 +120,6 @@ function parseCsvLine(line: string): string[] {
   }
   fields.push(current);
   return fields;
-}
-
-function parseCsvLines(csv: string): string[][] {
-  return csv.split('\n').map(l => l.replace(/\r$/, '')).filter(l => l.trim()).map(parseCsvLine);
 }
 
 // ── cardsシート ──
@@ -182,60 +169,45 @@ function parseCardsCsv(csv: string): ModernArtCard[] {
   return cards;
 }
 
-// ── configシート ──
+// ── setupシート（config/deal/values統合） ──
 
-function parseConfigCsv(csv: string): ModernArtConfig {
-  const rows = parseCsvLines(csv);
-  const map = new Map<string, string>();
-  // ヘッダー行(key,value)の後にデータ
-  for (let i = 1; i < rows.length; i++) {
-    const key = rows[i][0]?.trim();
-    const val = rows[i][1]?.trim();
-    if (key) map.set(key, val);
-  }
+function parseSetupCsv(csv: string): { config: ModernArtConfig; deal: ModernArtDeal; values: ModernArtValues } {
+  const lines = csv.split('\n').map(l => l.replace(/\r$/, '')).filter(l => l.trim());
 
-  return {
-    initialMoney: parseInt(map.get('initialMoney') || '100', 10),
-    roundCount: parseInt(map.get('roundCount') || '4', 10),
-    roundEndCardCount: parseInt(map.get('roundEndCardCount') || '5', 10),
-    playerMin: parseInt(map.get('playerMin') || '3', 10),
-    playerMax: parseInt(map.get('playerMax') || '5', 10),
-  };
-}
-
-// ── dealシート ──
-
-function parseDealCsv(csv: string): ModernArtDeal {
-  const rows = parseCsvLines(csv);
-  // ヘッダー: players, round1, round2, round3, round4
+  const configMap = new Map<string, string>();
   const deal: ModernArtDeal = {};
+  let artistValuesStr = '30,20,10';
 
-  for (let i = 1; i < rows.length; i++) {
-    const playerCount = parseInt(rows[i][0]?.trim(), 10);
-    if (isNaN(playerCount)) continue;
-    const rounds: number[] = [];
-    for (let j = 1; j < rows[i].length; j++) {
-      const v = parseInt(rows[i][j]?.trim(), 10);
-      if (!isNaN(v)) rounds.push(v);
+  for (let i = 1; i < lines.length; i++) {
+    const fields = parseCsvLine(lines[i]);
+    const action = fields[0]?.trim();
+    const key = fields[1]?.trim();
+    const value = fields[2]?.trim();
+
+    if (action === 'config' && key) {
+      if (key === 'artistValues') {
+        artistValuesStr = value;
+      } else {
+        configMap.set(key, value);
+      }
+    } else if (action === 'deal' && key) {
+      const playerCount = parseInt(key, 10);
+      if (!isNaN(playerCount) && value) {
+        deal[playerCount] = value.split(',').map(v => parseInt(v.trim(), 10));
+      }
     }
-    deal[playerCount] = rounds;
   }
 
-  return deal;
-}
+  const config: ModernArtConfig = {
+    initialMoney: parseInt(configMap.get('initialMoney') || '100', 10),
+    roundCount: parseInt(configMap.get('roundCount') || '4', 10),
+    roundEndCardCount: parseInt(configMap.get('roundEndCardCount') || '5', 10),
+    playerMin: parseInt(configMap.get('playerMin') || '3', 10),
+    playerMax: parseInt(configMap.get('playerMax') || '5', 10),
+  };
 
-// ── valuesシート ──
+  const rankValues = artistValuesStr.split(',').map(v => parseInt(v.trim(), 10));
+  const values: ModernArtValues = { rankValues };
 
-function parseValuesCsv(csv: string): ModernArtValues {
-  const rows = parseCsvLines(csv);
-  // ヘッダー: rank, value
-  const rankValues: number[] = [];
-
-  for (let i = 1; i < rows.length; i++) {
-    const val = parseInt(rows[i][1]?.trim(), 10);
-    if (!isNaN(val)) rankValues.push(val);
-  }
-
-  if (rankValues.length === 0) throw new Error('valuesシートが空');
-  return { rankValues };
+  return { config, deal, values };
 }
