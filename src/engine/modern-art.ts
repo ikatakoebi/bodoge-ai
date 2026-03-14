@@ -7,19 +7,13 @@ import type {
   ArtistName, AuctionType, RoundResult,
 } from './modern-art-types.js';
 import { ARTIST_NAMES } from './modern-art-types.js';
-import { loadModernArtCards } from './modern-art-card-loader.js';
+import { loadModernArtGameData } from './modern-art-card-loader.js';
+import type { ModernArtConfig, ModernArtDeal, ModernArtValues } from './modern-art-card-loader.js';
 
-const INITIAL_MONEY = 100;
-const ROUND_COUNT = 4;
-const ROUND_END_CARD_COUNT = 5;
-const ARTIST_VALUES = [30, 20, 10]; // 1位, 2位, 3位
-
-// 手札枚数: ラウンド1→基本枚数, ラウンド2以降→追加配布
-const ROUND_DEAL: Record<number, number[]> = {
-  3: [10, 6, 6, 6],
-  4: [9, 4, 4, 4],
-  5: [8, 3, 3, 3],
-};
+// スプシから読み込んだデータ（createModernArtGameで設定）
+let gameConfig: ModernArtConfig | null = null;
+let gameDeal: ModernArtDeal | null = null;
+let gameValues: ModernArtValues | null = null;
 
 function shuffle<T>(arr: T[]): T[] {
   const result = [...arr];
@@ -37,17 +31,25 @@ function emptyArtistRecord(): Record<ArtistName, number> {
 // ── 初期化 ──
 
 export async function createModernArtGame(players: PlayerConfig[]): Promise<ModernArtGameState> {
-  const n = players.length;
-  if (n < 3 || n > 5) throw new Error('プレイヤー数は3〜5人');
+  // スプレッドシートから全データを読み込み
+  const data = await loadModernArtGameData();
+  gameConfig = data.config;
+  gameDeal = data.deal;
+  gameValues = data.values;
 
-  // スプレッドシートからカードデータを読み込み
-  const cards = await loadModernArtCards();
-  const deck = shuffle([...cards]);
-  const dealCount = ROUND_DEAL[n][0];
+  const n = players.length;
+  if (n < gameConfig.playerMin || n > gameConfig.playerMax) {
+    throw new Error(`プレイヤー数は${gameConfig.playerMin}〜${gameConfig.playerMax}人`);
+  }
+
+  const deck = shuffle([...data.cards]);
+  const dealRounds = gameDeal[n];
+  if (!dealRounds) throw new Error(`${n}人用の配布データがスプシにない`);
+  const dealCount = dealRounds[0];
 
   const playerStates: ModernArtPlayerState[] = players.map((config) => ({
     config,
-    money: INITIAL_MONEY,
+    money: gameConfig!.initialMoney,
     hand: [],
     paintings: [],
   }));
@@ -222,7 +224,7 @@ function executePlayCard(state: ModernArtGameState, playerId: string, cardId: st
   newPlayed[card.artist] = (newPlayed[card.artist] || 0) + 1;
 
   // 5枚目チェック → ラウンド終了
-  if (newPlayed[card.artist] >= ROUND_END_CARD_COUNT) {
+  if (newPlayed[card.artist] >= gameConfig!.roundEndCardCount) {
     return endRound({
       ...state,
       players: updatePlayerAt(state.players, playerIdx, { hand: newHand }),
@@ -262,7 +264,7 @@ function executePlayDouble(state: ModernArtGameState, playerId: string, cardId: 
   newPlayed[card.artist] = (newPlayed[card.artist] || 0) + 2;
 
   // 5枚目チェック
-  if (newPlayed[card.artist] >= ROUND_END_CARD_COUNT) {
+  if (newPlayed[card.artist] >= gameConfig!.roundEndCardCount) {
     // ダブルで5枚以上 → ラウンド終了（2枚とも無効）
     return endRound({
       ...state,
@@ -532,7 +534,7 @@ function endRound(state: ModernArtGameState): ModernArtGameState {
   const ranking = sorted.filter(a => (played[a] || 0) > 0).slice(0, 3);
   const roundValues: Record<ArtistName, number> = emptyArtistRecord();
   for (let i = 0; i < ranking.length; i++) {
-    roundValues[ranking[i]] = ARTIST_VALUES[i];
+    roundValues[ranking[i]] = gameValues!.rankValues[i];
   }
 
   // 累積価値に加算
@@ -551,7 +553,7 @@ function endRound(state: ModernArtGameState): ModernArtGameState {
   const events = [...state.lastEvents];
   events.push(`━━━ ラウンド${state.round} 結果 ━━━`);
   for (let i = 0; i < ranking.length; i++) {
-    events.push(`  ${['🥇', '🥈', '🥉'][i]} ${ranking[i]}: +${ARTIST_VALUES[i]} (累計${newArtistValues[ranking[i]]})`);
+    events.push(`  ${['🥇', '🥈', '🥉'][i]} ${ranking[i]}: +${gameValues!.rankValues[i]} (累計${newArtistValues[ranking[i]]})`);
   }
 
   // 絵画の売却（所持絵画を現金化）
@@ -571,7 +573,7 @@ function endRound(state: ModernArtGameState): ModernArtGameState {
   });
 
   // 次のラウンドへ
-  if (state.round >= ROUND_COUNT) {
+  if (state.round >= gameConfig!.roundCount) {
     return finishGame({
       ...state,
       players: newPlayers,
@@ -587,7 +589,9 @@ function endRound(state: ModernArtGameState): ModernArtGameState {
   const newRound = state.round + 1;
   const deck = [...state.deck];
   const n = state.players.length;
-  const dealCount = ROUND_DEAL[n][newRound - 1];
+  const dealRounds = gameDeal![n];
+  if (!dealRounds) throw new Error(`${n}人用の配布データがスプシにない`);
+  const dealCount = dealRounds[newRound - 1];
 
   for (let i = 0; i < dealCount; i++) {
     for (const p of newPlayers) {
