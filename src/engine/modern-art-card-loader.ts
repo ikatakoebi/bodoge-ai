@@ -1,27 +1,30 @@
-// Modern Art カードデータ：Google Sheetsから読み込み
+// Modern Art カードデータ：CSV（Google Sheets or GitHub）から読み込み
 
 import type { ModernArtCard, ArtistName, AuctionType } from './modern-art-types.js';
 
 const VALID_ARTISTS: Set<string> = new Set(['Lite Metal', 'Yoko', 'Christin P', 'Karl Gitter', 'Krypto']);
 const VALID_AUCTION_TYPES: Set<string> = new Set(['open', 'once_around', 'sealed', 'fixed_price', 'double']);
 
+// デフォルト: GitHubリポジトリ上のCSV
+const DEFAULT_CSV_URL = 'https://raw.githubusercontent.com/ikatakoebi/bodoge-ai/master/data/modern-art-cards.csv';
+
 // キャッシュ（同一プロセス内で1回だけfetch）
 let cachedCards: ModernArtCard[] | null = null;
-let sheetUrl: string | null = null;
+let csvUrl: string = DEFAULT_CSV_URL;
 
-/** スプレッドシートIDを設定 */
+/** スプレッドシートIDを設定（Google Sheets優先） */
 export function setModernArtSheetId(sheetId: string): void {
-  sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=0`;
-  cachedCards = null; // ID変更時はキャッシュクリア
+  csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=0`;
+  cachedCards = null;
 }
 
-/** スプレッドシートからカードデータを読み込む */
+/** カードデータを読み込む（スプシ設定済みならスプシ、なければGitHub CSV） */
 export async function loadModernArtCards(): Promise<ModernArtCard[]> {
   if (cachedCards) return cachedCards;
-  if (!sheetUrl) throw new Error('Modern ArtのスプレッドシートIDが設定されていません。setModernArtSheetId()を呼んでください');
 
-  const res = await fetch(sheetUrl, { redirect: 'follow' });
-  if (!res.ok) throw new Error(`スプレッドシート取得失敗: ${res.status}`);
+  console.log(`[modern-art-card-loader] CSV取得: ${csvUrl.substring(0, 60)}...`);
+  const res = await fetch(csvUrl, { redirect: 'follow' });
+  if (!res.ok) throw new Error(`CSV取得失敗: ${res.status} from ${csvUrl}`);
   const csv = await res.text();
 
   cachedCards = parseModernArtCsv(csv);
