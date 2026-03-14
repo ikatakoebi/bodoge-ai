@@ -429,6 +429,19 @@ export const DEFAULT_PARAMS = {
     violenceMinMana: 6,
     prayerEarlyRound: 2,
     sacrificeMinRelics: 3,
+    effectManaBonus: 0.5,
+    effectCombatBonus: 0.5,
+    effectDrawBonus: 0.3,
+    effectUntapBonus: 1.0,
+    effectVPBonus: 1.0,
+    phaseEarlyEnd: 2,
+    phaseLateStart: 4,
+    combatPriorityLate: 1.5,
+    purchasePriorityEarly: 1.5,
+    manaShopThresholdLate: 4,
+    vpDeficitCombatBoost: 0.5,
+    vpLeadPurchaseBoost: 0.3,
+    opponentSPAwareness: 0.5,
 };
 /** パラメータの変動範囲（最小値・最大値）：突然変異に使用 */
 const PARAM_RANGES = {
@@ -459,6 +472,19 @@ const PARAM_RANGES = {
     prayerEarlyRound: [0, 5],
     sacrificeMinRelics: [1, 8],
     familiarForPurchase: [0, 1],
+    effectManaBonus: [0, 2],
+    effectCombatBonus: [0, 2],
+    effectDrawBonus: [0, 2],
+    effectUntapBonus: [0, 3],
+    effectVPBonus: [0, 3],
+    phaseEarlyEnd: [1, 3],
+    phaseLateStart: [3, 6],
+    combatPriorityLate: [0.5, 3.0],
+    purchasePriorityEarly: [0.5, 3.0],
+    manaShopThresholdLate: [2, 8],
+    vpDeficitCombatBoost: [0, 2.0],
+    vpLeadPurchaseBoost: [0, 1.5],
+    opponentSPAwareness: [0, 1.0],
 };
 /**
  * ランダムなパラメータセットを生成
@@ -562,6 +588,22 @@ export function createParameterizedStrategy(params) {
             const actions = getAvailableActions(state, playerId);
             const fieldActions = actions.filter((a) => a.type === 'field_action' || a.type === 'use_familiar');
             const passAction = actions.find((a) => a.type === 'pass');
+            // ── フェーズ判定 ──
+            const isEarly = state.round <= params.phaseEarlyEnd;
+            const isLate = state.round >= params.phaseLateStart;
+            // フェーズ別倍率
+            const combatMultiplier = isLate ? params.combatPriorityLate : 1.0;
+            const purchaseMultiplier = isEarly ? params.purchasePriorityEarly : 1.0;
+            // 終盤はマナを溜め込まない（閾値を上げてマナ補充に行きにくくする）
+            const effectiveManaShopThreshold = isLate ? params.manaShopThresholdLate : params.manaShopThreshold;
+            // ── 対戦相手認識 ──
+            const opponents = state.players.filter(p => p.config.id !== playerId);
+            const maxOpponentVP = opponents.length > 0 ? Math.max(...opponents.map(p => p.victoryPoints)) : 0;
+            const vpDiff = maxOpponentVP - player.victoryPoints; // 正=負けてる、負=勝ってる
+            const anyOpponentHasSP = opponents.some(p => {
+                const opIdx = state.players.findIndex(pp => pp.config.id === p.config.id);
+                return state.startPlayerIndex === opIdx;
+            });
             // ── ステップ1: 戦闘マルチステップ中は戦闘を優先 ──
             const combatStep = selectCombatStepAction(state, player, playerId, actions);
             if (combatStep)
@@ -633,14 +675,18 @@ export function createParameterizedStrategy(params) {
             // 倒せる聖者をパラメータで評価し、最もスコアが高いものを選ぶ
             let bestSaintScore = -Infinity;
             let bestSaintTarget = null;
+            // VP差による戦闘ブースト: 負けてるほど戦闘を優先
+            const vpDeficitBoost = vpDiff > 0 ? (1 + vpDiff * params.vpDeficitCombatBoost) : 1.0;
             for (const saint of killableSaints) {
-                const score = evaluateSaint(saint, state, player) * params.combatPriority;
+                const score = evaluateSaint(saint, state, player) * params.combatPriority * combatMultiplier * vpDeficitBoost;
                 if (score > bestSaintScore) {
                     bestSaintScore = score;
                     bestSaintTarget = saint;
                 }
             }
             // 魔導具購入の評価
+            // VP差によるリードブースト: 勝ってる時はエンジン構築を優先
+            const vpLeadBoost = vpDiff < 0 ? (1 + Math.abs(vpDiff) * params.vpLeadPurchaseBoost) : 1.0;
             const toolCountOk = player.magicTools.length < params.toolBuyMaxCount;
             let bestPurchase = null;
             if (toolCountOk) {
@@ -648,7 +694,7 @@ export function createParameterizedStrategy(params) {
                     .filter((t) => t.cost <= player.mana)
                     .map((t) => ({
                     tool: t,
-                    score: evaluateTool(t, player.magicTools, player) * params.purchasePriority,
+                    score: evaluateTool(t, player.magicTools, player) * params.purchasePriority * purchaseMultiplier * vpLeadBoost,
                 }))
                     .filter((t) => t.score > 0)
                     .sort((a, b) => b.score - a.score);
@@ -760,13 +806,13 @@ export function createParameterizedStrategy(params) {
                 }
             }
             // ── purchaseBeforeShop でマナ補充との優先順序を決定 ──
-            // マナ補充の評価
-            const needsMana = player.mana <= params.manaShopThreshold;
+            // マナ補充の評価（終盤はmanaShopThresholdLateを使用）
+            const needsMana = player.mana <= effectiveManaShopThreshold;
             const shopAct = findFieldAction(fieldActions, 'magic_shop', false);
             if (needsMana && shopAct && (!hasPurchaseOption || params.purchaseBeforeShop <= 0.5)) {
                 return {
                     action: shopAct,
-                    reasoning: `マナ${player.mana} <= 閾値${params.manaShopThreshold}のため補充（マナ優先: purchaseBeforeShop=${params.purchaseBeforeShop.toFixed(2)}）`,
+                    reasoning: `マナ${player.mana} <= 閾値${effectiveManaShopThreshold}のため補充（マナ優先: purchaseBeforeShop=${params.purchaseBeforeShop.toFixed(2)}）`,
                 };
             }
             // ── 魔女使用の判断（witchMagicModeWeight でモード選択） ──

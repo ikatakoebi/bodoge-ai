@@ -108,6 +108,8 @@ interface SingleGameOptions {
   playerCount?: number;
   benchmarkParams?: MajoParams | null;
   benchmarkName?: string;
+  /** Coevolution: params from previous gen's best or random population members */
+  coevolutionOpponents?: MajoParams[];
 }
 
 interface EvaluationConfig {
@@ -134,7 +136,12 @@ async function runSingleGame(
   evolvedPlayerIndex: number;
   benchmarkPlayerId: string | null;
 }> {
-  const { playerCount = 4, benchmarkParams = null, benchmarkName = 'benchmark' } = options;
+  const {
+    playerCount = 4,
+    benchmarkParams = null,
+    benchmarkName = 'benchmark',
+    coevolutionOpponents = [],
+  } = options;
   const evolvedPlayerIndex = Math.floor(Math.random() * playerCount);
   const evolvedStrategy = createParameterizedStrategy(evolvedParams);
 
@@ -145,6 +152,17 @@ async function runSingleGame(
     do {
       benchmarkPlayerIndex = Math.floor(Math.random() * playerCount);
     } while (benchmarkPlayerIndex === evolvedPlayerIndex);
+  }
+
+  // Coevolution: decide which opponent slots get an evolved opponent
+  // For each non-candidate, non-benchmark slot, ~50% chance to use a coevolved opponent
+  const coevoSlots = new Set<number>();
+  if (coevolutionOpponents.length > 0) {
+    for (let i = 0; i < playerCount; i++) {
+      if (i === evolvedPlayerIndex) continue;
+      if (i === benchmarkPlayerIndex) continue;
+      if (Math.random() < 0.5) coevoSlots.add(i);
+    }
   }
 
   const players: PlayerConfig[] = [];
@@ -170,6 +188,22 @@ async function runSingleGame(
         strategyId: `benchmark_${benchmarkName}`,
       });
       strategies.push(benchmarkStrategy);
+      continue;
+    }
+
+    // Coevolution: use an evolved opponent for this slot
+    if (coevoSlots.has(i)) {
+      const coevoParams = coevolutionOpponents[
+        Math.floor(Math.random() * coevolutionOpponents.length)
+      ];
+      const coevoStrategy = createParameterizedStrategy(coevoParams);
+      players.push({
+        id: `p${i}`,
+        name: 'CoevoOpponent',
+        type: 'ai' as const,
+        strategyId: 'majo_coevo',
+      });
+      strategies.push(coevoStrategy);
       continue;
     }
 
@@ -222,6 +256,7 @@ async function evaluateIndividual(
   gamesPerEval: number,
   cardStats: CardStats,
   evaluationConfig: EvaluationConfig,
+  coevolutionOpponents: MajoParams[] = [],
 ): Promise<Individual> {
   let totalVP = 0;
   let wins = 0;
@@ -235,6 +270,7 @@ async function evaluateIndividual(
       {
         benchmarkParams: evaluationConfig.benchmarkParams,
         benchmarkName: evaluationConfig.benchmarkName,
+        coevolutionOpponents,
       },
     );
     const evolvedPlayerId = `p${evolvedPlayerIndex}`;
@@ -736,6 +772,8 @@ async function runEvolution(options: {
   saveCardStats(cardStats, nameSuffix);
 
   let allTimeBest: Individual = individuals.sort((a, b) => b.fitness - a.fitness)[0];
+  // Coevolution: track previous generation's best for self-play
+  let prevGenBestParams: MajoParams | null = null;
 
   // ── 進化ルーチE──
   for (let gen = 1; gen <= generations; gen++) {
@@ -777,9 +815,21 @@ async function runEvolution(options: {
       newGeneration.push({ params: childParams, fitness: 0, games: 0, wins: 0 });
     }
 
-    // 全個体を評価�E�生存老E��再評価して運�E偏りを排除�E�E
+    // Coevolution: build opponent pool from previous gen's best + random survivors
+    const coevolutionOpponents: MajoParams[] = [];
+    if (prevGenBestParams) {
+      coevolutionOpponents.push(prevGenBestParams);
+    }
+    // Add a few random survivors as additional coevolution opponents
+    const coevoSurvivorCount = Math.min(2, survivors.length);
+    for (let ci = 0; ci < coevoSurvivorCount; ci++) {
+      const randomSurvivor = survivors[Math.floor(Math.random() * survivors.length)];
+      coevolutionOpponents.push(randomSurvivor.params);
+    }
+
+    // 全個体を評価（生存者も再評価して運の偏りを排除）
     if (verbose) {
-      console.log(chalk.bold(`\n世代 ${gen}: 全${newGeneration.length}体を評価中...`));
+      console.log(chalk.bold(`\n世代 ${gen}: 全${newGeneration.length}体を評価中... (coevo opponents: ${coevolutionOpponents.length})`));
     }
 
     for (let i = 0; i < newGeneration.length; i++) {
@@ -789,6 +839,7 @@ async function runEvolution(options: {
         gamesPerEval,
         cardStats,
         evaluationConfig,
+        coevolutionOpponents,
       );
     }
     if (verbose) console.log('');
@@ -798,8 +849,10 @@ async function runEvolution(options: {
     const elapsed = Date.now() - genStart;
     printGenerationStats(gen, individuals, elapsed);
 
-    // 最優秀個体�E更新
+    // 最優秀個体の更新
     const genBest = individuals.sort((a, b) => b.fitness - a.fitness)[0];
+    // Coevolution: remember this generation's best for next gen's opponent pool
+    prevGenBestParams = { ...genBest.params };
     if (genBest.fitness > allTimeBest.fitness) {
       allTimeBest = genBest;
       console.log(chalk.bold.green(`  新記録�E�E適応度 ${genBest.fitness.toFixed(3)} VP`));

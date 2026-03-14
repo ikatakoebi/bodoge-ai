@@ -1,0 +1,71 @@
+id,artist,auctionType
+MA01,Lite Metal,open
+MA02,Lite Metal,open
+MA03,Lite Metal,open
+MA04,Lite Metal,once_around
+MA05,Lite Metal,once_around
+MA06,Lite Metal,sealed
+MA07,Lite Metal,sealed
+MA08,Lite Metal,fixed_price
+MA09,Lite Metal,fixed_price
+MA10,Lite Metal,double
+MA11,Lite Metal,double
+MA12,Lite Metal,double
+MA13,Yoko,open
+MA14,Yoko,open
+MA15,Yoko,open
+MA16,Yoko,once_around
+MA17,Yoko,once_around
+MA18,Yoko,once_around
+MA19,Yoko,sealed
+MA20,Yoko,sealed
+MA21,Yoko,fixed_price
+MA22,Yoko,fixed_price
+MA23,Yoko,double
+MA24,Yoko,double
+MA25,Yoko,double
+MA26,Christin P,open
+MA27,Christin P,open
+MA28,Christin P,open
+MA29,Christin P,once_around
+MA30,Christin P,once_around
+MA31,Christin P,once_around
+MA32,Christin P,sealed
+MA33,Christin P,sealed
+MA34,Christin P,sealed
+MA35,Christin P,fixed_price
+MA36,Christin P,fixed_price
+MA37,Christin P,double
+MA38,Christin P,double
+MA39,Christin P,double
+MA40,Karl Gitter,open
+MA41,Karl Gitter,open
+MA42,Karl Gitter,open
+MA43,Karl Gitter,once_around
+MA44,Karl Gitter,once_around
+MA45,Karl Gitter,once_around
+MA46,Karl Gitter,sealed
+MA47,Karl Gitter,sealed
+MA48,Karl Gitter,sealed
+MA49,Karl Gitter,fixed_price
+MA50,Karl Gitter,fixed_price
+MA51,Karl Gitter,fixed_price
+MA52,Karl Gitter,double
+MA53,Karl Gitter,double
+MA54,Karl Gitter,double
+MA55,Krypto,open
+MA56,Krypto,open
+MA57,Krypto,open
+MA58,Krypto,open
+MA59,Krypto,once_around
+MA60,Krypto,once_around
+MA61,Krypto,once_around
+MA62,Krypto,sealed
+MA63,Krypto,sealed
+MA64,Krypto,sealed
+MA65,Krypto,fixed_price
+MA66,Krypto,fixed_price
+MA67,Krypto,fixed_price
+MA68,Krypto,double
+MA69,Krypto,double
+MA70,Krypto,double

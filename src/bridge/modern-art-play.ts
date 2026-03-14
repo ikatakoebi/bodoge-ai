@@ -8,6 +8,7 @@ import {
   getAvailableActions, isModernArtGameOver, getModernArtFinalScores,
   getPlayer, auctionTypeName, artistEmoji,
 } from '../engine/modern-art.js';
+export { setModernArtSheetId } from '../engine/modern-art-card-loader.js';
 import { getModernArtStrategy, getRandomModernArtStrategy, aiSetFixedPrice } from '../ai/modern-art-strategies.js';
 import type { PlayerConfig } from '../engine/types.js';
 import type {
@@ -101,8 +102,8 @@ export class ModernArtPlayController {
 
   setOnUpdate(cb: () => void) { this.onUpdate = cb; }
 
-  initGame(): void {
-    this.state = createModernArtGame(this.players);
+  async initGame(): Promise<void> {
+    this.state = await createModernArtGame(this.players);
     this.addLog(`モダンアート開始！ ${this._strategyNames.join(' / ')}`);
   }
 
@@ -256,7 +257,7 @@ export class ModernArtPlayController {
   // ── メインループ ──
 
   async run(): Promise<void> {
-    if (!this.state) this.initGame();
+    if (!this.state) await this.initGame();
 
     while (!isModernArtGameOver(this.state) && !this.aborted) {
       try {

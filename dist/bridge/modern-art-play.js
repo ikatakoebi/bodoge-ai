@@ -3,6 +3,7 @@
  * 人間 vs AI の対戦を管理
  */
 import { createModernArtGame, getCurrentPlayer, executeAction, getAvailableActions, isModernArtGameOver, getModernArtFinalScores, getPlayer, auctionTypeName, artistEmoji, } from '../engine/modern-art.js';
+export { setModernArtSheetId } from '../engine/modern-art-card-loader.js';
 import { getModernArtStrategy, getRandomModernArtStrategy, aiSetFixedPrice } from '../ai/modern-art-strategies.js';
 import { ARTIST_NAMES } from '../engine/modern-art-types.js';
 function delay(ms) {
@@ -62,8 +63,8 @@ export class ModernArtPlayController {
     }
     // ── Public API ──
     setOnUpdate(cb) { this.onUpdate = cb; }
-    initGame() {
-        this.state = createModernArtGame(this.players);
+    async initGame() {
+        this.state = await createModernArtGame(this.players);
         this.addLog(`モダンアート開始！ ${this._strategyNames.join(' / ')}`);
     }
     getHumanPlayerIds() { return [...this.humanPlayerIds]; }
@@ -208,7 +209,7 @@ export class ModernArtPlayController {
     // ── メインループ ──
     async run() {
         if (!this.state)
-            this.initGame();
+            await this.initGame();
         while (!isModernArtGameOver(this.state) && !this.aborted) {
             try {
                 const current = getCurrentPlayer(this.state);

@@ -1,50 +1,16 @@
 // Modern Art ゲームエンジン
 import { ARTIST_NAMES } from './modern-art-types.js';
+import { loadModernArtCards } from './modern-art-card-loader.js';
 const INITIAL_MONEY = 100;
 const ROUND_COUNT = 4;
 const ROUND_END_CARD_COUNT = 5;
 const ARTIST_VALUES = [30, 20, 10]; // 1位, 2位, 3位
 // 手札枚数: ラウンド1→基本枚数, ラウンド2以降→追加配布
-const INITIAL_HAND = { 3: 10, 4: 9, 5: 8 };
 const ROUND_DEAL = {
     3: [10, 6, 6, 6],
     4: [9, 4, 4, 4],
     5: [8, 3, 3, 3],
 };
-// ── デッキ定義 ──
-// カード配分: [artist, auctionType, count]
-const CARD_DISTRIBUTION = [
-    // Lite Metal (12枚)
-    ['Lite Metal', 'open', 3],
-    ['Lite Metal', 'once_around', 2],
-    ['Lite Metal', 'sealed', 2],
-    ['Lite Metal', 'fixed_price', 2],
-    ['Lite Metal', 'double', 3],
-    // Yoko (13枚)
-    ['Yoko', 'open', 3],
-    ['Yoko', 'once_around', 3],
-    ['Yoko', 'sealed', 2],
-    ['Yoko', 'fixed_price', 2],
-    ['Yoko', 'double', 3],
-    // Christin P (14枚)
-    ['Christin P', 'open', 3],
-    ['Christin P', 'once_around', 3],
-    ['Christin P', 'sealed', 3],
-    ['Christin P', 'fixed_price', 2],
-    ['Christin P', 'double', 3],
-    // Karl Gitter (15枚)
-    ['Karl Gitter', 'open', 3],
-    ['Karl Gitter', 'once_around', 3],
-    ['Karl Gitter', 'sealed', 3],
-    ['Karl Gitter', 'fixed_price', 3],
-    ['Karl Gitter', 'double', 3],
-    // Krypto (16枚)
-    ['Krypto', 'open', 4],
-    ['Krypto', 'once_around', 3],
-    ['Krypto', 'sealed', 3],
-    ['Krypto', 'fixed_price', 3],
-    ['Krypto', 'double', 3],
-];
 function shuffle(arr) {
     const result = [...arr];
     for (let i = result.length - 1; i > 0; i--) {
@@ -56,28 +22,14 @@ function shuffle(arr) {
 function emptyArtistRecord() {
     return { 'Lite Metal': 0, 'Yoko': 0, 'Christin P': 0, 'Karl Gitter': 0, 'Krypto': 0 };
 }
-// ── デッキ生成 ──
-function createDeck() {
-    const cards = [];
-    let idx = 1;
-    for (const [artist, auctionType, count] of CARD_DISTRIBUTION) {
-        for (let i = 0; i < count; i++) {
-            cards.push({
-                id: `MA${String(idx).padStart(2, '0')}`,
-                artist,
-                auctionType,
-            });
-            idx++;
-        }
-    }
-    return cards;
-}
 // ── 初期化 ──
-export function createModernArtGame(players) {
+export async function createModernArtGame(players) {
     const n = players.length;
     if (n < 3 || n > 5)
         throw new Error('プレイヤー数は3〜5人');
-    const deck = shuffle(createDeck());
+    // スプレッドシートからカードデータを読み込み
+    const cards = await loadModernArtCards();
+    const deck = shuffle([...cards]);
     const dealCount = ROUND_DEAL[n][0];
     const playerStates = players.map((config) => ({
         config,

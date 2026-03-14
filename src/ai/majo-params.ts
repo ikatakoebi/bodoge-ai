@@ -574,6 +574,38 @@ export interface MajoParams {
   // ── 生贄（聖遺物捨て→3マナ） ──
   /** 生贄で捨てる聖遺物の最低所持数（これ以上持ってる時だけ換金する）（デフォルト: 3） */
   sacrificeMinRelics: number;
+
+  // ── ゲームフェーズ認識 ──
+  /** 序盤→中盤の切り替えラウンド閾値（このラウンド以下が序盤）（デフォルト: 2） */
+  phaseEarlyEnd: number;
+  /** 中盤→終盤の切り替えラウンド閾値（このラウンド以上が終盤）（デフォルト: 4） */
+  phaseLateStart: number;
+  /** 終盤の戦闘優先度倍率（VP rushのため戦闘を強化）（デフォルト: 1.5） */
+  combatPriorityLate: number;
+  /** 序盤の購入優先度倍率（エンジン構築のため購入を強化）（デフォルト: 1.5） */
+  purchasePriorityEarly: number;
+  /** 終盤のマナ補充閾値（終盤はマナを溜め込まずに使う）（デフォルト: 4） */
+  manaShopThresholdLate: number;
+
+  // ── 魔導具効果評価 ──
+  /** マナ生成効果（聖者撃破：マナ＋N）の重み（デフォルト: 0.5） */
+  effectManaBonus: number;
+  /** 戦闘力ブースト効果（戦闘：魔力＋N、廃棄）の重み（デフォルト: 0.5） */
+  effectCombatBonus: number;
+  /** コスト削減効果（コスト-N）の重み（デフォルト: 0.3） */
+  effectDrawBonus: number;
+  /** アンタップ効果（いつでもアンタップ）の重み（デフォルト: 1.0） */
+  effectUntapBonus: number;
+  /** VP付与効果（勝利点＋N）の重み（デフォルト: 1.0） */
+  effectVPBonus: number;
+
+  // ── 対戦相手認識 ──
+  /** VP差で戦闘優先度をブーストする重み（vpDiff * この値を乗算）（デフォルト: 0.5） */
+  vpDeficitCombatBoost: number;
+  /** VP差でリード時に購入優先度をブーストする重み（デフォルト: 0.3） */
+  vpLeadPurchaseBoost: number;
+  /** 相手もSPを持っていない場合に祈祷の優先度を下げる度合い（デフォルト: 0.5） */
+  opponentSPAwareness: number;
 }
 
 /** デフォルトパラメータ（手調整した合理的な初期値） */
@@ -619,6 +651,22 @@ export const DEFAULT_PARAMS: MajoParams = {
   prayerEarlyRound: 2,
 
   sacrificeMinRelics: 3,
+
+  effectManaBonus: 0.5,
+  effectCombatBonus: 0.5,
+  effectDrawBonus: 0.3,
+  effectUntapBonus: 1.0,
+  effectVPBonus: 1.0,
+
+  phaseEarlyEnd: 2,
+  phaseLateStart: 4,
+  combatPriorityLate: 1.5,
+  purchasePriorityEarly: 1.5,
+  manaShopThresholdLate: 4,
+
+  vpDeficitCombatBoost: 0.5,
+  vpLeadPurchaseBoost: 0.3,
+  opponentSPAwareness: 0.5,
 };
 
 /** パラメータの変動範囲（最小値・最大値）：突然変異に使用 */
@@ -664,6 +712,22 @@ const PARAM_RANGES: Record<keyof MajoParams, [number, number]> = {
   sacrificeMinRelics:           [1, 8],
 
   familiarForPurchase:          [0, 1],
+
+  effectManaBonus:              [0, 2],
+  effectCombatBonus:            [0, 2],
+  effectDrawBonus:              [0, 2],
+  effectUntapBonus:             [0, 3],
+  effectVPBonus:                [0, 3],
+
+  phaseEarlyEnd:                [1, 3],
+  phaseLateStart:               [3, 6],
+  combatPriorityLate:           [0.5, 3.0],
+  purchasePriorityEarly:        [0.5, 3.0],
+  manaShopThresholdLate:        [2, 8],
+
+  vpDeficitCombatBoost:         [0, 2.0],
+  vpLeadPurchaseBoost:          [0, 1.5],
+  opponentSPAwareness:          [0, 1.0],
 };
 
 /**
@@ -791,6 +855,24 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
       const fieldActions = actions.filter((a) => a.type === 'field_action' || a.type === 'use_familiar');
       const passAction = actions.find((a) => a.type === 'pass')!;
 
+      // ── フェーズ判定 ──
+      const isEarly = state.round <= params.phaseEarlyEnd;
+      const isLate = state.round >= params.phaseLateStart;
+      // フェーズ別倍率
+      const combatMultiplier = isLate ? params.combatPriorityLate : 1.0;
+      const purchaseMultiplier = isEarly ? params.purchasePriorityEarly : 1.0;
+      // 終盤はマナを溜め込まない（閾値を上げてマナ補充に行きにくくする）
+      const effectiveManaShopThreshold = isLate ? params.manaShopThresholdLate : params.manaShopThreshold;
+
+      // ── 対戦相手認識 ──
+      const opponents = state.players.filter(p => p.config.id !== playerId);
+      const maxOpponentVP = opponents.length > 0 ? Math.max(...opponents.map(p => p.victoryPoints)) : 0;
+      const vpDiff = maxOpponentVP - player.victoryPoints; // 正=負けてる、負=勝ってる
+      const anyOpponentHasSP = opponents.some(p => {
+        const opIdx = state.players.findIndex(pp => pp.config.id === p.config.id);
+        return state.startPlayerIndex === opIdx;
+      });
+
       // ── ステップ1: 戦闘マルチステップ中は戦闘を優先 ──
       const combatStep = selectCombatStepAction(state, player, playerId, actions);
       if (combatStep) return combatStep;
@@ -866,8 +948,11 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
       let bestSaintScore = -Infinity;
       let bestSaintTarget: typeof killableSaints[0] | null = null;
 
+      // VP差による戦闘ブースト: 負けてるほど戦闘を優先
+      const vpDeficitBoost = vpDiff > 0 ? (1 + vpDiff * params.vpDeficitCombatBoost) : 1.0;
+
       for (const saint of killableSaints) {
-        const score = evaluateSaint(saint, state, player) * params.combatPriority;
+        const score = evaluateSaint(saint, state, player) * params.combatPriority * combatMultiplier * vpDeficitBoost;
         if (score > bestSaintScore) {
           bestSaintScore = score;
           bestSaintTarget = saint;
@@ -875,6 +960,9 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
       }
 
       // 魔導具購入の評価
+      // VP差によるリードブースト: 勝ってる時はエンジン構築を優先
+      const vpLeadBoost = vpDiff < 0 ? (1 + Math.abs(vpDiff) * params.vpLeadPurchaseBoost) : 1.0;
+
       const toolCountOk = player.magicTools.length < params.toolBuyMaxCount;
       let bestPurchase: { tool: typeof state.toolSupply[0]; score: number } | null = null;
       if (toolCountOk) {
@@ -882,7 +970,7 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
           .filter((t) => t.cost <= player.mana)
           .map((t) => ({
             tool: t,
-            score: evaluateTool(t, player.magicTools, player) * params.purchasePriority,
+            score: evaluateTool(t, player.magicTools, player) * params.purchasePriority * purchaseMultiplier * vpLeadBoost,
           }))
           .filter((t) => t.score > 0)
           .sort((a, b) => b.score - a.score);
@@ -1007,14 +1095,14 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
       }
 
       // ── purchaseBeforeShop でマナ補充との優先順序を決定 ──
-      // マナ補充の評価
-      const needsMana = player.mana <= params.manaShopThreshold;
+      // マナ補充の評価（終盤はmanaShopThresholdLateを使用）
+      const needsMana = player.mana <= effectiveManaShopThreshold;
       const shopAct = findFieldAction(fieldActions, 'magic_shop', false);
 
       if (needsMana && shopAct && (!hasPurchaseOption || params.purchaseBeforeShop <= 0.5)) {
         return {
           action: shopAct,
-          reasoning: `マナ${player.mana} <= 閾値${params.manaShopThreshold}のため補充（マナ優先: purchaseBeforeShop=${params.purchaseBeforeShop.toFixed(2)}）`,
+          reasoning: `マナ${player.mana} <= 閾値${effectiveManaShopThreshold}のため補充（マナ優先: purchaseBeforeShop=${params.purchaseBeforeShop.toFixed(2)}）`,
         };
       }
 

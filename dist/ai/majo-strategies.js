@@ -30,6 +30,19 @@ const EVOLVED_PARAMS = {
     violenceMinMana: 6,
     prayerEarlyRound: 2,
     sacrificeMinRelics: 3,
+    phaseEarlyEnd: 2,
+    phaseLateStart: 4,
+    combatPriorityLate: 1.5,
+    purchasePriorityEarly: 1.5,
+    manaShopThresholdLate: 4,
+    vpDeficitCombatBoost: 0.5,
+    vpLeadPurchaseBoost: 0.3,
+    opponentSPAwareness: 0.5,
+    effectManaBonus: 0.5,
+    effectCombatBonus: 0.5,
+    effectDrawBonus: 0.3,
+    effectUntapBonus: 1.0,
+    effectVPBonus: 1.0,
 };
 // ── 共通ヘルパー ──
 // 護符の戦闘ボーナスを効果テキストからパースする
