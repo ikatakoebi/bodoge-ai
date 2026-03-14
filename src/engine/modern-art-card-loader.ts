@@ -190,7 +190,7 @@ function parseSetupCsv(csv: string): { config: ModernArtConfig; deal: ModernArtD
       } else {
         configMap.set(key, value);
       }
-    } else if (action === 'deal' && key) {
+    } else if (action === 'engine_deal' && key) {
       const playerCount = parseInt(key, 10);
       if (!isNaN(playerCount) && value) {
         deal[playerCount] = value.split(',').map(v => parseInt(v.trim(), 10));

@@ -33,8 +33,8 @@ async function runSingleGame(evolvedParams, options = {}) {
             benchmarkPlayerIndex = Math.floor(Math.random() * playerCount);
         } while (benchmarkPlayerIndex === evolvedPlayerIndex);
     }
-    // Coevolution: decide which opponent slots get an evolved opponent
-    // For each non-candidate, non-benchmark slot, ~50% chance to use a coevolved opponent
+    // Coevolution: 70% of opponent slots use evolved opponents, 30% use fixed strategies
+    // 純粋自己対戦はメタが閉じる。固定戦略混合で汎化能力を維持
     const coevoSlots = new Set();
     if (coevolutionOpponents.length > 0) {
         for (let i = 0; i < playerCount; i++) {
@@ -42,7 +42,7 @@ async function runSingleGame(evolvedParams, options = {}) {
                 continue;
             if (i === benchmarkPlayerIndex)
                 continue;
-            if (Math.random() < 0.5)
+            if (Math.random() < 0.7)
                 coevoSlots.add(i);
         }
     }

@@ -570,6 +570,44 @@ export function createParameterizedStrategy(params) {
     function evaluateTool(tool, allTools, player) {
         const power = getToolCombatPower(tool, allTools);
         let score = power * params.toolPowerWeight - tool.cost * params.toolCostWeight;
+        // ── 効果テキストに基づくボーナス ──
+        const eff = tool.effect;
+        // マナ生成効果: 「聖者撃破：マナ＋N」「聖者撃破：即時マナ＋N」
+        if (eff.includes('マナ＋')) {
+            const manaMatch = eff.match(/マナ＋(\d+)/);
+            const manaGain = manaMatch ? parseInt(manaMatch[1], 10) : 1;
+            const instantMultiplier = eff.includes('即時マナ') ? 1.5 : 1.0;
+            score += params.effectManaBonus * manaGain * instantMultiplier;
+        }
+        // 戦闘力ブースト効果: 「戦闘：魔力＋N。廃棄」（護符の一時ブースト）
+        if (eff.includes('戦闘：魔力＋')) {
+            const combatMatch = eff.match(/戦闘：魔力＋(\d+)/);
+            const combatBoost = combatMatch ? parseInt(combatMatch[1], 10) : 3;
+            score += params.effectCombatBonus * (combatBoost / 3);
+        }
+        // コスト削減効果: 「コスト-1」「コスト-2」（他の魔導具購入を安くする）
+        if (eff.includes('コスト-')) {
+            const costMatch = eff.match(/コスト-(\d+)/);
+            const costReduction = costMatch ? parseInt(costMatch[1], 10) : 1;
+            score += params.effectDrawBonus * costReduction;
+        }
+        // アンタップ効果: 「いつでもアンタップしてよい」（M27水晶玉、アクション経済で強力）
+        if (eff.includes('いつでもアンタップ')) {
+            score += params.effectUntapBonus;
+        }
+        // VP付与効果: 「手番：勝利点＋1。廃棄」（M28護符、直接VPを生む）
+        if (eff.includes('勝利点＋')) {
+            const vpMatch = eff.match(/勝利点＋(\d+)/);
+            const vpGain = vpMatch ? parseInt(vpMatch[1], 10) : 1;
+            score += params.effectVPBonus * vpGain;
+        }
+        // スケーリング効果: 「最大魔力の魔導具の魔力+2」（M26杖、他の強い魔導具とシナジー）
+        if (eff.includes('最大魔力の魔導具の魔力')) {
+            const maxPower = allTools.length > 0
+                ? Math.max(...allTools.map((t) => t.magicPower))
+                : 0;
+            score += params.effectUntapBonus * ((maxPower + 2) / 6);
+        }
         // 実績ボーナス: 3種類以上の魔導具タイプを持つことへのボーナス
         const currentTypes = countToolTypes(player);
         const alreadyHasType = allTools.some((t) => t.type === tool.type);
@@ -792,15 +830,20 @@ export function createParameterizedStrategy(params) {
             // ── 祈祷（SPトークン+マナ1）──
             // 戦闘・購入・横暴・生贄より下、マナ補充より上
             // SPは次ラウンドの先手権だが、今やれる生産的な行動があるならそっちが先
+            // 対戦相手認識: 相手もSPを持っていないなら祈祷の緊急度を下げる
             {
-                const playerIndex = state.players.findIndex((p) => p.config.id === playerId);
-                const hasStartPlayer = state.startPlayerIndex === playerIndex;
-                if (!hasStartPlayer && params.prayerEarlyRound > 0 && state.round <= params.prayerEarlyRound) {
+                const myPlayerIndex = state.players.findIndex((p) => p.config.id === playerId);
+                const hasStartPlayer = state.startPlayerIndex === myPlayerIndex;
+                // opponentSPAwareness: 相手もSP持ってない場合、prayerEarlyRoundを実質的に下げて祈祷をスキップしやすくする
+                const effectivePrayerRound = !anyOpponentHasSP
+                    ? params.prayerEarlyRound * (1 - params.opponentSPAwareness)
+                    : params.prayerEarlyRound;
+                if (!hasStartPlayer && effectivePrayerRound > 0 && state.round <= effectivePrayerRound) {
                     const cathedralAct = findFieldAction(fieldActions, 'cathedral');
                     if (cathedralAct) {
                         return {
                             action: cathedralAct,
-                            reasoning: `祈祷: R${state.round}でSP確保（次R先手権、閾値R${params.prayerEarlyRound}）`,
+                            reasoning: `祈祷: R${state.round}でSP確保（次R先手権、閾値R${params.prayerEarlyRound}${!anyOpponentHasSP ? `→実効${effectivePrayerRound.toFixed(1)}` : ''}）`,
                         };
                     }
                 }
