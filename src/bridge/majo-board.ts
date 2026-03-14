@@ -214,6 +214,9 @@ export class MajoBoardSync {
     const placedInstanceIds = new Set<string>();
 
     // 魔導具展示
+    if (info.toolSupply.length !== 3) {
+      console.warn(`[majo-board] toolSupply枚数異常: ${info.toolSupply.length}枚 (期待3枚)`, info.toolSupply.map(t => t.id));
+    }
     this.placeCards(info.toolSupply.map((t) => t.id), 'magic_supply', true, placedInstanceIds);
 
     // 聖者展示
