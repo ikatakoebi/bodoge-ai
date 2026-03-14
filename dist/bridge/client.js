@@ -374,6 +374,26 @@ export class BridgeClient {
         }
         this.socket.emit('sync:fullState', payload);
     }
+    /** ボードにカードインスタンスがない場合に動的生成する */
+    createCardInstance(definitionId) {
+        const state = this.getState();
+        const instanceId = `majo_${definitionId}_${Date.now()}`;
+        const newInstance = {
+            instanceId,
+            definitionId,
+            x: DISCARD_X,
+            y: DISCARD_Y,
+            zIndex: 0,
+            face: 'down',
+            visibility: 'public',
+            ownerId: null,
+            stackId: null,
+            locked: false,
+            rotation: 0,
+        };
+        state.cardInstances[instanceId] = newInstance;
+        return instanceId;
+    }
     discardCard(instanceId) {
         this.moveCardToPosition(instanceId, DISCARD_X, DISCARD_Y, false);
     }

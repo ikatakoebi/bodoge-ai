@@ -80,15 +80,16 @@ function selectToolsForCombat(player: MajoPlayerState, targetHP: number): string
   return selected;
 }
 
-function getAvailablePower(player: MajoPlayerState, witchUsageCount: number = 0): number {
+function getAvailablePower(player: MajoPlayerState, round: number = 1): number {
   const availableTools = player.magicTools.filter((t) => !player.tappedToolIds.includes(t.id));
   let power = 0;
   for (const t of availableTools) {
     power += getEffectiveMagicPower(t, player.magicTools);
     power += getAmuletCombatBonus(t);
   }
+  // 魔女魔力モード：ラウンド数ぶんのボーナス
   if (player.witchTapped && player.witchMode === 'magic') {
-    power += 3 + witchUsageCount;
+    power += round;
   }
   return power;
 }
@@ -108,7 +109,7 @@ function getCombatRelicPower(player: MajoPlayerState): { power: number; relicIds
 }
 
 function getKillableSaints(state: MajoGameState, player: MajoPlayerState) {
-  const toolPower = getAvailablePower(player, state.witchUsageCount);
+  const toolPower = getAvailablePower(player, state.round);
   const { power: relicPower } = getCombatRelicPower(player);
   const totalPower = toolPower + relicPower;
 
@@ -187,16 +188,29 @@ function findViolenceAction(actions: MajoAction[], saintId: string, allowFamilia
 }
 
 function findResearchAction(actions: MajoAction[], toolId: string, allowFamiliar = true): MajoAction | undefined {
-  const normal = actions.find((a) =>
+  // 通常のfield_actionを全て集め、割引が最大のものを選ぶ
+  const normals = actions.filter((a) =>
     a.type === 'field_action' &&
     'details' in a && a.details.action === 'research' && a.details.toolId === toolId
   );
-  if (normal) return normal;
+  if (normals.length > 0) {
+    return normals.reduce((best, a) => {
+      const bestDiscount = (best as any).details?.discountToolIds?.length ?? 0;
+      const aDiscount = (a as any).details?.discountToolIds?.length ?? 0;
+      return aDiscount > bestDiscount ? a : best;
+    });
+  }
   if (!allowFamiliar) return undefined;
-  return actions.find((a) =>
+  const familiars = actions.filter((a) =>
     a.type === 'use_familiar' &&
     'details' in a && a.details.action === 'research' && a.details.toolId === toolId
   );
+  if (familiars.length === 0) return undefined;
+  return familiars.reduce((best, a) => {
+    const bestDiscount = (best as any).details?.discountToolIds?.length ?? 0;
+    const aDiscount = (a as any).details?.discountToolIds?.length ?? 0;
+    return aDiscount > bestDiscount ? a : best;
+  });
 }
 
 function findFieldAction(actions: MajoAction[], actionName: string, allowFamiliar = true): MajoAction | undefined {
@@ -209,6 +223,34 @@ function findFieldAction(actions: MajoAction[], actionName: string, allowFamilia
   return actions.find((a) =>
     a.type === 'use_familiar' &&
     'details' in a && a.details.action === actionName
+  );
+}
+
+// 横暴（sacrifice）用: 5マナ無制限戦闘のアクションを探す
+function findSacrificeAction(actions: MajoAction[], saintId: string, allowFamiliar = true): MajoAction | undefined {
+  const normal = actions.find((a) =>
+    a.type === 'combat_select_saint' && a.fieldId === 'sacrifice' && a.saintId === saintId && !a.useFamiliar
+  );
+  if (normal) return normal;
+  if (allowFamiliar) {
+    return actions.find((a) =>
+      a.type === 'combat_select_saint' && a.fieldId === 'sacrifice' && a.saintId === saintId && a.useFamiliar
+    );
+  }
+  return undefined;
+}
+
+// 生贄（prayer）用: 聖遺物を捨ててマナ獲得のアクションを探す
+function findPrayerAction(actions: MajoAction[], relicId?: string): MajoAction | undefined {
+  if (relicId) {
+    return actions.find((a) =>
+      (a.type === 'field_action' || a.type === 'use_familiar') &&
+      'details' in a && a.details.action === 'prayer' && a.details.relicId === relicId
+    );
+  }
+  return actions.find((a) =>
+    (a.type === 'field_action' || a.type === 'use_familiar') &&
+    'details' in a && a.details.action === 'prayer'
   );
 }
 
@@ -320,72 +362,58 @@ export function selectBestTurnRelic(
   state: MajoGameState,
   player: MajoPlayerState,
 ): { relicId: string; reasoning: string } | null {
+  // タップマナが2以上ある場合、タップマナアンタップ聖遺物を最優先
   if (player.tappedMana >= 2) {
     for (const relic of player.relics) {
       if (!relic.isDisposable || relic.timing !== 'turn') continue;
-      if (['M56', 'M57', 'M58', 'M59'].includes(relic.id)) {
-        return {
-          relicId: relic.id,
-          reasoning: `聖遺物でタップマナ${player.tappedMana}をアンタップ！`,
-        };
+      if (relic.effect.includes('タップマナをアンタップする')) {
+        return { relicId: relic.id, reasoning: `聖遺物でタップマナ${player.tappedMana}をアンタップ！` };
       }
     }
   }
 
   for (const relic of player.relics) {
     if (!relic.isDisposable || relic.timing !== 'turn') continue;
+    const eff = relic.effect;
 
-    switch (relic.id) {
-      case 'M43':
-      case 'M44':
-        if (player.tappedToolIds.length > 0) {
-          return { relicId: relic.id, reasoning: `聖遺物で魔導具${player.tappedToolIds.length}個をアンタップ！` };
+    if (eff.includes('タップ済みの魔導具をアンタップ')) {
+      if (player.tappedToolIds.length > 0) {
+        return { relicId: relic.id, reasoning: `聖遺物で魔導具${player.tappedToolIds.length}個をアンタップ！` };
+      }
+    } else if (eff.includes('タップマナをアンタップする')) {
+      if (player.tappedMana >= 1) {
+        return { relicId: relic.id, reasoning: `聖遺物でタップマナ${player.tappedMana}をアンタップ` };
+      }
+    } else if (eff.includes('使い魔を未使用状態')) {
+      if (player.familiarTapped) {
+        return { relicId: relic.id, reasoning: `聖遺物で使い魔を復活！` };
+      }
+    } else if (eff.includes('魔導具をタダで')) {
+      // selectFreeToolActionで処理するのでスキップ
+    } else if (eff.includes('魔導具所持数')) {
+      if (player.magicTools.length >= 3) {
+        return { relicId: relic.id, reasoning: `聖遺物で${player.magicTools.length}タップマナ獲得！` };
+      }
+    } else if (eff.includes('マナをサプライに戻し')) {
+      if (player.mana >= 2) {
+        return { relicId: relic.id, reasoning: `聖遺物で2マナ→6タップマナに変換！` };
+      }
+    } else if (eff.includes('追加の手番を行う')) {
+      if (player.mana >= 3 || player.tappedToolIds.length === 0) {
+        return { relicId: relic.id, reasoning: `聖遺物で追加ターン獲得！` };
+      }
+    } else if (eff.includes('同じ数のマナを獲得')) {
+      if (player.mana >= 3) {
+        return { relicId: relic.id, reasoning: `聖遺物発動！マナ支払いが全額還元` };
+      }
+    } else if (eff.includes('魔導具を1つ捨て')) {
+      if (player.magicTools.length > 0 && state.toolSupply.length > 0) {
+        const minOwnCost = Math.min(...player.magicTools.map((t) => t.cost));
+        const maxSupplyCost = Math.max(...state.toolSupply.map((t) => t.cost));
+        if (maxSupplyCost > minOwnCost) {
+          return { relicId: relic.id, reasoning: `聖遺物で魔導具交換！コスト${minOwnCost}→${maxSupplyCost}` };
         }
-        break;
-      case 'M56':
-      case 'M57':
-      case 'M58':
-      case 'M59':
-        if (player.tappedMana >= 1) {
-          return { relicId: relic.id, reasoning: `聖遺物でタップマナ${player.tappedMana}をアンタップ` };
-        }
-        break;
-      case 'M52':
-        if (player.familiarTapped) {
-          return { relicId: relic.id, reasoning: `聖遺物で使い魔を復活！` };
-        }
-        break;
-      case 'M53':
-        break; // selectFreeToolActionで処理
-      case 'M61':
-        if (player.magicTools.length >= 3) {
-          return { relicId: relic.id, reasoning: `聖遺物で${player.magicTools.length}タップマナ獲得！` };
-        }
-        break;
-      case 'M63':
-        if (player.mana >= 2) {
-          return { relicId: relic.id, reasoning: `聖遺物で2マナ→6タップマナに変換！` };
-        }
-        break;
-      case 'M60':
-        if (player.mana >= 3 || player.tappedToolIds.length === 0) {
-          return { relicId: relic.id, reasoning: `聖遺物で追加ターン獲得！` };
-        }
-        break;
-      case 'M64':
-        if (player.mana >= 3) {
-          return { relicId: relic.id, reasoning: `聖遺物M64発動！マナ支払いが全額還元` };
-        }
-        break;
-      case 'M65':
-        if (player.magicTools.length > 0 && state.toolSupply.length > 0) {
-          const minOwnCost = Math.min(...player.magicTools.map((t) => t.cost));
-          const maxSupplyCost = Math.max(...state.toolSupply.map((t) => t.cost));
-          if (maxSupplyCost > minOwnCost) {
-            return { relicId: relic.id, reasoning: `聖遺物M65で魔導具交換！コスト${minOwnCost}→${maxSupplyCost}` };
-          }
-        }
-        break;
+      }
     }
   }
   return null;
@@ -460,8 +488,6 @@ export interface MajoParams {
   // ── マナ管理 ──
   /** このマナ以下になったら魔具店に行く（デフォルト: 3） */
   manaShopThreshold: number;
-  /** 戦闘のために確保しておきたいマナ量（デフォルト: 2） */
-  manaReserveForCombat: number;
 
   // ── 魔女の使用タイミング ──
   /** このラウンド以降でなければ魔女を使わない（デフォルト: 4） */
@@ -534,6 +560,24 @@ export interface MajoParams {
    * 使い魔を魔導具購入（研究）に使う重み（0=戦闘のために温存, 1=積極的に購入活用）（デフォルト: 0.3）
    */
   familiarForPurchase: number;
+
+  // ── 横暴（5マナ無制限戦闘） ──
+  /** 横暴を使う最低聖者VP（高コストなので高VP聖者のみ）（デフォルト: 2） */
+  violenceMinVP: number;
+  /** 横暴を使う最低マナ（5マナ+残したいマナ）（デフォルト: 6） */
+  violenceMinMana: number;
+
+  // ── 祈祷（SPトークン+マナ1） ──
+  /** 祈祷を戦闘・購入より優先するラウンド閾値（このラウンド以下なら先手確保を優先）（デフォルト: 2） */
+  prayerEarlyRound: number;
+  /** SPを持っていない時に祈祷を選ぶ重み（0=無視, 1=常に取りに行く）（デフォルト: 0.5） */
+  prayerWeight: number;
+
+  // ── 生贄（聖遺物捨て→3マナ） ──
+  /** 生贄で捨てる聖遺物の最低所持数（これ以上持ってる時だけ換金する）（デフォルト: 3） */
+  sacrificeMinRelics: number;
+  /** 生贄で使い捨て聖遺物を捨てる重み（0=温存, 1=積極換金）（デフォルト: 0.5） */
+  sacrificeWeight: number;
 }
 
 /** デフォルトパラメータ（手調整した合理的な初期値） */
@@ -547,7 +591,6 @@ export const DEFAULT_PARAMS: MajoParams = {
   toolCostWeight: 0.5,
 
   manaShopThreshold: 3,
-  manaReserveForCombat: 2,
 
   witchRoundThreshold: 4,
   witchMinTools: 2,
@@ -573,6 +616,15 @@ export const DEFAULT_PARAMS: MajoParams = {
   achievementToolWeight: 1.0,
 
   familiarForPurchase: 0.3,
+
+  violenceMinVP: 2,
+  violenceMinMana: 6,
+
+  prayerEarlyRound: 2,
+  prayerWeight: 0.5,
+
+  sacrificeMinRelics: 3,
+  sacrificeWeight: 0.5,
 };
 
 /** パラメータの変動範囲（最小値・最大値）：突然変異に使用 */
@@ -586,7 +638,6 @@ const PARAM_RANGES: Record<keyof MajoParams, [number, number]> = {
   toolCostWeight:       [0.0, 2.0],
 
   manaShopThreshold:    [1, 6],
-  manaReserveForCombat: [0, 5],
 
   witchRoundThreshold:  [1, 8],
   witchMinTools:        [0, 5],
@@ -610,6 +661,15 @@ const PARAM_RANGES: Record<keyof MajoParams, [number, number]> = {
 
   achievementRelicWeight:       [0, 3],
   achievementToolWeight:        [0, 3],
+
+  violenceMinVP:                [0, 4],
+  violenceMinMana:              [5, 10],
+
+  prayerEarlyRound:             [1, 5],
+  prayerWeight:                 [0, 1],
+
+  sacrificeMinRelics:           [1, 6],
+  sacrificeWeight:              [0, 1],
 
   familiarForPurchase:          [0, 1],
 };
@@ -769,7 +829,7 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
       // ── ステップ3: 聖遺物使用 ──
       // アンタップ系: untapRelicCombatThreshold以上タップ済みなら使用
       if (player.tappedToolIds.length >= params.untapRelicCombatThreshold) {
-        const untapRelic = player.relics.find((r) => (r.id === 'M43' || r.id === 'M44') && r.isDisposable);
+        const untapRelic = player.relics.find((r) => r.effect.includes('タップ済みの魔導具をアンタップ') && r.isDisposable);
         if (untapRelic) {
           return {
             action: { type: 'use_relic', playerId, relicId: untapRelic.id } as MajoAction,
@@ -807,6 +867,23 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
       const untapM27 = selectUntapToolAction(actions, player);
       if (untapM27) return untapM27;
 
+      // ── ステップ3.5: 祈祷（SPトークン）の戦略的取得 ──
+      // ワーカープレイスメントではSP（先手）が超重要：限られたスロットを先に確保できる
+      // 序盤ほどSPの価値が高い（残りラウンドが多い＝先手の恩恵が大きい）
+      {
+        const playerIndex = state.players.findIndex((p) => p.config.id === playerId);
+        const hasStartPlayer = state.startPlayerIndex === playerIndex;
+        if (!hasStartPlayer && state.round <= params.prayerEarlyRound && params.prayerWeight > 0.3) {
+          const cathedralAct = findFieldAction(fieldActions, 'cathedral');
+          if (cathedralAct) {
+            return {
+              action: cathedralAct,
+              reasoning: `祈祷: R${state.round}でSP確保（先手＝限定スロット優先権、prayerWeight=${params.prayerWeight.toFixed(2)}）`,
+            };
+          }
+        }
+      }
+
       // ── ステップ4: パラメータに基づいてアクションを評価・選択 ──
       const killableSaints = getKillableSaints(state, player);
 
@@ -841,7 +918,7 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
       }
 
       // ── combatBeforePurchase で戦闘/購入の優先順序を決定 ──
-      const hasCombatOption = bestSaintTarget !== null && player.mana >= params.manaReserveForCombat;
+      const hasCombatOption = bestSaintTarget !== null;
       const hasPurchaseOption = bestPurchase !== null;
 
       // 両方可能な場合は combatBeforePurchase の重みで確率的に決定
@@ -903,6 +980,40 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
         }
       }
 
+      // ── 横暴（5マナ無制限戦闘）: 大聖堂の枠が埋まってる時の代替戦闘手段 ──
+      if (bestSaintTarget && player.mana >= params.violenceMinMana && bestSaintTarget.victoryPoints >= params.violenceMinVP) {
+        const act = findSacrificeAction(actions, bestSaintTarget.id);
+        if (act) {
+          return {
+            action: act,
+            reasoning: `横暴で${bestSaintTarget.name}(★${bestSaintTarget.victoryPoints})を撃破（5マナ消費、VP>=${params.violenceMinVP}）`,
+          };
+        }
+      }
+
+      // ── 生贄（聖遺物捨て→3マナ）: 使い捨て聖遺物を換金 ──
+      // 条件: sacrificeWeight > 0.5 かつ 聖遺物が十分ある（sacrificeMinRelics以上）
+      // 優先的に捨てる聖遺物: パッシブ（timing !== 'turn' && timing !== 'combat'）→ 効果が薄いもの
+      if (params.sacrificeWeight > 0.5 && player.relics.filter((r) => r.isDisposable).length >= params.sacrificeMinRelics) {
+        // 捨てる優先度: パッシブ聖遺物 > 戦闘聖遺物 > 手番聖遺物（手番は最も有用なので温存）
+        const sacrificeCandidates = player.relics
+          .filter((r) => r.isDisposable)
+          .sort((a, b) => {
+            const timingOrder = (t: string) => t === 'turn' ? 2 : t === 'combat' ? 1 : 0;
+            return timingOrder(a.timing) - timingOrder(b.timing);
+          });
+        const weakRelic = sacrificeCandidates[0];
+        if (weakRelic) {
+          const act = findPrayerAction(actions, weakRelic.id);
+          if (act) {
+            return {
+              action: act,
+              reasoning: `生贄: ${weakRelic.id}(${weakRelic.timing})を捨てて3マナ（所持${player.relics.length}個 >= ${params.sacrificeMinRelics}）`,
+            };
+          }
+        }
+      }
+
       // ── purchaseBeforeShop でマナ補充との優先順序を決定 ──
       // マナ補充の評価
       const needsMana = player.mana <= params.manaShopThreshold;
@@ -913,6 +1024,21 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
           action: shopAct,
           reasoning: `マナ${player.mana} <= 閾値${params.manaShopThreshold}のため補充（マナ優先: purchaseBeforeShop=${params.purchaseBeforeShop.toFixed(2)}）`,
         };
+      }
+
+      // ── 祈祷（SPトークン+マナ1）: SP未所持なら積極的に取る ──
+      {
+        const playerIndex = state.players.findIndex((p) => p.config.id === playerId);
+        const hasStartPlayer = state.startPlayerIndex === playerIndex;
+        if (!hasStartPlayer && params.prayerWeight > 0.3) {
+          const cathedralAct = findFieldAction(fieldActions, 'cathedral');
+          if (cathedralAct) {
+            return {
+              action: cathedralAct,
+              reasoning: `祈祷: SP確保+マナ1（先手で限定スロット優先）`,
+            };
+          }
+        }
       }
 
       // ── 魔女使用の判断（witchMagicModeWeight でモード選択） ──
@@ -927,16 +1053,15 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
           if (witchMagicAction) {
             return {
               action: witchMagicAction,
-              reasoning: `魔女マジックモード(R${state.round} >= ${params.witchRoundThreshold}、魔導具${player.magicTools.length}個) → 永続魔力UP（witchMagicModeWeight=${params.witchMagicModeWeight.toFixed(2)}）`,
+              reasoning: `魔女マジックモード(R${state.round} >= ${params.witchRoundThreshold}、魔導具${player.magicTools.length}個) → 魔力+${state.round}（witchMagicModeWeight=${params.witchMagicModeWeight.toFixed(2)}）`,
             };
           }
         }
         const witchManaAction = actions.find((a) => a.type === 'use_witch' && a.choice === 'mana');
         if (witchManaAction) {
-          const gain = 2 + state.witchUsageCount;
           return {
             action: witchManaAction,
-            reasoning: `魔女マナモード(R${state.round} >= ${params.witchRoundThreshold}、魔導具${player.magicTools.length}個) → +${gain}マナ`,
+            reasoning: `魔女マナモード(R${state.round} >= ${params.witchRoundThreshold}、魔導具${player.magicTools.length}個) → +${state.round}マナ`,
           };
         }
       }
@@ -944,6 +1069,17 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
       // 残りのマナがあればとにかく魔具店へ
       const shopActFallback = findFieldAction(fieldActions, 'magic_shop');
       if (shopActFallback) return { action: shopActFallback, reasoning: `パスよりマナ補充` };
+
+      // 祈祷フォールバック（パスより良い: SPトークン+マナ1）
+      const cathedralFallback = findFieldAction(fieldActions, 'cathedral');
+      if (cathedralFallback) return { action: cathedralFallback, reasoning: `パスより祈祷（SPトークン+マナ1）` };
+
+      // 生贄フォールバック（パスより良い: 使い捨て聖遺物があれば換金）
+      const disposableRelic = player.relics.find((r) => r.isDisposable);
+      if (disposableRelic) {
+        const sacrificeAct = findPrayerAction(actions, disposableRelic.id);
+        if (sacrificeAct) return { action: sacrificeAct, reasoning: `パスより生贄（聖遺物→3マナ）` };
+      }
 
       return { action: passAction, reasoning: `やることなし(マナ:${player.mana})` };
     },

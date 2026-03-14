@@ -180,6 +180,9 @@ export class MajoBoardSync {
     syncBoard(info) {
         const placedInstanceIds = new Set();
         // 魔導具展示
+        if (info.toolSupply.length !== 3) {
+            console.warn(`[majo-board] toolSupply枚数異常: ${info.toolSupply.length}枚 (期待3枚)`, info.toolSupply.map(t => t.id));
+        }
         this.placeCards(info.toolSupply.map((t) => t.id), 'magic_supply', true, placedInstanceIds);
         // 聖者展示
         this.placeCards(info.saintSupply.map((s) => s.id), 'saint_supply', true, placedInstanceIds);
@@ -353,14 +356,12 @@ export class MajoBoardSync {
             }
         }
     }
-    /** エンジンカードIDからボードインスタンスIDを解決（キャッシュ付き） */
+    /** エンジンカードIDからボードインスタンスIDを解決（キャッシュ付き、なければ動的生成） */
     resolveInstance(engineId) {
         if (this.instanceCache.has(engineId)) {
             return this.instanceCache.get(engineId);
         }
         const instances = this.client.getCardsByDefinition(engineId);
-        if (instances.length === 0)
-            return null;
         const used = new Set(this.instanceCache.values());
         for (const inst of instances) {
             if (!used.has(inst.instanceId)) {
@@ -368,7 +369,11 @@ export class MajoBoardSync {
                 return inst.instanceId;
             }
         }
-        return null;
+        // ボードにインスタンスが存在しない場合は動的生成
+        console.warn(`[majo-board] resolveInstance動的生成: ${engineId} (ボードに既存インスタンスなし)`);
+        const newInstanceId = this.client.createCardInstance(engineId);
+        this.instanceCache.set(engineId, newInstanceId);
+        return newInstanceId;
     }
     /** 魔女カード(M33)のタップ/アンタップ表示を同期 */
     syncWitchCard(player) {
@@ -434,9 +439,6 @@ export class MajoBoardSync {
         }
         const parts = [];
         parts.push(`R${info.round} ${info.currentPlayerName}`);
-        if (info.isHumanTurn) {
-            parts.push('YOUR TURN');
-        }
         if (info.lastEvents.length > 0) {
             parts.push(info.lastEvents.slice(0, 2).join(' / '));
         }

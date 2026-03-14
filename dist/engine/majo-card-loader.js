@@ -94,11 +94,13 @@ function parseCardsCsv(csv) {
         }
         else if (type === '聖者') {
             // costカラム = 聖遺物引き枚数(relicDraw)
-            // manaReward: HP<=4 なら1、それ以外は0
+            // manaReward: effect列の「マナ＋X」から読み取る
+            const manaMatch = effect.match(/マナ＋(\d+)/);
+            const manaReward = manaMatch ? parseInt(manaMatch[1], 10) : 0;
             saints.push({
                 id, name,
                 hp,
-                manaReward: hp <= 4 ? 1 : 0,
+                manaReward,
                 victoryPoints: vp,
                 relicDraw: cost,
             });

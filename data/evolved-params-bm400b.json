@@ -1,0 +1,31 @@
+{
+  "generation": 54,
+  "fitness": 7.326,
+  "params": {
+    "saintVPWeight": 4.16605299599356,
+    "saintRelicWeight": 0,
+    "saintLowHPBonus": 0.4070195300700045,
+    "toolBuyMaxCount": 4.177387479989839,
+    "toolPowerWeight": 3,
+    "toolCostWeight": 0.6873705318843626,
+    "manaShopThreshold": 3.701447058296451,
+    "manaReserveForCombat": 0.471750387923092,
+    "witchRoundThreshold": 1,
+    "witchMinTools": 0.4958991028971408,
+    "familiarVPThreshold": 0,
+    "combatPriority": 17.107131772144765,
+    "purchasePriority": 13.611941696662926,
+    "manaPriority": 10,
+    "saintRelicPoolBonus": 1.8173442503118054,
+    "saintZeroVPWeight": 0.10088138500967236,
+    "combatBeforePurchase": 0.5031356047474675,
+    "purchaseBeforeShop": 0.5930219682755233,
+    "witchMagicModeWeight": 0.18306025578570614,
+    "relicAggressiveness": 0.8992166682906177,
+    "untapRelicCombatThreshold": 3.8681256014756626,
+    "achievementRelicWeight": 1.7156060592911064,
+    "achievementToolWeight": 0.9386174084991292,
+    "familiarForPurchase": 0.6526038448767092
+  },
+  "savedAt": "2026-03-13T21:53:00.462Z"
+}

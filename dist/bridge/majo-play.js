@@ -348,7 +348,7 @@ function describeAction(action, state, player) {
                                 if (dt?.effect.includes('コスト-1'))
                                     return s + 1;
                                 return s;
-                            }, 0) + (player.relics.some((r) => r.id === 'M54') ? 1 : 0);
+                            }, 0) + player.relics.reduce((s, r) => { const m = r.effect.match(/購入コストが(\d+)減る/); return m ? s + parseInt(m[1], 10) : s; }, 0);
                             const eCost = Math.max(1, tool.cost - totalDiscount);
                             return `${prefix}${rName} → ${tool.name}(魔力${tool.magicPower})を${eCost}マナで購入（${dNames}タップ）`;
                         }
@@ -385,8 +385,8 @@ function describeAction(action, state, player) {
         }
         case 'use_witch':
             return action.choice === 'mana'
-                ? `魔女(マナモード) → マナ+${2 + state.witchUsageCount}`
-                : `魔女(魔力モード) → 魔力+${3 + state.witchUsageCount}`;
+                ? `魔女(マナモード) → マナ+${state.round}`
+                : `魔女(魔力モード) → 魔力+${state.round}`;
         case 'use_relic': {
             const relic = player.relics.find((r) => r.id === action.relicId);
             return `聖遺物使用 → ${relic?.effect || action.relicId}`;

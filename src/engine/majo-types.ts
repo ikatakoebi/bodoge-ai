@@ -99,7 +99,6 @@ export interface MajoGameState {
   round: number;
   currentPlayerIndex: number;
   startPlayerIndex: number;
-  witchUsageCount: number;        // ゲーム全体での魔女使用回数（スタック用）
   consecutivePasses: number;      // 連続パス数（全員パスでラウンド終了）
   phase: 'action' | 'finished';
 

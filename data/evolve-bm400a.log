@@ -1,0 +1,3680 @@
+========================================
+  Majo AI Evolution
+========================================
+  Benchmark: beta (weight 1.50, margin 0.15)
+  Generations: 400  Population: 24  Games/Eval: 100
+  Survivor: 30%  Crossover: 40%  Mutation: 20%
+  Seed: beta (gen 178, fitness 6.410)
+
+初期雁E��を生成中...
+  評価 [#-----------------------------] 4% (1/24)  評価 [##----------------------------] 8% (2/24)  評価 [###---------------------------] 12% (3/24)  評価 [#####-------------------------] 16% (4/24)  評価 [######------------------------] 20% (5/24)  評価 [#######-----------------------] 25% (6/24)  評価 [########----------------------] 29% (7/24)  評価 [##########--------------------] 33% (8/24)  評価 [###########-------------------] 37% (9/24)  評価 [############------------------] 41% (10/24)  評価 [#############-----------------] 45% (11/24)  評価 [###############---------------] 50% (12/24)  評価 [################--------------] 54% (13/24)  評価 [#################-------------] 58% (14/24)  評価 [##################------------] 62% (15/24)  評価 [####################----------] 66% (16/24)  評価 [#####################---------] 70% (17/24)  評価 [######################--------] 75% (18/24)  評価 [#######################-------] 79% (19/24)  評価 [#########################-----] 83% (20/24)  評価 [##########################----] 87% (21/24)  評価 [###########################---] 91% (22/24)  評価 [############################--] 95% (23/24)  評価 [##############################] 100% (24/24)
+
+╔═╁E世代   0 ══════════════════════════════╗
+  最高適応度: 6.478 VP  勝率: 37.0%
+  平坁E��応度: 4.019 VP
+  最低適応度: -0.391 VP
+  経過時間:   0.0秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代   1 ══════════════════════════════╗
+  最高適応度: 6.190 VP  勝率: 39.0%
+  平坁E��応度: 5.406 VP
+  最低適応度: 4.321 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代   2 ══════════════════════════════╗
+  最高適応度: 6.194 VP  勝率: 30.0%
+  平坁E��応度: 5.121 VP
+  最低適応度: 2.549 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.78 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代   3 ══════════════════════════════╗
+  最高適応度: 6.304 VP  勝率: 32.0%
+  平坁E��応度: 5.332 VP
+  最低適応度: 3.600 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.78 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代   4 ══════════════════════════════╗
+  最高適応度: 6.366 VP  勝率: 38.0%
+  平坁E��応度: 5.405 VP
+  最低適応度: 4.582 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.89 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代   5 ══════════════════════════════╗
+  最高適応度: 6.234 VP  勝率: 39.0%
+  平坁E��応度: 5.367 VP
+  最低適応度: 4.165 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代   6 ══════════════════════════════╗
+  最高適応度: 6.003 VP  勝率: 33.0%
+  平坁E��応度: 5.298 VP
+  最低適応度: 3.135 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.85 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代   7 ══════════════════════════════╗
+  最高適応度: 6.109 VP  勝率: 32.0%
+  平坁E��応度: 5.193 VP
+  最低適応度: 3.229 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.78 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代   8 ══════════════════════════════╗
+  最高適応度: 5.994 VP  勝率: 33.0%
+  平坁E��応度: 5.363 VP
+  最低適応度: 3.386 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.90 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代   9 ══════════════════════════════╗
+  最高適応度: 6.513 VP  勝率: 36.0%
+  平坁E��応度: 5.420 VP
+  最低適応度: 3.486 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+  新記録�E�E適応度 6.513 VP
+
+╔═╁E世代  10 ══════════════════════════════╗
+  最高適応度: 6.511 VP  勝率: 32.0%
+  平坁E��応度: 5.246 VP
+  最低適応度: 3.319 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.78 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  11 ══════════════════════════════╗
+  最高適応度: 5.846 VP  勝率: 32.0%
+  平坁E��応度: 5.137 VP
+  最低適応度: 3.714 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.86 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  12 ══════════════════════════════╗
+  最高適応度: 6.273 VP  勝率: 38.0%
+  平坁E��応度: 5.302 VP
+  最低適応度: 3.387 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.90 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  13 ══════════════════════════════╗
+  最高適応度: 5.874 VP  勝率: 37.0%
+  平坁E��応度: 5.223 VP
+  最低適応度: 3.520 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.85 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  14 ══════════════════════════════╗
+  最高適応度: 6.106 VP  勝率: 40.0%
+  平坁E��応度: 5.604 VP
+  最低適応度: 4.853 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.90 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  15 ══════════════════════════════╗
+  最高適応度: 6.009 VP  勝率: 32.0%
+  平坁E��応度: 5.324 VP
+  最低適応度: 4.174 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.86 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  16 ══════════════════════════════╗
+  最高適応度: 6.139 VP  勝率: 36.0%
+  平坁E��応度: 5.200 VP
+  最低適応度: 2.972 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  17 ══════════════════════════════╗
+  最高適応度: 6.031 VP  勝率: 34.0%
+  平坁E��応度: 5.448 VP
+  最低適応度: 4.982 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  18 ══════════════════════════════╗
+  最高適応度: 6.274 VP  勝率: 36.0%
+  平坁E��応度: 5.440 VP
+  最低適応度: 4.865 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  19 ══════════════════════════════╗
+  最高適応度: 5.862 VP  勝率: 26.0%
+  平坁E��応度: 5.190 VP
+  最低適応度: 3.414 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  20 ══════════════════════════════╗
+  最高適応度: 6.023 VP  勝率: 32.0%
+  平坁E��応度: 5.232 VP
+  最低適応度: 4.365 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.86 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  21 ══════════════════════════════╗
+  最高適応度: 6.098 VP  勝率: 38.0%
+  平坁E��応度: 5.376 VP
+  最低適応度: 3.842 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  22 ══════════════════════════════╗
+  最高適応度: 6.056 VP  勝率: 35.0%
+  平坁E��応度: 5.372 VP
+  最低適応度: 4.780 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.86 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  23 ══════════════════════════════╗
+  最高適応度: 5.882 VP  勝率: 38.0%
+  平坁E��応度: 5.292 VP
+  最低適応度: 3.978 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  24 ══════════════════════════════╗
+  最高適応度: 6.106 VP  勝率: 36.0%
+  平坁E��応度: 5.325 VP
+  最低適応度: 4.498 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  25 ══════════════════════════════╗
+  最高適応度: 6.012 VP  勝率: 33.0%
+  平坁E��応度: 5.323 VP
+  最低適応度: 3.834 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  26 ══════════════════════════════╗
+  最高適応度: 6.159 VP  勝率: 34.0%
+  平坁E��応度: 5.233 VP
+  最低適応度: 3.470 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  27 ══════════════════════════════╗
+  最高適応度: 6.313 VP  勝率: 37.0%
+  平坁E��応度: 5.365 VP
+  最低適応度: 3.772 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.91 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  28 ══════════════════════════════╗
+  最高適応度: 5.980 VP  勝率: 29.0%
+  平坁E��応度: 5.304 VP
+  最低適応度: 4.546 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.91 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  29 ══════════════════════════════╗
+  最高適応度: 6.609 VP  勝率: 40.0%
+  平坁E��応度: 5.547 VP
+  最低適応度: 4.889 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+  新記録�E�E適応度 6.609 VP
+
+╔═╁E世代  30 ══════════════════════════════╗
+  最高適応度: 6.050 VP  勝率: 33.0%
+  平坁E��応度: 5.406 VP
+  最低適応度: 4.633 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  31 ══════════════════════════════╗
+  最高適応度: 6.245 VP  勝率: 35.0%
+  平坁E��応度: 5.500 VP
+  最低適応度: 3.614 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  32 ══════════════════════════════╗
+  最高適応度: 6.228 VP  勝率: 38.0%
+  平坁E��応度: 5.234 VP
+  最低適応度: 3.105 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.68 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  33 ══════════════════════════════╗
+  最高適応度: 6.191 VP  勝率: 41.0%
+  平坁E��応度: 5.347 VP
+  最低適応度: 4.641 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.68 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  34 ══════════════════════════════╗
+  最高適応度: 6.154 VP  勝率: 34.0%
+  平坁E��応度: 5.483 VP
+  最低適応度: 4.234 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.68 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  35 ══════════════════════════════╗
+  最高適応度: 6.101 VP  勝率: 32.0%
+  平坁E��応度: 5.450 VP
+  最低適応度: 4.630 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.91 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  36 ══════════════════════════════╗
+  最高適応度: 6.029 VP  勝率: 34.0%
+  平坁E��応度: 5.374 VP
+  最低適応度: 3.654 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.68 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  37 ══════════════════════════════╗
+  最高適応度: 6.178 VP  勝率: 33.0%
+  平坁E��応度: 5.296 VP
+  最低適応度: 3.727 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極1.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  38 ══════════════════════════════╗
+  最高適応度: 6.001 VP  勝率: 30.0%
+  平坁E��応度: 5.342 VP
+  最低適応度: 4.581 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.68 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  39 ══════════════════════════════╗
+  最高適応度: 6.366 VP  勝率: 35.0%
+  平坁E��応度: 5.531 VP
+  最低適応度: 4.052 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.91 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  40 ══════════════════════════════╗
+  最高適応度: 6.186 VP  勝率: 31.0%
+  平坁E��応度: 5.442 VP
+  最低適応度: 4.494 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.91 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  41 ══════════════════════════════╗
+  最高適応度: 6.306 VP  勝率: 37.0%
+  平坁E��応度: 5.259 VP
+  最低適応度: 3.366 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  42 ══════════════════════════════╗
+  最高適応度: 5.918 VP  勝率: 31.0%
+  平坁E��応度: 5.367 VP
+  最低適応度: 4.797 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  43 ══════════════════════════════╗
+  最高適応度: 6.357 VP  勝率: 42.0%
+  平坁E��応度: 5.305 VP
+  最低適応度: 4.564 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  44 ══════════════════════════════╗
+  最高適応度: 6.330 VP  勝率: 37.0%
+  平坁E��応度: 5.395 VP
+  最低適応度: 4.149 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  45 ══════════════════════════════╗
+  最高適応度: 6.197 VP  勝率: 38.0%
+  平坁E��応度: 5.495 VP
+  最低適応度: 4.206 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  46 ══════════════════════════════╗
+  最高適応度: 6.262 VP  勝率: 32.0%
+  平坁E��応度: 5.460 VP
+  最低適応度: 4.521 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  47 ══════════════════════════════╗
+  最高適応度: 6.057 VP  勝率: 33.0%
+  平坁E��応度: 5.428 VP
+  最低適応度: 4.949 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  48 ══════════════════════════════╗
+  最高適応度: 6.038 VP  勝率: 28.0%
+  平坁E��応度: 5.381 VP
+  最低適応度: 4.710 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  49 ══════════════════════════════╗
+  最高適応度: 6.272 VP  勝率: 36.0%
+  平坁E��応度: 5.535 VP
+  最低適応度: 4.142 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  50 ══════════════════════════════╗
+  最高適応度: 6.447 VP  勝率: 34.0%
+  平坁E��応度: 5.487 VP
+  最低適応度: 4.894 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  51 ══════════════════════════════╗
+  最高適応度: 6.339 VP  勝率: 41.0%
+  平坁E��応度: 5.230 VP
+  最低適応度: 4.100 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  52 ══════════════════════════════╗
+  最高適応度: 6.100 VP  勝率: 32.0%
+  平坁E��応度: 5.372 VP
+  最低適応度: 3.562 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  53 ══════════════════════════════╗
+  最高適応度: 6.166 VP  勝率: 38.0%
+  平坁E��応度: 5.404 VP
+  最低適応度: 4.713 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  54 ══════════════════════════════╗
+  最高適応度: 6.085 VP  勝率: 30.0%
+  平坁E��応度: 5.288 VP
+  最低適応度: 4.202 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  55 ══════════════════════════════╗
+  最高適応度: 5.998 VP  勝率: 32.0%
+  平坁E��応度: 5.418 VP
+  最低適応度: 4.920 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  56 ══════════════════════════════╗
+  最高適応度: 6.406 VP  勝率: 34.0%
+  平坁E��応度: 5.485 VP
+  最低適応度: 4.699 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.81 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  57 ══════════════════════════════╗
+  最高適応度: 6.101 VP  勝率: 37.0%
+  平坁E��応度: 5.491 VP
+  最低適応度: 4.820 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  58 ══════════════════════════════╗
+  最高適応度: 6.318 VP  勝率: 37.0%
+  平坁E��応度: 5.358 VP
+  最低適応度: 4.644 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.81 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  59 ══════════════════════════════╗
+  最高適応度: 6.197 VP  勝率: 30.0%
+  平坁E��応度: 5.419 VP
+  最低適応度: 4.813 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  60 ══════════════════════════════╗
+  最高適応度: 6.417 VP  勝率: 37.0%
+  平坁E��応度: 5.527 VP
+  最低適応度: 4.788 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  61 ══════════════════════════════╗
+  最高適応度: 6.295 VP  勝率: 35.0%
+  平坁E��応度: 5.329 VP
+  最低適応度: 3.903 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  62 ══════════════════════════════╗
+  最高適応度: 6.002 VP  勝率: 33.0%
+  平坁E��応度: 5.508 VP
+  最低適応度: 3.853 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  63 ══════════════════════════════╗
+  最高適応度: 6.026 VP  勝率: 34.0%
+  平坁E��応度: 5.448 VP
+  最低適応度: 4.869 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.90 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  64 ══════════════════════════════╗
+  最高適応度: 6.189 VP  勝率: 39.0%
+  平坁E��応度: 5.451 VP
+  最低適応度: 4.120 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  65 ══════════════════════════════╗
+  最高適応度: 6.004 VP  勝率: 31.0%
+  平坁E��応度: 5.460 VP
+  最低適応度: 4.404 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  66 ══════════════════════════════╗
+  最高適応度: 6.420 VP  勝率: 35.0%
+  平坁E��応度: 5.564 VP
+  最低適応度: 4.935 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  67 ══════════════════════════════╗
+  最高適応度: 6.157 VP  勝率: 36.0%
+  平坁E��応度: 5.512 VP
+  最低適応度: 3.930 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  68 ══════════════════════════════╗
+  最高適応度: 6.262 VP  勝率: 33.0%
+  平坁E��応度: 5.281 VP
+  最低適応度: 0.729 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  69 ══════════════════════════════╗
+  最高適応度: 6.476 VP  勝率: 43.0%
+  平坁E��応度: 5.469 VP
+  最低適応度: 4.784 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.82 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  70 ══════════════════════════════╗
+  最高適応度: 6.008 VP  勝率: 32.0%
+  平坁E��応度: 5.437 VP
+  最低適応度: 4.720 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  71 ══════════════════════════════╗
+  最高適応度: 5.991 VP  勝率: 36.0%
+  平坁E��応度: 5.217 VP
+  最低適応度: -0.106 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.54 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  72 ══════════════════════════════╗
+  最高適応度: 6.073 VP  勝率: 25.0%
+  平坁E��応度: 5.453 VP
+  最低適応度: 4.833 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  73 ══════════════════════════════╗
+  最高適応度: 6.093 VP  勝率: 34.0%
+  平坁E��応度: 5.386 VP
+  最低適応度: 4.537 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  74 ══════════════════════════════╗
+  最高適応度: 6.316 VP  勝率: 39.0%
+  平坁E��応度: 5.473 VP
+  最低適応度: 4.739 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  75 ══════════════════════════════╗
+  最高適応度: 6.190 VP  勝率: 34.0%
+  平坁E��応度: 5.454 VP
+  最低適応度: 4.743 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  76 ══════════════════════════════╗
+  最高適応度: 6.180 VP  勝率: 33.0%
+  平坁E��応度: 5.468 VP
+  最低適応度: 4.799 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.72 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  77 ══════════════════════════════╗
+  最高適応度: 5.922 VP  勝率: 31.0%
+  平坁E��応度: 5.319 VP
+  最低適応度: 3.592 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.95 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  78 ══════════════════════════════╗
+  最高適応度: 6.117 VP  勝率: 32.0%
+  平坁E��応度: 5.422 VP
+  最低適応度: 4.585 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.92 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  79 ══════════════════════════════╗
+  最高適応度: 6.173 VP  勝率: 29.0%
+  平坁E��応度: 5.420 VP
+  最低適応度: 4.993 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.92 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  80 ══════════════════════════════╗
+  最高適応度: 5.940 VP  勝率: 34.0%
+  平坁E��応度: 5.295 VP
+  最低適応度: 4.416 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.92 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  81 ══════════════════════════════╗
+  最高適応度: 6.222 VP  勝率: 36.0%
+  平坁E��応度: 5.295 VP
+  最低適応度: 4.357 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax3.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極1.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  82 ══════════════════════════════╗
+  最高適応度: 5.947 VP  勝率: 31.0%
+  平坁E��応度: 5.307 VP
+  最低適応度: 4.494 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.92 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  83 ══════════════════════════════╗
+  最高適応度: 6.131 VP  勝率: 32.0%
+  平坁E��応度: 5.153 VP
+  最低適応度: 2.879 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.92 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  84 ══════════════════════════════╗
+  最高適応度: 5.855 VP  勝率: 33.0%
+  平坁E��応度: 5.287 VP
+  最低適応度: 3.188 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.92 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  85 ══════════════════════════════╗
+  最高適応度: 6.059 VP  勝率: 34.0%
+  平坁E��応度: 5.176 VP
+  最低適応度: 3.475 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極1.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  86 ══════════════════════════════╗
+  最高適応度: 6.165 VP  勝率: 37.0%
+  平坁E��応度: 5.262 VP
+  最低適応度: 3.693 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.92 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  87 ══════════════════════════════╗
+  最高適応度: 6.726 VP  勝率: 45.0%
+  平坁E��応度: 5.602 VP
+  最低適応度: 4.910 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.71 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+  新記録�E�E適応度 6.726 VP
+
+╔═╁E世代  88 ══════════════════════════════╗
+  最高適応度: 6.410 VP  勝率: 29.0%
+  平坁E��応度: 5.126 VP
+  最低適応度: 0.772 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.92 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  89 ══════════════════════════════╗
+  最高適応度: 6.248 VP  勝率: 32.0%
+  平坁E��応度: 5.175 VP
+  最低適応度: -0.113 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax3.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.90 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  90 ══════════════════════════════╗
+  最高適応度: 5.990 VP  勝率: 33.0%
+  平坁E��応度: 5.244 VP
+  最低適応度: 3.656 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.92 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  91 ══════════════════════════════╗
+  最高適応度: 5.984 VP  勝率: 32.0%
+  平坁E��応度: 5.159 VP
+  最低適応度: 3.648 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.92 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  92 ══════════════════════════════╗
+  最高適応度: 6.229 VP  勝率: 39.0%
+  平坁E��応度: 5.312 VP
+  最低適応度: 4.216 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.70 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  93 ══════════════════════════════╗
+  最高適応度: 5.883 VP  勝率: 33.0%
+  平坁E��応度: 5.246 VP
+  最低適応度: 3.708 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.81 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  94 ══════════════════════════════╗
+  最高適応度: 5.799 VP  勝率: 34.0%
+  平坁E��応度: 5.284 VP
+  最低適応度: 4.516 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.81 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  95 ══════════════════════════════╗
+  最高適応度: 5.997 VP  勝率: 32.0%
+  平坁E��応度: 5.256 VP
+  最低適応度: 4.250 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.81 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  96 ══════════════════════════════╗
+  最高適応度: 6.119 VP  勝率: 37.0%
+  平坁E��応度: 5.418 VP
+  最低適応度: 4.591 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.80 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  97 ══════════════════════════════╗
+  最高適応度: 6.236 VP  勝率: 39.0%
+  平坁E��応度: 5.428 VP
+  最低適応度: 4.403 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.80 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  98 ══════════════════════════════╗
+  最高適応度: 6.316 VP  勝率: 35.0%
+  平坁E��応度: 5.471 VP
+  最低適応度: 3.995 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.80 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代  99 ══════════════════════════════╗
+  最高適応度: 5.790 VP  勝率: 30.0%
+  平坁E��応度: 5.238 VP
+  最低適応度: 4.234 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.81 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 100 ══════════════════════════════╗
+  最高適応度: 6.480 VP  勝率: 39.0%
+  平坁E��応度: 5.455 VP
+  最低適応度: 3.617 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.78 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 101 ══════════════════════════════╗
+  最高適応度: 6.034 VP  勝率: 36.0%
+  平坁E��応度: 5.428 VP
+  最低適応度: 4.552 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.81 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 102 ══════════════════════════════╗
+  最高適応度: 6.136 VP  勝率: 34.0%
+  平坁E��応度: 5.398 VP
+  最低適応度: 4.693 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.78 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 103 ══════════════════════════════╗
+  最高適応度: 6.024 VP  勝率: 35.0%
+  平坁E��応度: 5.464 VP
+  最低適応度: 4.398 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.82 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 104 ══════════════════════════════╗
+  最高適応度: 5.969 VP  勝率: 30.0%
+  平坁E��応度: 5.331 VP
+  最低適応度: 4.391 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.81 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 105 ══════════════════════════════╗
+  最高適応度: 6.098 VP  勝率: 36.0%
+  平坁E��応度: 5.461 VP
+  最低適応度: 4.538 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.81 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 106 ══════════════════════════════╗
+  最高適応度: 6.374 VP  勝率: 37.0%
+  平坁E��応度: 5.371 VP
+  最低適応度: 4.181 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.80 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 107 ══════════════════════════════╗
+  最高適応度: 5.929 VP  勝率: 28.0%
+  平坁E��応度: 5.401 VP
+  最低適応度: 4.864 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.66 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 108 ══════════════════════════════╗
+  最高適応度: 5.987 VP  勝率: 37.0%
+  平坁E��応度: 5.428 VP
+  最低適応度: 4.776 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.79 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 109 ══════════════════════════════╗
+  最高適応度: 6.330 VP  勝率: 36.0%
+  平坁E��応度: 5.375 VP
+  最低適応度: 3.333 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.79 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 110 ══════════════════════════════╗
+  最高適応度: 6.261 VP  勝率: 40.0%
+  平坁E��応度: 5.542 VP
+  最低適応度: 4.776 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.88 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 111 ══════════════════════════════╗
+  最高適応度: 6.215 VP  勝率: 35.0%
+  平坁E��応度: 5.296 VP
+  最低適応度: 3.944 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.88 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 112 ══════════════════════════════╗
+  最高適応度: 5.954 VP  勝率: 35.0%
+  平坁E��応度: 5.200 VP
+  最低適応度: 3.125 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.79 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 113 ══════════════════════════════╗
+  最高適応度: 6.393 VP  勝率: 35.0%
+  平坁E��応度: 5.349 VP
+  最低適応度: 4.038 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.81 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 114 ══════════════════════════════╗
+  最高適応度: 6.569 VP  勝率: 37.0%
+  平坁E��応度: 5.390 VP
+  最低適応度: 3.763 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 115 ══════════════════════════════╗
+  最高適応度: 6.012 VP  勝率: 33.0%
+  平坁E��応度: 5.422 VP
+  最低適応度: 3.979 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 116 ══════════════════════════════╗
+  最高適応度: 6.285 VP  勝率: 35.0%
+  平坁E��応度: 5.509 VP
+  最低適応度: 4.816 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.78 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 117 ══════════════════════════════╗
+  最高適応度: 6.129 VP  勝率: 34.0%
+  平坁E��応度: 5.289 VP
+  最低適応度: 3.573 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax3.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 118 ══════════════════════════════╗
+  最高適応度: 6.250 VP  勝率: 30.0%
+  平坁E��応度: 5.203 VP
+  最低適応度: 3.466 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 119 ══════════════════════════════╗
+  最高適応度: 6.734 VP  勝率: 42.0%
+  平坁E��応度: 5.249 VP
+  最低適応度: 2.941 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.37 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+  新記録�E�E適応度 6.734 VP
+
+╔═╁E世代 120 ══════════════════════════════╗
+  最高適応度: 5.880 VP  勝率: 32.0%
+  平坁E��応度: 5.264 VP
+  最低適応度: 3.381 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 121 ══════════════════════════════╗
+  最高適応度: 6.183 VP  勝率: 34.0%
+  平坁E��応度: 5.364 VP
+  最低適応度: 4.467 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 122 ══════════════════════════════╗
+  最高適応度: 6.367 VP  勝率: 38.0%
+  平坁E��応度: 5.399 VP
+  最低適応度: 3.558 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 123 ══════════════════════════════╗
+  最高適応度: 6.140 VP  勝率: 37.0%
+  平坁E��応度: 5.304 VP
+  最低適応度: 3.744 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 124 ══════════════════════════════╗
+  最高適応度: 6.125 VP  勝率: 35.0%
+  平坁E��応度: 5.429 VP
+  最低適応度: 4.087 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 125 ══════════════════════════════╗
+  最高適応度: 6.199 VP  勝率: 38.0%
+  平坁E��応度: 5.270 VP
+  最低適応度: 3.740 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 126 ══════════════════════════════╗
+  最高適応度: 6.159 VP  勝率: 34.0%
+  平坁E��応度: 5.181 VP
+  最低適応度: 3.114 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 127 ══════════════════════════════╗
+  最高適応度: 6.181 VP  勝率: 33.0%
+  平坁E��応度: 5.392 VP
+  最低適応度: 4.160 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 128 ══════════════════════════════╗
+  最高適応度: 6.338 VP  勝率: 39.0%
+  平坁E��応度: 5.519 VP
+  最低適応度: 4.965 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 129 ══════════════════════════════╗
+  最高適応度: 6.364 VP  勝率: 37.0%
+  平坁E��応度: 5.185 VP
+  最低適応度: 4.385 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.70 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 130 ══════════════════════════════╗
+  最高適応度: 6.303 VP  勝率: 36.0%
+  平坁E��応度: 5.364 VP
+  最低適応度: 3.386 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.62 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 131 ══════════════════════════════╗
+  最高適応度: 6.018 VP  勝率: 34.0%
+  平坁E��応度: 5.515 VP
+  最低適応度: 4.806 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.62 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 132 ══════════════════════════════╗
+  最高適応度: 5.899 VP  勝率: 31.0%
+  平坁E��応度: 5.243 VP
+  最低適応度: 3.985 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.77 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 133 ══════════════════════════════╗
+  最高適応度: 5.775 VP  勝率: 32.0%
+  平坁E��応度: 5.239 VP
+  最低適応度: 2.940 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.62 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 134 ══════════════════════════════╗
+  最高適応度: 6.062 VP  勝率: 36.0%
+  平坁E��応度: 5.357 VP
+  最低適応度: 3.335 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.70 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 135 ══════════════════════════════╗
+  最高適応度: 6.114 VP  勝率: 34.0%
+  平坁E��応度: 5.355 VP
+  最低適応度: 4.638 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.62 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 136 ══════════════════════════════╗
+  最高適応度: 6.348 VP  勝率: 39.0%
+  平坁E��応度: 5.454 VP
+  最低適応度: 4.617 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.64 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 137 ══════════════════════════════╗
+  最高適応度: 6.116 VP  勝率: 26.0%
+  平坁E��応度: 5.089 VP
+  最低適応度: 0.876 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 138 ══════════════════════════════╗
+  最高適応度: 5.803 VP  勝率: 35.0%
+  平坁E��応度: 5.093 VP
+  最低適応度: 0.762 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.62 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 139 ══════════════════════════════╗
+  最高適応度: 6.026 VP  勝率: 29.0%
+  平坁E��応度: 5.443 VP
+  最低適応度: 4.943 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.62 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 140 ══════════════════════════════╗
+  最高適応度: 5.949 VP  勝率: 30.0%
+  平坁E��応度: 5.372 VP
+  最低適応度: 4.386 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.62 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 141 ══════════════════════════════╗
+  最高適応度: 6.237 VP  勝率: 33.0%
+  平坁E��応度: 5.396 VP
+  最低適応度: 4.377 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.62 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 142 ══════════════════════════════╗
+  最高適応度: 6.164 VP  勝率: 32.0%
+  平坁E��応度: 5.455 VP
+  最低適応度: 4.542 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 143 ══════════════════════════════╗
+  最高適応度: 6.544 VP  勝率: 40.0%
+  平坁E��応度: 5.422 VP
+  最低適応度: 4.768 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.62 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 144 ══════════════════════════════╗
+  最高適応度: 5.990 VP  勝率: 32.0%
+  平坁E��応度: 5.363 VP
+  最低適応度: 3.325 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.1 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.62 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 145 ══════════════════════════════╗
+  最高適応度: 6.106 VP  勝率: 37.0%
+  平坁E��応度: 5.400 VP
+  最低適応度: 3.223 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 146 ══════════════════════════════╗
+  最高適応度: 6.379 VP  勝率: 36.0%
+  平坁E��応度: 5.267 VP
+  最低適応度: 4.369 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 147 ══════════════════════════════╗
+  最高適応度: 5.633 VP  勝率: 27.0%
+  平坁E��応度: 5.107 VP
+  最低適応度: 3.712 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 148 ══════════════════════════════╗
+  最高適応度: 6.196 VP  勝率: 36.0%
+  平坁E��応度: 5.477 VP
+  最低適応度: 4.635 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 149 ══════════════════════════════╗
+  最高適応度: 6.169 VP  勝率: 31.0%
+  平坁E��応度: 5.205 VP
+  最低適応度: 3.668 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 150 ══════════════════════════════╗
+  最高適応度: 6.146 VP  勝率: 34.0%
+  平坁E��応度: 5.269 VP
+  最低適応度: 3.860 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.58 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 151 ══════════════════════════════╗
+  最高適応度: 6.443 VP  勝率: 37.0%
+  平坁E��応度: 5.207 VP
+  最低適応度: 3.859 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 152 ══════════════════════════════╗
+  最高適応度: 6.066 VP  勝率: 36.0%
+  平坁E��応度: 5.327 VP
+  最低適応度: 3.617 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.80 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 153 ══════════════════════════════╗
+  最高適応度: 6.022 VP  勝率: 32.0%
+  平坁E��応度: 5.220 VP
+  最低適応度: 3.153 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.80 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 154 ══════════════════════════════╗
+  最高適応度: 6.329 VP  勝率: 36.0%
+  平坁E��応度: 5.334 VP
+  最低適応度: 3.888 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.71 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 155 ══════════════════════════════╗
+  最高適応度: 6.240 VP  勝率: 42.0%
+  平坁E��応度: 5.028 VP
+  最低適応度: 3.102 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 156 ══════════════════════════════╗
+  最高適応度: 6.258 VP  勝率: 31.0%
+  平坁E��応度: 5.483 VP
+  最低適応度: 4.586 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 157 ══════════════════════════════╗
+  最高適応度: 6.076 VP  勝率: 33.0%
+  平坁E��応度: 5.337 VP
+  最低適応度: 3.373 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 158 ══════════════════════════════╗
+  最高適応度: 6.172 VP  勝率: 32.0%
+  平坁E��応度: 5.487 VP
+  最低適応度: 4.950 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 159 ══════════════════════════════╗
+  最高適応度: 6.432 VP  勝率: 42.0%
+  平坁E��応度: 5.455 VP
+  最低適応度: 4.829 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.45 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 160 ══════════════════════════════╗
+  最高適応度: 6.389 VP  勝率: 37.0%
+  平坁E��応度: 5.428 VP
+  最低適応度: 4.750 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 161 ══════════════════════════════╗
+  最高適応度: 6.142 VP  勝率: 33.0%
+  平坁E��応度: 5.466 VP
+  最低適応度: 3.946 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.71 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 162 ══════════════════════════════╗
+  最高適応度: 6.082 VP  勝率: 33.0%
+  平坁E��応度: 5.259 VP
+  最低適応度: 3.533 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.45 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 163 ══════════════════════════════╗
+  最高適応度: 6.243 VP  勝率: 33.0%
+  平坁E��応度: 5.438 VP
+  最低適応度: 4.471 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 164 ══════════════════════════════╗
+  最高適応度: 6.026 VP  勝率: 31.0%
+  平坁E��応度: 5.284 VP
+  最低適応度: 4.793 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 165 ══════════════════════════════╗
+  最高適応度: 6.268 VP  勝率: 35.0%
+  平坁E��応度: 5.272 VP
+  最低適応度: 0.100 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 166 ══════════════════════════════╗
+  最高適応度: 6.445 VP  勝率: 36.0%
+  平坁E��応度: 5.469 VP
+  最低適応度: 3.285 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 167 ══════════════════════════════╗
+  最高適応度: 6.060 VP  勝率: 35.0%
+  平坁E��応度: 5.355 VP
+  最低適応度: 4.056 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 168 ══════════════════════════════╗
+  最高適応度: 6.234 VP  勝率: 31.0%
+  平坁E��応度: 5.406 VP
+  最低適応度: 4.714 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 169 ══════════════════════════════╗
+  最高適応度: 6.477 VP  勝率: 36.0%
+  平坁E��応度: 5.591 VP
+  最低適応度: 4.747 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.69 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 170 ══════════════════════════════╗
+  最高適応度: 5.978 VP  勝率: 36.0%
+  平坁E��応度: 5.383 VP
+  最低適応度: 4.771 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 171 ══════════════════════════════╗
+  最高適応度: 6.393 VP  勝率: 41.0%
+  平坁E��応度: 5.144 VP
+  最低適応度: 3.172 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 172 ══════════════════════════════╗
+  最高適応度: 6.065 VP  勝率: 33.0%
+  平坁E��応度: 5.336 VP
+  最低適応度: 4.746 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 173 ══════════════════════════════╗
+  最高適応度: 6.282 VP  勝率: 38.0%
+  平坁E��応度: 5.403 VP
+  最低適応度: 3.459 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 174 ══════════════════════════════╗
+  最高適応度: 6.194 VP  勝率: 36.0%
+  平坁E��応度: 5.399 VP
+  最低適応度: 4.677 VP
+  経過時間:   1.5秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 175 ══════════════════════════════╗
+  最高適応度: 6.631 VP  勝率: 34.0%
+  平坁E��応度: 5.349 VP
+  最低適応度: 3.075 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax3.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.20 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 176 ══════════════════════════════╗
+  最高適応度: 6.140 VP  勝率: 36.0%
+  平坁E��応度: 5.444 VP
+  最低適応度: 4.643 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.18 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 177 ══════════════════════════════╗
+  最高適応度: 6.377 VP  勝率: 38.0%
+  平坁E��応度: 5.456 VP
+  最低適応度: 3.187 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.33 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 178 ══════════════════════════════╗
+  最高適応度: 6.859 VP  勝率: 40.0%
+  平坁E��応度: 5.414 VP
+  最低適応度: 3.107 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.33 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+  新記録�E�E適応度 6.859 VP
+
+╔═╁E世代 179 ══════════════════════════════╗
+  最高適応度: 6.087 VP  勝率: 35.0%
+  平坁E��応度: 5.200 VP
+  最低適応度: 3.030 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.33 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 180 ══════════════════════════════╗
+  最高適応度: 6.129 VP  勝率: 38.0%
+  平坁E��応度: 5.488 VP
+  最低適応度: 4.664 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.33 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 181 ══════════════════════════════╗
+  最高適応度: 5.987 VP  勝率: 33.0%
+  平坁E��応度: 5.303 VP
+  最低適応度: 3.847 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.29 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 182 ══════════════════════════════╗
+  最高適応度: 6.370 VP  勝率: 38.0%
+  平坁E��応度: 5.506 VP
+  最低適応度: 4.270 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.29 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 183 ══════════════════════════════╗
+  最高適応度: 6.021 VP  勝率: 35.0%
+  平坁E��応度: 5.461 VP
+  最低適応度: 4.617 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.33 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 184 ══════════════════════════════╗
+  最高適応度: 6.148 VP  勝率: 33.0%
+  平坁E��応度: 5.448 VP
+  最低適応度: 4.046 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.33 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 185 ══════════════════════════════╗
+  最高適応度: 6.137 VP  勝率: 32.0%
+  平坁E��応度: 5.381 VP
+  最低適応度: 4.745 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.33 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 186 ══════════════════════════════╗
+  最高適応度: 5.989 VP  勝率: 30.0%
+  平坁E��応度: 5.421 VP
+  最低適応度: 4.574 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.33 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 187 ══════════════════════════════╗
+  最高適応度: 6.135 VP  勝率: 35.0%
+  平坁E��応度: 5.311 VP
+  最低適応度: 4.003 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.33 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 188 ══════════════════════════════╗
+  最高適応度: 5.990 VP  勝率: 26.0%
+  平坁E��応度: 5.331 VP
+  最低適応度: 3.404 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.33 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 189 ══════════════════════════════╗
+  最高適応度: 6.223 VP  勝率: 37.0%
+  平坁E��応度: 5.623 VP
+  最低適応度: 4.969 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.30 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 190 ══════════════════════════════╗
+  最高適応度: 6.518 VP  勝率: 36.0%
+  平坁E��応度: 5.342 VP
+  最低適応度: 3.645 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.33 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 191 ══════════════════════════════╗
+  最高適応度: 6.610 VP  勝率: 36.0%
+  平坁E��応度: 5.537 VP
+  最低適応度: 4.683 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.42 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 192 ══════════════════════════════╗
+  最高適応度: 6.233 VP  勝率: 34.0%
+  平坁E��応度: 5.509 VP
+  最低適応度: 4.679 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.34 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 193 ══════════════════════════════╗
+  最高適応度: 6.231 VP  勝率: 38.0%
+  平坁E��応度: 5.482 VP
+  最低適応度: 4.952 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.42 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 194 ══════════════════════════════╗
+  最高適応度: 6.212 VP  勝率: 37.0%
+  平坁E��応度: 5.529 VP
+  最低適応度: 4.785 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.20 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 195 ══════════════════════════════╗
+  最高適応度: 6.194 VP  勝率: 38.0%
+  平坁E��応度: 5.453 VP
+  最低適応度: 4.627 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.25 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 196 ══════════════════════════════╗
+  最高適応度: 6.097 VP  勝率: 32.0%
+  平坁E��応度: 5.493 VP
+  最低適応度: 3.460 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.25 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 197 ══════════════════════════════╗
+  最高適応度: 6.136 VP  勝率: 33.0%
+  平坁E��応度: 5.526 VP
+  最低適応度: 4.860 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 198 ══════════════════════════════╗
+  最高適応度: 5.997 VP  勝率: 30.0%
+  平坁E��応度: 5.371 VP
+  最低適応度: 4.651 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 199 ══════════════════════════════╗
+  最高適応度: 6.361 VP  勝率: 37.0%
+  平坁E��応度: 5.403 VP
+  最低適応度: 3.296 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 200 ══════════════════════════════╗
+  最高適応度: 5.953 VP  勝率: 32.0%
+  平坁E��応度: 5.359 VP
+  最低適応度: 4.665 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 201 ══════════════════════════════╗
+  最高適応度: 5.750 VP  勝率: 27.0%
+  平坁E��応度: 5.288 VP
+  最低適応度: 4.512 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.07 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 202 ══════════════════════════════╗
+  最高適応度: 6.040 VP  勝率: 33.0%
+  平坁E��応度: 5.326 VP
+  最低適応度: 4.445 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 203 ══════════════════════════════╗
+  最高適応度: 6.286 VP  勝率: 33.0%
+  平坁E��応度: 5.430 VP
+  最低適応度: 4.690 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 204 ══════════════════════════════╗
+  最高適応度: 6.213 VP  勝率: 39.0%
+  平坁E��応度: 5.485 VP
+  最低適応度: 4.806 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.21 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 205 ══════════════════════════════╗
+  最高適応度: 6.016 VP  勝率: 31.0%
+  平坁E��応度: 5.246 VP
+  最低適応度: 4.307 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.07 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 206 ══════════════════════════════╗
+  最高適応度: 5.970 VP  勝率: 37.0%
+  平坁E��応度: 5.264 VP
+  最低適応度: 4.245 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 207 ══════════════════════════════╗
+  最高適応度: 6.284 VP  勝率: 36.0%
+  平坁E��応度: 5.499 VP
+  最低適応度: 4.773 VP
+  経過時間:   1.5秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 208 ══════════════════════════════╗
+  最高適応度: 6.108 VP  勝率: 37.0%
+  平坁E��応度: 5.340 VP
+  最低適応度: 4.724 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 209 ══════════════════════════════╗
+  最高適応度: 6.242 VP  勝率: 31.0%
+  平坁E��応度: 5.182 VP
+  最低適応度: 3.300 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 210 ══════════════════════════════╗
+  最高適応度: 6.036 VP  勝率: 31.0%
+  平坁E��応度: 4.817 VP
+  最低適応度: 2.918 VP
+  経過時間:   1.4秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 211 ══════════════════════════════╗
+  最高適応度: 6.255 VP  勝率: 37.0%
+  平坁E��応度: 5.577 VP
+  最低適応度: 4.738 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 212 ══════════════════════════════╗
+  最高適応度: 5.955 VP  勝率: 31.0%
+  平坁E��応度: 5.361 VP
+  最低適応度: 4.280 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 213 ══════════════════════════════╗
+  最高適応度: 6.430 VP  勝率: 39.0%
+  平坁E��応度: 5.487 VP
+  最低適応度: 4.704 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 214 ══════════════════════════════╗
+  最高適応度: 6.579 VP  勝率: 37.0%
+  平坁E��応度: 5.327 VP
+  最低適応度: 3.274 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 215 ══════════════════════════════╗
+  最高適応度: 6.327 VP  勝率: 35.0%
+  平坁E��応度: 5.392 VP
+  最低適応度: 4.561 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 216 ══════════════════════════════╗
+  最高適応度: 6.516 VP  勝率: 39.0%
+  平坁E��応度: 5.438 VP
+  最低適応度: 4.358 VP
+  経過時間:   1.4秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 217 ══════════════════════════════╗
+  最高適応度: 6.164 VP  勝率: 35.0%
+  平坁E��応度: 5.433 VP
+  最低適応度: 4.468 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 218 ══════════════════════════════╗
+  最高適応度: 6.026 VP  勝率: 35.0%
+  平坁E��応度: 5.431 VP
+  最低適応度: 4.327 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.09 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 219 ══════════════════════════════╗
+  最高適応度: 6.218 VP  勝率: 39.0%
+  平坁E��応度: 5.545 VP
+  最低適応度: 3.961 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.09 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 220 ══════════════════════════════╗
+  最高適応度: 6.374 VP  勝率: 37.0%
+  平坁E��応度: 5.443 VP
+  最低適応度: 4.912 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.03 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 221 ══════════════════════════════╗
+  最高適応度: 6.126 VP  勝率: 37.0%
+  平坁E��応度: 5.422 VP
+  最低適応度: 4.237 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.03 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 222 ══════════════════════════════╗
+  最高適応度: 6.125 VP  勝率: 33.0%
+  平坁E��応度: 5.414 VP
+  最低適応度: 4.497 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.21 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 223 ══════════════════════════════╗
+  最高適応度: 6.558 VP  勝率: 39.0%
+  平坁E��応度: 5.230 VP
+  最低適応度: 3.275 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 224 ══════════════════════════════╗
+  最高適応度: 6.276 VP  勝率: 34.0%
+  平坁E��応度: 5.254 VP
+  最低適応度: 2.578 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.03 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 225 ══════════════════════════════╗
+  最高適応度: 6.150 VP  勝率: 37.0%
+  平坁E��応度: 5.201 VP
+  最低適応度: 0.299 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.03 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 226 ══════════════════════════════╗
+  最高適応度: 6.527 VP  勝率: 41.0%
+  平坁E��応度: 5.410 VP
+  最低適応度: 3.921 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 227 ══════════════════════════════╗
+  最高適応度: 6.179 VP  勝率: 32.0%
+  平坁E��応度: 5.354 VP
+  最低適応度: 3.660 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 228 ══════════════════════════════╗
+  最高適応度: 6.237 VP  勝率: 36.0%
+  平坁E��応度: 5.627 VP
+  最低適応度: 4.886 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.03 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 229 ══════════════════════════════╗
+  最高適応度: 6.321 VP  勝率: 37.0%
+  平坁E��応度: 5.431 VP
+  最低適応度: 4.505 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.03 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 230 ══════════════════════════════╗
+  最高適応度: 6.332 VP  勝率: 34.0%
+  平坁E��応度: 5.247 VP
+  最低適応度: 3.212 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 231 ══════════════════════════════╗
+  最高適応度: 6.053 VP  勝率: 29.0%
+  平坁E��応度: 5.334 VP
+  最低適応度: 1.010 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 232 ══════════════════════════════╗
+  最高適応度: 6.035 VP  勝率: 32.0%
+  平坁E��応度: 5.311 VP
+  最低適応度: 3.690 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 233 ══════════════════════════════╗
+  最高適応度: 5.744 VP  勝率: 27.0%
+  平坁E��応度: 5.365 VP
+  最低適応度: 4.336 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 234 ══════════════════════════════╗
+  最高適応度: 6.378 VP  勝率: 34.0%
+  平坁E��応度: 5.175 VP
+  最低適応度: 3.383 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 235 ══════════════════════════════╗
+  最高適応度: 6.391 VP  勝率: 35.0%
+  平坁E��応度: 5.560 VP
+  最低適応度: 5.050 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 236 ══════════════════════════════╗
+  最高適応度: 6.263 VP  勝率: 37.0%
+  平坁E��応度: 5.002 VP
+  最低適応度: 3.171 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 237 ══════════════════════════════╗
+  最高適応度: 6.565 VP  勝率: 40.0%
+  平坁E��応度: 5.489 VP
+  最低適応度: 3.773 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 238 ══════════════════════════════╗
+  最高適応度: 5.984 VP  勝率: 35.0%
+  平坁E��応度: 5.287 VP
+  最低適応度: 3.622 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 239 ══════════════════════════════╗
+  最高適応度: 5.933 VP  勝率: 35.0%
+  平坁E��応度: 5.262 VP
+  最低適応度: 3.255 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 240 ══════════════════════════════╗
+  最高適応度: 6.173 VP  勝率: 35.0%
+  平坁E��応度: 5.280 VP
+  最低適応度: 3.286 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 241 ══════════════════════════════╗
+  最高適応度: 5.835 VP  勝率: 30.0%
+  平坁E��応度: 5.118 VP
+  最低適応度: 3.507 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 242 ══════════════════════════════╗
+  最高適応度: 6.208 VP  勝率: 30.0%
+  平坁E��応度: 5.049 VP
+  最低適応度: 2.718 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 243 ══════════════════════════════╗
+  最高適応度: 6.338 VP  勝率: 40.0%
+  平坁E��応度: 5.451 VP
+  最低適応度: 4.864 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 244 ══════════════════════════════╗
+  最高適応度: 5.907 VP  勝率: 35.0%
+  平坁E��応度: 5.342 VP
+  最低適応度: 3.427 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 245 ══════════════════════════════╗
+  最高適応度: 6.104 VP  勝率: 37.0%
+  平坁E��応度: 5.265 VP
+  最低適応度: 3.181 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 246 ══════════════════════════════╗
+  最高適応度: 6.125 VP  勝率: 31.0%
+  平坁E��応度: 5.410 VP
+  最低適応度: 3.050 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 247 ══════════════════════════════╗
+  最高適応度: 6.196 VP  勝率: 35.0%
+  平坁E��応度: 5.000 VP
+  最低適応度: 0.413 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 248 ══════════════════════════════╗
+  最高適応度: 6.040 VP  勝率: 35.0%
+  平坁E��応度: 4.881 VP
+  最低適応度: 2.521 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.18 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 249 ══════════════════════════════╗
+  最高適応度: 6.024 VP  勝率: 31.0%
+  平坁E��応度: 5.128 VP
+  最低適応度: 3.778 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 250 ══════════════════════════════╗
+  最高適応度: 6.083 VP  勝率: 35.0%
+  平坁E��応度: 5.229 VP
+  最低適応度: 3.570 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 251 ══════════════════════════════╗
+  最高適応度: 6.443 VP  勝率: 37.0%
+  平坁E��応度: 5.435 VP
+  最低適応度: 4.702 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 252 ══════════════════════════════╗
+  最高適応度: 5.933 VP  勝率: 30.0%
+  平坁E��応度: 5.260 VP
+  最低適応度: 3.131 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 253 ══════════════════════════════╗
+  最高適応度: 6.167 VP  勝率: 36.0%
+  平坁E��応度: 5.330 VP
+  最低適応度: 4.541 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 254 ══════════════════════════════╗
+  最高適応度: 6.356 VP  勝率: 38.0%
+  平坁E��応度: 5.129 VP
+  最低適応度: 3.143 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 255 ══════════════════════════════╗
+  最高適応度: 6.697 VP  勝率: 47.0%
+  平坁E��応度: 5.334 VP
+  最低適応度: 2.413 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 256 ══════════════════════════════╗
+  最高適応度: 6.204 VP  勝率: 31.0%
+  平坁E��応度: 5.483 VP
+  最低適応度: 4.733 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 257 ══════════════════════════════╗
+  最高適応度: 6.392 VP  勝率: 40.0%
+  平坁E��応度: 5.451 VP
+  最低適応度: 4.679 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 258 ══════════════════════════════╗
+  最高適応度: 6.430 VP  勝率: 37.0%
+  平坁E��応度: 5.452 VP
+  最低適応度: 3.377 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 259 ══════════════════════════════╗
+  最高適応度: 6.119 VP  勝率: 39.0%
+  平坁E��応度: 5.383 VP
+  最低適応度: 3.314 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 260 ══════════════════════════════╗
+  最高適応度: 6.109 VP  勝率: 34.0%
+  平坁E��応度: 5.512 VP
+  最低適応度: 4.844 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 261 ══════════════════════════════╗
+  最高適応度: 6.152 VP  勝率: 33.0%
+  平坁E��応度: 5.312 VP
+  最低適応度: 3.103 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 262 ══════════════════════════════╗
+  最高適応度: 5.964 VP  勝率: 33.0%
+  平坁E��応度: 5.110 VP
+  最低適応度: 2.854 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 263 ══════════════════════════════╗
+  最高適応度: 6.323 VP  勝率: 37.0%
+  平坁E��応度: 5.284 VP
+  最低適応度: 3.037 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 264 ══════════════════════════════╗
+  最高適応度: 6.613 VP  勝率: 40.0%
+  平坁E��応度: 5.419 VP
+  最低適応度: 4.939 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 265 ══════════════════════════════╗
+  最高適応度: 6.003 VP  勝率: 34.0%
+  平坁E��応度: 5.322 VP
+  最低適応度: 4.617 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 266 ══════════════════════════════╗
+  最高適応度: 6.044 VP  勝率: 34.0%
+  平坁E��応度: 5.477 VP
+  最低適応度: 4.903 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 267 ══════════════════════════════╗
+  最高適応度: 5.865 VP  勝率: 30.0%
+  平坁E��応度: 5.296 VP
+  最低適応度: 3.619 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 268 ══════════════════════════════╗
+  最高適応度: 6.236 VP  勝率: 36.0%
+  平坁E��応度: 5.294 VP
+  最低適応度: 2.814 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 269 ══════════════════════════════╗
+  最高適応度: 6.220 VP  勝率: 36.0%
+  平坁E��応度: 5.418 VP
+  最低適応度: 3.689 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 270 ══════════════════════════════╗
+  最高適応度: 5.986 VP  勝率: 36.0%
+  平坁E��応度: 5.525 VP
+  最低適応度: 4.910 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 271 ══════════════════════════════╗
+  最高適応度: 6.371 VP  勝率: 37.0%
+  平坁E��応度: 5.387 VP
+  最低適応度: 3.889 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 272 ══════════════════════════════╗
+  最高適応度: 6.087 VP  勝率: 32.0%
+  平坁E��応度: 5.099 VP
+  最低適応度: 3.275 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.17 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 273 ══════════════════════════════╗
+  最高適応度: 6.553 VP  勝率: 33.0%
+  平坁E��応度: 5.618 VP
+  最低適応度: 4.790 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 274 ══════════════════════════════╗
+  最高適応度: 6.159 VP  勝率: 36.0%
+  平坁E��応度: 5.417 VP
+  最低適応度: 4.970 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 275 ══════════════════════════════╗
+  最高適応度: 6.255 VP  勝率: 39.0%
+  平坁E��応度: 5.317 VP
+  最低適応度: 3.841 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 276 ══════════════════════════════╗
+  最高適応度: 6.575 VP  勝率: 39.0%
+  平坁E��応度: 5.268 VP
+  最低適応度: 2.866 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 277 ══════════════════════════════╗
+  最高適応度: 5.954 VP  勝率: 38.0%
+  平坁E��応度: 5.164 VP
+  最低適応度: 3.735 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 278 ══════════════════════════════╗
+  最高適応度: 6.156 VP  勝率: 39.0%
+  平坁E��応度: 5.384 VP
+  最低適応度: 4.142 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 279 ══════════════════════════════╗
+  最高適応度: 6.263 VP  勝率: 39.0%
+  平坁E��応度: 5.323 VP
+  最低適応度: 2.852 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.14 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 280 ══════════════════════════════╗
+  最高適応度: 6.144 VP  勝率: 35.0%
+  平坁E��応度: 5.299 VP
+  最低適応度: 3.777 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 281 ══════════════════════════════╗
+  最高適応度: 6.372 VP  勝率: 33.0%
+  平坁E��応度: 5.236 VP
+  最低適応度: 2.204 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.14 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 282 ══════════════════════════════╗
+  最高適応度: 6.177 VP  勝率: 39.0%
+  平坁E��応度: 5.386 VP
+  最低適応度: 3.843 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.08 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 283 ══════════════════════════════╗
+  最高適応度: 5.847 VP  勝率: 32.0%
+  平坁E��応度: 5.292 VP
+  最低適応度: 3.924 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.14 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 284 ══════════════════════════════╗
+  最高適応度: 6.082 VP  勝率: 32.0%
+  平坁E��応度: 5.246 VP
+  最低適応度: 3.345 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.10 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 285 ══════════════════════════════╗
+  最高適応度: 5.797 VP  勝率: 27.0%
+  平坁E��応度: 5.003 VP
+  最低適応度: 3.392 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.10 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 286 ══════════════════════════════╗
+  最高適応度: 6.286 VP  勝率: 35.0%
+  平坁E��応度: 5.429 VP
+  最低適応度: 3.742 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.14 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 287 ══════════════════════════════╗
+  最高適応度: 6.184 VP  勝率: 35.0%
+  平坁E��応度: 5.408 VP
+  最低適応度: 4.561 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 288 ══════════════════════════════╗
+  最高適応度: 6.398 VP  勝率: 38.0%
+  平坁E��応度: 5.228 VP
+  最低適応度: 3.075 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.14 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 289 ══════════════════════════════╗
+  最高適応度: 6.278 VP  勝率: 38.0%
+  平坁E��応度: 5.426 VP
+  最低適応度: 3.896 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.18 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 290 ══════════════════════════════╗
+  最高適応度: 5.973 VP  勝率: 36.0%
+  平坁E��応度: 5.380 VP
+  最低適応度: 4.718 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.9 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.14 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 291 ══════════════════════════════╗
+  最高適応度: 6.011 VP  勝率: 36.0%
+  平坁E��応度: 5.301 VP
+  最低適応度: 3.126 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.18 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 292 ══════════════════════════════╗
+  最高適応度: 6.466 VP  勝率: 39.0%
+  平坁E��応度: 5.339 VP
+  最低適応度: 3.538 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.03 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 293 ══════════════════════════════╗
+  最高適応度: 6.133 VP  勝率: 35.0%
+  平坁E��応度: 5.371 VP
+  最低適応度: 3.345 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.18 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 294 ══════════════════════════════╗
+  最高適応度: 6.079 VP  勝率: 33.0%
+  平坁E��応度: 5.183 VP
+  最低適応度: 3.277 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 295 ══════════════════════════════╗
+  最高適応度: 6.122 VP  勝率: 35.0%
+  平坁E��応度: 5.284 VP
+  最低適応度: 3.507 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 296 ══════════════════════════════╗
+  最高適応度: 6.140 VP  勝率: 36.0%
+  平坁E��応度: 5.187 VP
+  最低適応度: 3.393 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 297 ══════════════════════════════╗
+  最高適応度: 6.317 VP  勝率: 36.0%
+  平坁E��応度: 5.372 VP
+  最低適応度: 4.094 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 298 ══════════════════════════════╗
+  最高適応度: 6.465 VP  勝率: 32.0%
+  平坁E��応度: 5.223 VP
+  最低適応度: 3.545 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 299 ══════════════════════════════╗
+  最高適応度: 6.367 VP  勝率: 35.0%
+  平坁E��応度: 5.275 VP
+  最低適応度: 3.978 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.5 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 300 ══════════════════════════════╗
+  最高適応度: 6.151 VP  勝率: 30.0%
+  平坁E��応度: 5.434 VP
+  最低適応度: 3.374 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 301 ══════════════════════════════╗
+  最高適応度: 6.378 VP  勝率: 34.0%
+  平坁E��応度: 5.392 VP
+  最低適応度: 3.406 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 302 ══════════════════════════════╗
+  最高適応度: 6.155 VP  勝率: 34.0%
+  平坁E��応度: 5.294 VP
+  最低適応度: 4.347 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 303 ══════════════════════════════╗
+  最高適応度: 6.096 VP  勝率: 33.0%
+  平坁E��応度: 5.250 VP
+  最低適応度: 0.983 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 304 ══════════════════════════════╗
+  最高適応度: 6.215 VP  勝率: 31.0%
+  平坁E��応度: 5.322 VP
+  最低適応度: 4.317 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 305 ══════════════════════════════╗
+  最高適応度: 6.480 VP  勝率: 38.0%
+  平坁E��応度: 5.428 VP
+  最低適応度: 3.971 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 306 ══════════════════════════════╗
+  最高適応度: 6.187 VP  勝率: 38.0%
+  平坁E��応度: 5.234 VP
+  最低適応度: 4.643 VP
+  経過時間:   1.5秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 307 ══════════════════════════════╗
+  最高適応度: 6.150 VP  勝率: 35.0%
+  平坁E��応度: 5.350 VP
+  最低適応度: 4.479 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 308 ══════════════════════════════╗
+  最高適応度: 6.149 VP  勝率: 39.0%
+  平坁E��応度: 5.387 VP
+  最低適応度: 4.910 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 309 ══════════════════════════════╗
+  最高適応度: 6.145 VP  勝率: 34.0%
+  平坁E��応度: 5.254 VP
+  最低適応度: 4.514 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 310 ══════════════════════════════╗
+  最高適応度: 6.036 VP  勝率: 33.0%
+  平坁E��応度: 5.230 VP
+  最低適応度: 3.910 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 311 ══════════════════════════════╗
+  最高適応度: 6.398 VP  勝率: 41.0%
+  平坁E��応度: 5.575 VP
+  最低適応度: 4.851 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 312 ══════════════════════════════╗
+  最高適応度: 6.261 VP  勝率: 32.0%
+  平坁E��応度: 5.361 VP
+  最低適応度: 4.326 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 313 ══════════════════════════════╗
+  最高適応度: 6.217 VP  勝率: 36.0%
+  平坁E��応度: 5.416 VP
+  最低適応度: 4.782 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 314 ══════════════════════════════╗
+  最高適応度: 6.275 VP  勝率: 32.0%
+  平坁E��応度: 5.405 VP
+  最低適応度: 4.662 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 315 ══════════════════════════════╗
+  最高適応度: 6.155 VP  勝率: 31.0%
+  平坁E��応度: 5.510 VP
+  最低適応度: 4.324 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 316 ══════════════════════════════╗
+  最高適応度: 6.361 VP  勝率: 43.0%
+  平坁E��応度: 5.411 VP
+  最低適応度: 4.490 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 317 ══════════════════════════════╗
+  最高適応度: 5.911 VP  勝率: 30.0%
+  平坁E��応度: 5.238 VP
+  最低適応度: 3.387 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 318 ══════════════════════════════╗
+  最高適応度: 6.208 VP  勝率: 37.0%
+  平坁E��応度: 5.126 VP
+  最低適応度: 3.050 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 319 ══════════════════════════════╗
+  最高適応度: 6.054 VP  勝率: 32.0%
+  平坁E��応度: 5.244 VP
+  最低適応度: 4.488 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 320 ══════════════════════════════╗
+  最高適応度: 6.085 VP  勝率: 34.0%
+  平坁E��応度: 5.100 VP
+  最低適応度: 3.536 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.27 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 321 ══════════════════════════════╗
+  最高適応度: 6.278 VP  勝率: 36.0%
+  平坁E��応度: 5.391 VP
+  最低適応度: 4.665 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.28 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 322 ══════════════════════════════╗
+  最高適応度: 6.242 VP  勝率: 36.0%
+  平坁E��応度: 5.328 VP
+  最低適応度: 3.875 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.11 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 323 ══════════════════════════════╗
+  最高適応度: 6.155 VP  勝率: 35.0%
+  平坁E��応度: 5.379 VP
+  最低適応度: 4.405 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.09 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 324 ══════════════════════════════╗
+  最高適応度: 6.199 VP  勝率: 37.0%
+  平坁E��応度: 5.274 VP
+  最低適応度: 3.869 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.12 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 325 ══════════════════════════════╗
+  最高適応度: 6.220 VP  勝率: 38.0%
+  平坁E��応度: 5.546 VP
+  最低適応度: 4.323 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 326 ══════════════════════════════╗
+  最高適応度: 6.232 VP  勝率: 37.0%
+  平坁E��応度: 5.409 VP
+  最低適応度: 4.759 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 327 ══════════════════════════════╗
+  最高適応度: 6.204 VP  勝率: 35.0%
+  平坁E��応度: 5.266 VP
+  最低適応度: 3.554 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 328 ══════════════════════════════╗
+  最高適応度: 6.019 VP  勝率: 35.0%
+  平坁E��応度: 5.458 VP
+  最低適応度: 3.911 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.09 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 329 ══════════════════════════════╗
+  最高適応度: 6.202 VP  勝率: 36.0%
+  平坁E��応度: 5.419 VP
+  最低適応度: 3.736 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 330 ══════════════════════════════╗
+  最高適応度: 5.888 VP  勝率: 31.0%
+  平坁E��応度: 5.465 VP
+  最低適応度: 4.218 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 331 ══════════════════════════════╗
+  最高適応度: 6.062 VP  勝率: 30.0%
+  平坁E��応度: 5.271 VP
+  最低適応度: 3.145 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 332 ══════════════════════════════╗
+  最高適応度: 6.580 VP  勝率: 40.0%
+  平坁E��応度: 5.346 VP
+  最低適応度: 4.630 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 333 ══════════════════════════════╗
+  最高適応度: 6.275 VP  勝率: 35.0%
+  平坁E��応度: 5.541 VP
+  最低適応度: 4.741 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.01 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 334 ══════════════════════════════╗
+  最高適応度: 6.419 VP  勝率: 32.0%
+  平坁E��応度: 5.562 VP
+  最低適応度: 4.692 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 335 ══════════════════════════════╗
+  最高適応度: 6.229 VP  勝率: 42.0%
+  平坁E��応度: 5.408 VP
+  最低適応度: 4.209 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 336 ══════════════════════════════╗
+  最高適応度: 6.672 VP  勝率: 40.0%
+  平坁E��応度: 5.454 VP
+  最低適応度: 3.223 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 337 ══════════════════════════════╗
+  最高適応度: 6.008 VP  勝率: 33.0%
+  平坁E��応度: 5.465 VP
+  最低適応度: 4.661 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 338 ══════════════════════════════╗
+  最高適応度: 6.292 VP  勝率: 37.0%
+  平坁E��応度: 5.424 VP
+  最低適応度: 4.081 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 339 ══════════════════════════════╗
+  最高適応度: 6.425 VP  勝率: 34.0%
+  平坁E��応度: 5.469 VP
+  最低適応度: 4.373 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 340 ══════════════════════════════╗
+  最高適応度: 6.539 VP  勝率: 39.0%
+  平坁E��応度: 5.443 VP
+  最低適応度: 4.678 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 341 ══════════════════════════════╗
+  最高適応度: 6.276 VP  勝率: 42.0%
+  平坁E��応度: 5.424 VP
+  最低適応度: 4.506 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 342 ══════════════════════════════╗
+  最高適応度: 6.398 VP  勝率: 37.0%
+  平坁E��応度: 5.528 VP
+  最低適応度: 4.557 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 343 ══════════════════════════════╗
+  最高適応度: 6.250 VP  勝率: 37.0%
+  平坁E��応度: 5.442 VP
+  最低適応度: 4.796 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax6.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 344 ══════════════════════════════╗
+  最高適応度: 6.404 VP  勝率: 38.0%
+  平坁E��応度: 5.267 VP
+  最低適応度: 4.128 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 345 ══════════════════════════════╗
+  最高適応度: 6.425 VP  勝率: 39.0%
+  平坁E��応度: 5.413 VP
+  最低適応度: 3.870 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 346 ══════════════════════════════╗
+  最高適応度: 6.107 VP  勝率: 37.0%
+  平坁E��応度: 5.377 VP
+  最低適応度: 4.818 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 347 ══════════════════════════════╗
+  最高適応度: 6.053 VP  勝率: 31.0%
+  平坁E��応度: 5.327 VP
+  最低適応度: 3.681 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 348 ══════════════════════════════╗
+  最高適応度: 5.961 VP  勝率: 30.0%
+  平坁E��応度: 5.246 VP
+  最低適応度: 4.289 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 349 ══════════════════════════════╗
+  最高適応度: 6.046 VP  勝率: 37.0%
+  平坁E��応度: 5.467 VP
+  最低適応度: 4.863 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 350 ══════════════════════════════╗
+  最高適応度: 6.152 VP  勝率: 37.0%
+  平坁E��応度: 5.403 VP
+  最低適応度: 4.626 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 351 ══════════════════════════════╗
+  最高適応度: 6.294 VP  勝率: 33.0%
+  平坁E��応度: 5.395 VP
+  最低適応度: 4.366 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 352 ══════════════════════════════╗
+  最高適応度: 6.164 VP  勝率: 34.0%
+  平坁E��応度: 5.442 VP
+  最低適応度: 3.970 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 353 ══════════════════════════════╗
+  最高適応度: 6.580 VP  勝率: 40.0%
+  平坁E��応度: 5.362 VP
+  最低適応度: 4.237 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 354 ══════════════════════════════╗
+  最高適応度: 6.130 VP  勝率: 34.0%
+  平坁E��応度: 5.454 VP
+  最低適応度: 4.661 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 355 ══════════════════════════════╗
+  最高適応度: 6.032 VP  勝率: 34.0%
+  平坁E��応度: 5.584 VP
+  最低適応度: 4.837 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 356 ══════════════════════════════╗
+  最高適応度: 6.462 VP  勝率: 36.0%
+  平坁E��応度: 5.437 VP
+  最低適応度: 4.289 VP
+  経過時間:   1.0秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 357 ══════════════════════════════╗
+  最高適応度: 6.095 VP  勝率: 35.0%
+  平坁E��応度: 5.444 VP
+  最低適応度: 4.602 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 358 ══════════════════════════════╗
+  最高適応度: 6.489 VP  勝率: 40.0%
+  平坁E��応度: 5.481 VP
+  最低適応度: 4.349 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 359 ══════════════════════════════╗
+  最高適応度: 6.103 VP  勝率: 34.0%
+  平坁E��応度: 5.387 VP
+  最低適応度: 3.013 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.20 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 360 ══════════════════════════════╗
+  最高適応度: 6.332 VP  勝率: 41.0%
+  平坁E��応度: 5.456 VP
+  最低適応度: 4.332 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 361 ══════════════════════════════╗
+  最高適応度: 6.373 VP  勝率: 37.0%
+  平坁E��応度: 5.562 VP
+  最低適応度: 4.794 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 362 ══════════════════════════════╗
+  最高適応度: 6.305 VP  勝率: 38.0%
+  平坁E��応度: 5.536 VP
+  最低適応度: 4.862 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.2 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 363 ══════════════════════════════╗
+  最高適応度: 6.107 VP  勝率: 29.0%
+  平坁E��応度: 5.231 VP
+  最低適応度: 0.412 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 364 ══════════════════════════════╗
+  最高適応度: 5.766 VP  勝率: 31.0%
+  平坁E��応度: 5.340 VP
+  最低適応度: 4.469 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 365 ══════════════════════════════╗
+  最高適応度: 6.426 VP  勝率: 34.0%
+  平坁E��応度: 5.470 VP
+  最低適応度: 4.808 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.19 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 366 ══════════════════════════════╗
+  最高適応度: 6.275 VP  勝率: 37.0%
+  平坁E��応度: 5.512 VP
+  最低適応度: 4.746 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 367 ══════════════════════════════╗
+  最高適応度: 5.797 VP  勝率: 35.0%
+  平坁E��応度: 5.309 VP
+  最低適応度: 4.768 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 368 ══════════════════════════════╗
+  最高適応度: 6.302 VP  勝率: 34.0%
+  平坁E��応度: 5.561 VP
+  最低適応度: 4.067 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 369 ══════════════════════════════╗
+  最高適応度: 6.326 VP  勝率: 39.0%
+  平坁E��応度: 5.499 VP
+  最低適応度: 4.268 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.16 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 370 ══════════════════════════════╗
+  最高適応度: 6.252 VP  勝率: 35.0%
+  平坁E��応度: 5.444 VP
+  最低適応度: 4.846 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 371 ══════════════════════════════╗
+  最高適応度: 6.509 VP  勝率: 35.0%
+  平坁E��応度: 5.407 VP
+  最低適応度: 3.296 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 372 ══════════════════════════════╗
+  最高適応度: 5.971 VP  勝率: 37.0%
+  平坁E��応度: 5.477 VP
+  最低適応度: 3.455 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.11 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 373 ══════════════════════════════╗
+  最高適応度: 6.161 VP  勝率: 40.0%
+  平坁E��応度: 5.317 VP
+  最低適応度: 4.135 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 374 ══════════════════════════════╗
+  最高適応度: 6.207 VP  勝率: 39.0%
+  平坁E��応度: 5.494 VP
+  最低適応度: 4.779 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.05 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 375 ══════════════════════════════╗
+  最高適応度: 6.042 VP  勝率: 38.0%
+  平坁E��応度: 5.251 VP
+  最低適応度: 3.709 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 376 ══════════════════════════════╗
+  最高適応度: 6.391 VP  勝率: 37.0%
+  平坁E��応度: 5.454 VP
+  最低適応度: 4.655 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.8 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 377 ══════════════════════════════╗
+  最高適応度: 6.261 VP  勝率: 35.0%
+  平坁E��応度: 5.441 VP
+  最低適応度: 4.932 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.16 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 378 ══════════════════════════════╗
+  最高適応度: 6.115 VP  勝率: 34.0%
+  平坁E��応度: 5.480 VP
+  最低適応度: 4.961 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.0 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.16 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 379 ══════════════════════════════╗
+  最高適応度: 6.178 VP  勝率: 38.0%
+  平坁E��応度: 5.369 VP
+  最低適応度: 4.747 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 380 ══════════════════════════════╗
+  最高適応度: 5.915 VP  勝率: 33.0%
+  平坁E��応度: 5.214 VP
+  最低適応度: 3.386 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 381 ══════════════════════════════╗
+  最高適応度: 6.242 VP  勝率: 33.0%
+  平坁E��応度: 5.220 VP
+  最低適応度: 4.075 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.02 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 382 ══════════════════════════════╗
+  最高適応度: 6.071 VP  勝率: 31.0%
+  平坁E��応度: 5.355 VP
+  最低適応度: 4.451 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 383 ══════════════════════════════╗
+  最高適応度: 6.245 VP  勝率: 40.0%
+  平坁E��応度: 5.254 VP
+  最低適応度: 3.150 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 384 ══════════════════════════════╗
+  最高適応度: 6.131 VP  勝率: 35.0%
+  平坁E��応度: 5.341 VP
+  最低適応度: 4.353 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 385 ══════════════════════════════╗
+  最高適応度: 6.062 VP  勝率: 37.0%
+  平坁E��応度: 5.395 VP
+  最低適応度: 4.837 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 386 ══════════════════════════════╗
+  最高適応度: 5.682 VP  勝率: 34.0%
+  平坁E��応度: 5.241 VP
+  最低適応度: 4.847 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 387 ══════════════════════════════╗
+  最高適応度: 5.992 VP  勝率: 34.0%
+  平坁E��応度: 5.241 VP
+  最低適応度: 4.404 VP
+  経過時間:   1.1秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 388 ══════════════════════════════╗
+  最高適応度: 6.744 VP  勝率: 39.0%
+  平坁E��応度: 5.557 VP
+  最低適応度: 4.843 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 389 ══════════════════════════════╗
+  最高適応度: 6.211 VP  勝率: 35.0%
+  平坁E��応度: 5.559 VP
+  最低適応度: 5.093 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 390 ══════════════════════════════╗
+  最高適応度: 5.736 VP  勝率: 30.0%
+  平坁E��応度: 5.175 VP
+  最低適応度: 4.361 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 391 ══════════════════════════════╗
+  最高適応度: 6.492 VP  勝率: 39.0%
+  平坁E��応度: 5.386 VP
+  最低適応度: 4.236 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.3 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 392 ══════════════════════════════╗
+  最高適応度: 5.989 VP  勝率: 38.0%
+  平坁E��応度: 5.523 VP
+  最低適応度: 4.826 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 393 ══════════════════════════════╗
+  最高適応度: 5.894 VP  勝率: 29.0%
+  平坁E��応度: 5.361 VP
+  最低適応度: 4.500 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.6 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 394 ══════════════════════════════╗
+  最高適応度: 6.285 VP  勝率: 34.0%
+  平坁E��応度: 5.244 VP
+  最低適応度: 3.377 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.09 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 395 ══════════════════════════════╗
+  最高適応度: 5.836 VP  勝率: 31.0%
+  平坁E��応度: 5.430 VP
+  最低適応度: 5.011 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.7 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 396 ══════════════════════════════╗
+  最高適応度: 6.366 VP  勝率: 37.0%
+  平坁E��応度: 5.360 VP
+  最低適応度: 3.935 VP
+  経過時間:   1.4秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 397 ══════════════════════════════╗
+  最高適応度: 5.943 VP  勝率: 31.0%
+  平坁E��応度: 5.326 VP
+  最低適応度: 4.183 VP
+  経過時間:   1.5秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 398 ══════════════════════════════╗
+  最高適応度: 6.140 VP  勝率: 39.0%
+  平坁E��応度: 5.374 VP
+  最低適応度: 4.694 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax5.4 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 399 ══════════════════════════════╗
+  最高適応度: 6.097 VP  勝率: 35.0%
+  平坁E��応度: 5.409 VP
+  最低適応度: 0.436 VP
+  経過時間:   1.3秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+
+╔═╁E世代 400 ══════════════════════════════╗
+  最高適応度: 5.993 VP  勝率: 33.0%
+  平坁E��応度: 5.375 VP
+  最低適応度: 4.430 VP
+  経過時間:   1.2秒
+  最優秀パラメータ:
+    VP釁E{params.saintVPWeight.toFixed(2)} | 聖遺物釁E{params.saintRelicWeight.toFixed(2)} | 0VP釁E{params.saintZeroVPWeight.toFixed(2)} | 魔導�Emax4.1 | 魔女R1.0 | 戦闘優允E{params.combatBeforePurchase.toFixed(2)} | 聖遺物積極0.00 | 実績聁E{params.achievementRelicWeight.toFixed(2)}
+╚══════════════════════════════════════════╝
+========================================
+             Evolution Result             
+========================================
+========================================
+             Evolution Result             
+========================================
+
+Best overall params (fitness: 6.859 VP):
+  saintVPWeight            :    4.177  (チE��ォルト毁E+2.177)
+  saintRelicWeight         :    1.791  (チE��ォルト毁E+0.291)
+  saintLowHPBonus          :    0.030  (チE��ォルト毁E-0.270)
+  toolBuyMaxCount          :    4.182  (チE��ォルト毁E+0.182)
+  toolPowerWeight          :    2.714  (チE��ォルト毁E+1.714)
+  toolCostWeight           :    0.450  (チE��ォルト毁E-0.050)
+  manaShopThreshold        :    4.952  (チE��ォルト毁E+1.952)
+  manaReserveForCombat     :    0.834  (チE��ォルト毁E-1.166)
+  witchRoundThreshold      :    1.000  (チE��ォルト毁E-3.000)
+  witchMinTools            :    0.473  (チE��ォルト毁E-1.527)
+  familiarVPThreshold      :    0.000  (チE��ォルト毁E-2.000)
+  combatPriority           :   12.364  (チE��ォルト毁E+2.364)
+  purchasePriority         :    7.066  (チE��ォルト毁E+2.066)
+  manaPriority             :    5.200  (チE��ォルト毁E+2.200)
+  saintRelicPoolBonus      :    0.221  (チE��ォルト毁E-0.779)
+  saintZeroVPWeight        :    0.731  (チE��ォルト毁E-1.269)
+  combatBeforePurchase     :    0.705  (チE��ォルト毁E+0.005)
+  purchaseBeforeShop       :    0.060  (チE��ォルト毁E-0.540)
+  witchMagicModeWeight     :    0.000  (チE��ォルト毁E-0.300)
+  relicAggressiveness      :    0.334  (チE��ォルト毁E-0.166)
+  untapRelicCombatThreshold:    1.513  (チE��ォルト毁E+0.513)
+  achievementRelicWeight   :    3.000  (チE��ォルト毁E+2.000)
+  achievementToolWeight    :    1.265  (チE��ォルト毁E+0.265)
+  familiarForPurchase      :    0.861  (チE��ォルト毁E+0.561)
+
+  保存�E: K:\claude\bodoge-ai\data\evolved-params-bm400a.json
+  カード統訁E K:\claude\bodoge-ai\data\card-stats-bm400a.json
+========================================
+========================================
+  Card stats summary
+  Total evaluated games: 962400
+========================================
+  Total evaluated games: 962400
+
+  魔導�E 勝利貢献度 TOP5:
+    魔剣           購入311116囁E 所持時平均VP: 5.33  差: +0.83
+    杖            購入461557囁E 所持時平均VP: 5.30  差: +0.83
+    杖            購入488718囁E 所持時平均VP: 5.16  差: +0.67
+    杖            購入443426囁E 所持時平均VP: 5.10  差: +0.59
+    杖            購入443761囁E 所持時平均VP: 5.09  差: +0.59
+
+  聖老E撁E��回数 TOP5:
+    ケルビム         574290回撃破
+    アズラエル        574245回撃破
+    メタトロン        573928回撃破
+    ウリエル         573659回撃破
+    セラフィム        560394回撃破
+╚══════════════════════════════════════════╝

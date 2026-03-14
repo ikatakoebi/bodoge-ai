@@ -1,5 +1,6 @@
-// 魔女ゲー 遺伝的アルゴリズム 進化ランナー
-// AI戦略パラメータを自動進化させて最強の魔女AIを育てる
+// Codex note (2026-03-14): CLI flags below were added so Claude can rerun seeded/locked training batches. Benchmark flags were added to score candidates against beta.
+// 魔女ゲー 遺伝的アルゴリズム 進化ランナ�E
+// AI戦略パラメータを�E動進化させて最強の魔女AIを育てめE
 
 import chalk from 'chalk';
 import fs from 'fs';
@@ -17,31 +18,31 @@ import {
   crossoverParams,
   type MajoParams,
 } from '../ai/majo-params.js';
-import { getRandomMajoStrategy, majoStrategyIds } from '../ai/majo-strategies.js';
+import { getMajoStrategy, getRandomMajoStrategy, majoStrategyIds } from '../ai/majo-strategies.js';
 import type { PlayerConfig } from '../engine/types.js';
-import type { MajoGameState, MajoFinalScore } from '../engine/majo-types.js';
+import type { MajoAIStrategy, MajoGameState, MajoFinalScore } from '../engine/majo-types.js';
 
 // ── 定数 ──
 
 const MAX_TURNS_PER_GAME = 300;  // 無限ループ防止
-const SURVIVOR_RATIO = 0.3;       // 上位30%が生き残る
-const CROSSOVER_RATIO = 0.4;      // 新世代の40%は交叉で生成
-const MUTATION_RATE = 0.2;        // 各パラメータの突然変異確率
+const SURVIVOR_RATIO = 0.3;       // 上佁E0%が生き残る
+const CROSSOVER_RATIO = 0.4;      // 新世代の40%は交叉で生�E
+const MUTATION_RATE = 0.2;        // 吁E��ラメータの突然変異確玁E
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.resolve(__dirname, '../../data');
 
 // ── 型定義 ──
 
-/** 個体（1つのパラメータセット + 適応度） */
+/** 個体！EつのパラメータセチE�� + 適応度�E�E*/
 interface Individual {
   params: MajoParams;
   fitness: number;       // 平均VP
   games: number;         // プレイしたゲーム数
-  wins: number;          // 1位の回数
+  wins: number;          // 1位�E回数
 }
 
-/** カード統計 */
+/** カード統訁E*/
 interface CardStats {
   tools: Record<string, ToolStats>;
   saints: Record<string, SaintStats>;
@@ -56,10 +57,10 @@ interface StrategyStats {
   games: number;
   totalVP: number;
   wins: number;
-  totalTools: number;      // ゲーム終了時の魔道具数合計
-  totalSaints: number;     // ゲーム終了時の聖者数合計
-  totalRelics: number;     // ゲーム終了時の聖遺物数合計
-  totalMana: number;       // ゲーム終了時のマナ合計
+  totalTools: number;      // ゲーム終亁E��の魔道具数合訁E
+  totalSaints: number;     // ゲーム終亁E��の聖老E��合訁E
+  totalRelics: number;     // ゲーム終亁E��の聖遺物数合訁E
+  totalMana: number;       // ゲーム終亁E��のマナ合訁E
 }
 
 interface ToolStats {
@@ -67,11 +68,11 @@ interface ToolStats {
   name: string;
   timesBought: number;           // 購入された回数
   totalVPWhenOwned: number;      // 所有した時の総VP
-  gamesWhenOwned: number;        // 所有したゲーム数（平均VP計算用）
+  gamesWhenOwned: number;        // 所有したゲーム数�E�平均VP計算用�E�E
   totalVPWhenNotOwned: number;   // 所有しなかった時の総VP
   gamesWhenNotOwned: number;     // 所有しなかったゲーム数
-  totalAcquireRound: number;     // 取得ラウンドの合計（平均計算用）
-  acquireCount: number;          // 取得回数（free_tool含む）
+  totalAcquireRound: number;     // 取得ラウンド�E合計（平坁E��算用�E�E
+  acquireCount: number;          // 取得回数�E�Eree_tool含む�E�E
 }
 
 interface SaintStats {
@@ -79,8 +80,8 @@ interface SaintStats {
   name: string;
   hp: number;
   vp: number;
-  timesKilled: number;           // 撃破された回数
-  killedByStrategy: Record<string, number>; // 戦略別撃破回数
+  timesKilled: number;           // 撁E��された回数
+  killedByStrategy: Record<string, number>; // 戦略別撁E��回数
   totalVPWhenOwned: number;      // 所有した時の総VP
   gamesWhenOwned: number;        // 所有したゲーム数
   totalVPWhenNotOwned: number;   // 所有しなかった時の総VP
@@ -90,56 +91,100 @@ interface SaintStats {
 interface RelicStats {
   id: string;
   timesObtained: number;         // 獲得された回数
-  timesUsed: number;             // 使用された回数（use_relicアクション）
+  timesUsed: number;             // 使用された回数�E�Ese_relicアクション�E�E
   totalVPWhenOwned: number;      // 所有した時の総VP
   gamesWhenOwned: number;
 }
 
-// ── ゲーム実行 ──
+// ── ゲーム実衁E──
 
 /**
  * 1ゲームを実行して結果を返す
- * @param evolvedParams 進化中の個体のパラメータ（1人のプレイヤーに使用）
+ * @param evolvedParams 進化中の個体�Eパラメータ�E�E人のプレイヤーに使用�E�E
  * @param gamesAgainstRandomOpponents 残りプレイヤーにランダム戦略を使用
  */
+// Codex note (2026-03-14): benchmark-aware evaluation helpers were added to score candidates against beta, not just random baselines.
+interface SingleGameOptions {
+  playerCount?: number;
+  benchmarkParams?: MajoParams | null;
+  benchmarkName?: string;
+}
+
+interface EvaluationConfig {
+  benchmarkParams: MajoParams | null;
+  benchmarkName: string;
+  benchmarkWeight: number;
+  benchmarkMarginWeight: number;
+}
+
+const BASELINE_STRATEGY_IDS = majoStrategyIds.filter((id) => id !== 'majo_evolved');
+
+function pickRandomBaselineStrategy(): MajoAIStrategy {
+  const ids = BASELINE_STRATEGY_IDS.length > 0 ? BASELINE_STRATEGY_IDS : majoStrategyIds;
+  const id = ids[Math.floor(Math.random() * ids.length)];
+  return getMajoStrategy(id);
+}
+
 async function runSingleGame(
   evolvedParams: MajoParams,
-  playerCount: number = 4,
+  options: SingleGameOptions = {},
 ): Promise<{
   scores: MajoFinalScore[];
   finalState: MajoGameState;
   evolvedPlayerIndex: number;
+  benchmarkPlayerId: string | null;
 }> {
+  const { playerCount = 4, benchmarkParams = null, benchmarkName = 'benchmark' } = options;
   const evolvedPlayerIndex = Math.floor(Math.random() * playerCount);
   const evolvedStrategy = createParameterizedStrategy(evolvedParams);
 
-  const players: PlayerConfig[] = Array.from({ length: playerCount }, (_, i) => {
+  let benchmarkPlayerIndex = -1;
+  let benchmarkStrategy: MajoAIStrategy | null = null;
+  if (benchmarkParams) {
+    benchmarkStrategy = createParameterizedStrategy(benchmarkParams);
+    do {
+      benchmarkPlayerIndex = Math.floor(Math.random() * playerCount);
+    } while (benchmarkPlayerIndex === evolvedPlayerIndex);
+  }
+
+  const players: PlayerConfig[] = [];
+  const strategies: MajoAIStrategy[] = [];
+
+  for (let i = 0; i < playerCount; i++) {
     if (i === evolvedPlayerIndex) {
-      return {
+      players.push({
         id: `p${i}`,
-        name: `進化型`,
+        name: 'Candidate',
         type: 'ai' as const,
-        strategyId: evolvedStrategy.id,
-      };
+        strategyId: 'majo_candidate',
+      });
+      strategies.push(evolvedStrategy);
+      continue;
     }
-    const opponentStrategy = getRandomMajoStrategy();
-    return {
+
+    if (i === benchmarkPlayerIndex && benchmarkStrategy) {
+      players.push({
+        id: `p${i}`,
+        name: `Benchmark ${benchmarkName}`,
+        type: 'ai' as const,
+        strategyId: `benchmark_${benchmarkName}`,
+      });
+      strategies.push(benchmarkStrategy);
+      continue;
+    }
+
+    const opponentStrategy = pickRandomBaselineStrategy();
+    players.push({
       id: `p${i}`,
       name: opponentStrategy.name,
       type: 'ai' as const,
       strategyId: opponentStrategy.id,
-    };
-  });
+    });
+    strategies.push(opponentStrategy);
+  }
 
   let state = await createMajoGame(players);
   let turnCount = 0;
-
-  // 全プレイヤーの戦略を準備
-  const strategies = players.map((p, i) => {
-    if (i === evolvedPlayerIndex) return evolvedStrategy;
-    return getRandomMajoStrategy();
-  });
-  // strategyIdをランナーと合わせるため、strategyIdでの索引は不要（直接strategiesを使う）
 
   while (!isMajoGameOver(state) && turnCount < MAX_TURNS_PER_GAME) {
     const current = getCurrentPlayer(state);
@@ -150,11 +195,9 @@ async function runSingleGame(
       const { action } = strategy.selectAction(state, current.config.id);
       state = executeAction(state, action);
     } catch {
-      // エラーが起きたらパス
       try {
         state = executeAction(state, { type: 'pass', playerId: current.config.id });
       } catch {
-        // パスも失敗したら次のプレイヤーへ（無限ループ防止）
         break;
       }
     }
@@ -163,22 +206,37 @@ async function runSingleGame(
   }
 
   const scores = getMajoFinalScores(state);
-  return { scores, finalState: state, evolvedPlayerIndex };
+  return {
+    scores,
+    finalState: state,
+    evolvedPlayerIndex,
+    benchmarkPlayerId: benchmarkPlayerIndex >= 0 ? `p${benchmarkPlayerIndex}` : null,
+  };
 }
 
 /**
- * 個体の適応度を計算（複数ゲームの平均VP）
+ * 個体�E適応度を計算（褁E��ゲームの平均VP�E�E
  */
 async function evaluateIndividual(
   individual: Individual,
   gamesPerEval: number,
   cardStats: CardStats,
+  evaluationConfig: EvaluationConfig,
 ): Promise<Individual> {
   let totalVP = 0;
   let wins = 0;
+  let benchmarkBeats = 0;
+  let benchmarkMarginTotal = 0;
+  let benchmarkGames = 0;
 
   for (let g = 0; g < gamesPerEval; g++) {
-    const { scores, finalState, evolvedPlayerIndex } = await runSingleGame(individual.params);
+    const { scores, finalState, evolvedPlayerIndex, benchmarkPlayerId } = await runSingleGame(
+      individual.params,
+      {
+        benchmarkParams: evaluationConfig.benchmarkParams,
+        benchmarkName: evaluationConfig.benchmarkName,
+      },
+    );
     const evolvedPlayerId = `p${evolvedPlayerIndex}`;
     const evolvedScore = scores.find((s) => s.playerId === evolvedPlayerId);
 
@@ -187,20 +245,42 @@ async function evaluateIndividual(
       if (evolvedScore.rank === 1) wins++;
     }
 
-    // カード統計の更新
+    if (evolvedScore && benchmarkPlayerId) {
+      const benchmarkScore = scores.find((s) => s.playerId === benchmarkPlayerId);
+      if (benchmarkScore) {
+        const margin = evolvedScore.victoryPoints - benchmarkScore.victoryPoints;
+        benchmarkGames++;
+        benchmarkMarginTotal += margin;
+        if (margin > 0) benchmarkBeats++;
+      }
+    }
+
     updateCardStats(cardStats, finalState, scores, evolvedPlayerId);
   }
 
+  const averageVP = totalVP / gamesPerEval;
+  const benchmarkBeatRate = benchmarkGames > 0 ? benchmarkBeats / benchmarkGames : 0;
+  const benchmarkMargin = benchmarkGames > 0 ? benchmarkMarginTotal / benchmarkGames : 0;
+  const fitness = averageVP
+    + benchmarkBeatRate * evaluationConfig.benchmarkWeight
+    + benchmarkMargin * evaluationConfig.benchmarkMarginWeight;
+
   return {
     ...individual,
-    fitness: totalVP / gamesPerEval,
+    fitness,
     games: individual.games + gamesPerEval,
     wins: individual.wins + wins,
   };
 }
 
-// ── カード統計 ──
+// ── カード統訁E──
 
+interface SeedParamsFile {
+  generation?: number;
+  fitness?: number;
+  params: MajoParams;
+  savedAt?: string;
+}
 function initCardStats(): CardStats {
   return {
     tools: {},
@@ -220,7 +300,7 @@ function updateCardStats(
 ): void {
   stats.totalGames++;
 
-  // ゲーム長統計
+  // ゲーム長統訁E
   stats.gameLength.totalRounds += finalState.round;
   stats.gameLength.totalTurns += finalState.history.length;
   stats.gameLength.games++;
@@ -231,7 +311,7 @@ function updateCardStats(
     const playerVP = scoreEntry?.victoryPoints ?? 0;
     const strategyId = player.config.strategyId ?? 'unknown';
 
-    // 魔導具統計
+    // 魔導�E統訁E
     const ownedToolIds = new Set(player.magicTools.map((t) => t.id));
     for (const tool of finalState.toolDeck.concat(finalState.toolSupply)) {
       const id = tool.id;
@@ -268,7 +348,7 @@ function updateCardStats(
       stats.tools[tool.id].gamesWhenOwned++;
     }
 
-    // 未所持魔導具の記録
+    // 未所持E��導�Eの記録
     for (const toolId of Object.keys(stats.tools)) {
       if (!ownedToolIds.has(toolId)) {
         stats.tools[toolId].totalVPWhenNotOwned += playerVP;
@@ -276,7 +356,7 @@ function updateCardStats(
       }
     }
 
-    // 聖者統計（このプレイヤーが獲得した聖者）
+    // 聖老E��計（このプレイヤーが獲得した聖老E��E
     const ownedSaintIds = new Set(player.saints.map((s) => s.id));
     for (const saint of player.saints) {
       if (!stats.saints[saint.id]) {
@@ -300,7 +380,7 @@ function updateCardStats(
       sk[strategyId] = (sk[strategyId] ?? 0) + 1;
     }
 
-    // 未所持聖者の記録（聖者デッキ・展示にいる聖者 + 他プレイヤーが持つ聖者を含む全聖者）
+    // 未所持聖老E�E記録�E�聖老E��チE��・展示にぁE��聖老E+ 他�Eレイヤーが持つ聖老E��含む全聖老E��E
     for (const saintId of Object.keys(stats.saints)) {
       if (!ownedSaintIds.has(saintId)) {
         stats.saints[saintId].totalVPWhenNotOwned += playerVP;
@@ -308,7 +388,7 @@ function updateCardStats(
       }
     }
 
-    // 聖者デッキ・展示の聖者もstats初期化（全聖者が記録されるように）
+    // 聖老E��チE��・展示の聖老E��stats初期化（�E聖老E��記録されるよぁE���E�E
     for (const saint of [...finalState.saintDeck, ...finalState.saintSupply]) {
       if (!stats.saints[saint.id]) {
         stats.saints[saint.id] = {
@@ -326,7 +406,7 @@ function updateCardStats(
       }
     }
 
-    // 聖遺物統計
+    // 聖遺物統訁E
     for (const relic of player.relics) {
       if (!stats.relics[relic.id]) {
         stats.relics[relic.id] = {
@@ -342,7 +422,7 @@ function updateCardStats(
       stats.relics[relic.id].gamesWhenOwned++;
     }
 
-    // 戦略統計
+    // 戦略統訁E
     if (!stats.strategies[strategyId]) {
       stats.strategies[strategyId] = {
         id: strategyId,
@@ -365,7 +445,7 @@ function updateCardStats(
     ss.totalMana += player.mana + player.tappedMana;
   }
 
-  // use_relicアクションの使用回数をカウント + 魔道具取得ラウンド追跡
+  // use_relicアクションの使用回数をカウンチE+ 魔道具取得ラウンド追跡
   let currentRound = 1;
   for (const action of finalState.history) {
     if (action.type === 'round_end') {
@@ -394,7 +474,7 @@ function updateCardStats(
   }
 }
 
-// ── ファイル保存 ──
+// ── ファイル保孁E──
 
 function ensureDataDir(): void {
   if (!fs.existsSync(DATA_DIR)) {
@@ -402,7 +482,7 @@ function ensureDataDir(): void {
   }
 }
 
-function saveEvolvedParams(params: MajoParams, generation: number, fitness: number): void {
+function saveEvolvedParams(params: MajoParams, generation: number, fitness: number, nameSuffix: string = ''): void {
   ensureDataDir();
   const data = {
     generation,
@@ -410,14 +490,15 @@ function saveEvolvedParams(params: MajoParams, generation: number, fitness: numb
     params,
     savedAt: new Date().toISOString(),
   };
+  const fileName = nameSuffix ? `evolved-params-${nameSuffix}.json` : 'evolved-params.json';
   fs.writeFileSync(
-    path.join(DATA_DIR, 'evolved-params.json'),
+    path.join(DATA_DIR, fileName),
     JSON.stringify(data, null, 2),
     'utf-8',
   );
 }
 
-function saveCardStats(stats: CardStats): void {
+function saveCardStats(stats: CardStats, nameSuffix: string = ''): void {
   ensureDataDir();
 
   // 勝率相関を計算して追加
@@ -467,25 +548,26 @@ function saveCardStats(stats: CardStats): void {
     savedAt: new Date().toISOString(),
   };
 
+  const fileName = nameSuffix ? `card-stats-${nameSuffix}.json` : 'card-stats.json';
   fs.writeFileSync(
-    path.join(DATA_DIR, 'card-stats.json'),
+    path.join(DATA_DIR, fileName),
     JSON.stringify(output, null, 2),
     'utf-8',
   );
 }
 
-// ── 表示ヘルパー ──
+// ── 表示ヘルパ�E ──
 
 function formatParams(params: MajoParams): string {
   return [
-    `VP重${params.saintVPWeight.toFixed(2)}`,
-    `聖遺物重${params.saintRelicWeight.toFixed(2)}`,
-    `0VP重${params.saintZeroVPWeight.toFixed(2)}`,
-    `魔導具max${params.toolBuyMaxCount.toFixed(1)}`,
+    `VP釁E{params.saintVPWeight.toFixed(2)}`,
+    `聖遺物釁E{params.saintRelicWeight.toFixed(2)}`,
+    `0VP釁E{params.saintZeroVPWeight.toFixed(2)}`,
+    `魔導�Emax${params.toolBuyMaxCount.toFixed(1)}`,
     `魔女R${params.witchRoundThreshold.toFixed(1)}`,
-    `戦闘優先${params.combatBeforePurchase.toFixed(2)}`,
+    `戦闘優允E{params.combatBeforePurchase.toFixed(2)}`,
     `聖遺物積極${params.relicAggressiveness.toFixed(2)}`,
-    `実績聖${params.achievementRelicWeight.toFixed(2)}`,
+    `実績聁E{params.achievementRelicWeight.toFixed(2)}`,
   ].join(' | ');
 }
 
@@ -499,9 +581,9 @@ function printGenerationStats(
   const avgFitness = population.reduce((s, i) => s + i.fitness, 0) / population.length;
   const worstFitness = sorted[sorted.length - 1].fitness;
 
-  console.log(chalk.bold.yellow(`\n╔══ 世代 ${String(generation).padStart(3)} ══════════════════════════════╗`));
+  console.log(chalk.bold.yellow(`\n╔═╁E世代 ${String(generation).padStart(3)} ══════════════════════════════╗`));
   console.log(chalk.green(`  最高適応度: ${chalk.bold(best.fitness.toFixed(3))} VP  勝率: ${((best.wins / Math.max(best.games, 1)) * 100).toFixed(1)}%`));
-  console.log(chalk.cyan( `  平均適応度: ${avgFitness.toFixed(3)} VP`));
+  console.log(chalk.cyan( `  平坁E��応度: ${avgFitness.toFixed(3)} VP`));
   console.log(chalk.gray( `  最低適応度: ${worstFitness.toFixed(3)} VP`));
   console.log(chalk.gray( `  経過時間:   ${(elapsed / 1000).toFixed(1)}秒`));
   console.log(chalk.bold( `  最優秀パラメータ:`));
@@ -513,96 +595,201 @@ function printProgress(current: number, total: number, label: string): void {
   const pct = Math.floor((current / total) * 100);
   const barLen = 30;
   const filled = Math.floor((current / total) * barLen);
-  const bar = chalk.green('█'.repeat(filled)) + chalk.gray('░'.repeat(barLen - filled));
+  const bar = chalk.green('#'.repeat(filled)) + chalk.gray('-'.repeat(barLen - filled));
   process.stdout.write(`\r  ${label} [${bar}] ${pct}% (${current}/${total})`);
 }
 
-// ── 遺伝的アルゴリズム メインループ ──
+// ── 遺伝的アルゴリズム メインルーチE──
 
+// Codex note (2026-03-14): added seed-name/lock helpers for local evolution experiments.
+function loadSeedParams(seedName: string): SeedParamsFile {
+  const fileName = seedName.endsWith('.json')
+    ? seedName
+    : `evolved-params-${seedName}.json`;
+  const filePath = path.isAbsolute(fileName)
+    ? fileName
+    : path.join(DATA_DIR, fileName);
+
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`Seed params file not found: ${filePath}`);
+  }
+
+  const data = JSON.parse(fs.readFileSync(filePath, 'utf-8')) as SeedParamsFile;
+  if (!data.params) {
+    throw new Error(`Seed params file is missing params: ${filePath}`);
+  }
+  // 新パラメータが欠落している場合はデフォルト値で補完
+  data.params = { ...DEFAULT_PARAMS, ...data.params };
+  return data;
+}
+
+function parseLockedKeys(lockArg: string): (keyof MajoParams)[] {
+  if (!lockArg.trim()) return [];
+
+  const validKeys = new Set<keyof MajoParams>(
+    Object.keys(DEFAULT_PARAMS) as (keyof MajoParams)[]
+  );
+  const keys = lockArg
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean) as (keyof MajoParams)[];
+
+  const invalid = keys.filter((key) => !validKeys.has(key));
+  if (invalid.length > 0) {
+    throw new Error(`Unknown lock params: ${invalid.join(', ')}`);
+  }
+
+  return [...new Set(keys)];
+}
+
+function applyLockedParams(
+  params: MajoParams,
+  baseParams: MajoParams,
+  lockedKeys: (keyof MajoParams)[]
+): MajoParams {
+  if (lockedKeys.length === 0) return params;
+
+  const result = { ...params };
+  for (const key of lockedKeys) {
+    result[key] = baseParams[key];
+  }
+  return result;
+}
 async function runEvolution(options: {
   generations: number;
   population: number;
   games: number;
   verbose: boolean;
+  name: string;
+  seedName: string;
+  lock: string;
+  benchmarkName: string;
+  benchmarkWeight: number;
+  benchmarkMarginWeight: number;
 }): Promise<void> {
-  const { generations, population: popSize, games: gamesPerEval, verbose } = options;
+  const {
+    generations,
+    population: popSize,
+    games: gamesPerEval,
+    verbose,
+    name: nameSuffix,
+    seedName,
+    lock,
+    benchmarkName,
+    benchmarkWeight,
+    benchmarkMarginWeight,
+  } = options;
+  const lockedKeys = parseLockedKeys(lock);
+  const seedData = seedName ? loadSeedParams(seedName) : null;
+  const benchmarkData = benchmarkName ? loadSeedParams(benchmarkName) : null;
+  const baseParams = seedData?.params ?? DEFAULT_PARAMS;
+  const evaluationConfig: EvaluationConfig = {
+    benchmarkParams: benchmarkData?.params ?? null,
+    benchmarkName,
+    benchmarkWeight,
+    benchmarkMarginWeight,
+  };
+  console.log(chalk.bold('========================================'));
+  console.log(chalk.bold('  Majo AI Evolution'));
+  console.log(chalk.bold('========================================'));
+  if (benchmarkData) {
+    console.log(chalk.gray(`  Benchmark: ${benchmarkName} (weight ${benchmarkWeight.toFixed(2)}, margin ${benchmarkMarginWeight.toFixed(2)})`));
+  }
+  console.log(chalk.cyan(`  Generations: ${generations}  Population: ${popSize}  Games/Eval: ${gamesPerEval}`));
+  console.log(chalk.gray(`  Survivor: ${(SURVIVOR_RATIO * 100).toFixed(0)}%  Crossover: ${(CROSSOVER_RATIO * 100).toFixed(0)}%  Mutation: ${(MUTATION_RATE * 100).toFixed(0)}%`));
+  if (seedData) {
+    const seedFitness = typeof seedData.fitness === 'number' ? seedData.fitness.toFixed(3) : '-';
+    console.log(chalk.gray(`  Seed: ${seedName} (gen ${seedData.generation ?? '-'}, fitness ${seedFitness})`));
+  }
+  if (lockedKeys.length > 0) {
+    console.log(chalk.gray(`  Locked params: ${lockedKeys.join(', ')}`));
+  }
+  console.log('');
 
-  console.log(chalk.bold('\n╔══════════════════════════════════════════╗'));
-  console.log(chalk.bold('║   魔女ゲー 遺伝的アルゴリズム 進化実験  ║'));
-  console.log(chalk.bold('╚══════════════════════════════════════════╝'));
-  console.log(chalk.cyan(`  世代数: ${generations}  集団サイズ: ${popSize}  評価ゲーム数/個体: ${gamesPerEval}`));
-  console.log(chalk.gray(`  生存率: ${(SURVIVOR_RATIO * 100).toFixed(0)}%  交叉率: ${(CROSSOVER_RATIO * 100).toFixed(0)}%  突然変異率: ${(MUTATION_RATE * 100).toFixed(0)}%\n`));
-
-  // ── 初期集団の生成 ──
-  console.log(chalk.bold('初期集団を生成中...'));
+  // ── 初期雁E��の生�E ──
+  console.log(chalk.bold('初期雁E��を生成中...'));
 
   const cardStats = initCardStats();
   let individuals: Individual[] = [
-    // デフォルトパラメータを1つ含める（ベースライン）
-    { params: DEFAULT_PARAMS, fitness: 0, games: 0, wins: 0 },
-    // 残りはランダム
-    ...Array.from({ length: popSize - 1 }, () => ({
-      params: randomizeParams(),
+    { params: applyLockedParams(baseParams, baseParams, lockedKeys), fitness: 0, games: 0, wins: 0 },
+    ...Array.from({ length: popSize - 1 }, (_, idx) => ({
+      params: applyLockedParams(
+        seedData && idx < Math.ceil((popSize - 1) * 0.75)
+          ? mutateParams(baseParams, 0.6)
+          : randomizeParams(),
+        baseParams,
+        lockedKeys,
+      ),
       fitness: 0,
       games: 0,
       wins: 0,
     })),
   ];
-
-  // ── 初期評価 ──
-  console.log(chalk.bold('初期集団を評価中...'));
   for (let i = 0; i < individuals.length; i++) {
     printProgress(i + 1, individuals.length, '評価');
-    individuals[i] = await evaluateIndividual(individuals[i], gamesPerEval, cardStats);
+    individuals[i] = await evaluateIndividual(individuals[i], gamesPerEval, cardStats, evaluationConfig);
   }
   console.log('');
 
   // 初期世代の表示
   printGenerationStats(0, individuals, 0);
-  saveCardStats(cardStats);
+  saveCardStats(cardStats, nameSuffix);
 
   let allTimeBest: Individual = individuals.sort((a, b) => b.fitness - a.fitness)[0];
 
-  // ── 進化ループ ──
+  // ── 進化ルーチE──
   for (let gen = 1; gen <= generations; gen++) {
     const genStart = Date.now();
 
-    // ソートして適応度順に並べる
+    // ソートして適応度頁E��並べめE
     individuals.sort((a, b) => b.fitness - a.fitness);
 
-    // 上位を生存者として保持
+    // 上位を生存老E��して保持
     const survivorCount = Math.max(2, Math.floor(popSize * SURVIVOR_RATIO));
     const survivors = individuals.slice(0, survivorCount);
 
-    // 新世代の生成
+    // 新世代の生�E
     const newGeneration: Individual[] = [...survivors];
 
     const crossoverCount = Math.floor(popSize * CROSSOVER_RATIO);
     const mutationCount = popSize - survivorCount - crossoverCount;
 
-    // 交叉による子供生成
+    // 交叉による子供生戁E
     for (let i = 0; i < crossoverCount; i++) {
       const parentA = survivors[Math.floor(Math.random() * survivors.length)];
       const parentB = survivors[Math.floor(Math.random() * survivors.length)];
-      const childParams = mutateParams(crossoverParams(parentA.params, parentB.params), MUTATION_RATE * 0.5);
+      const childParams = applyLockedParams(
+        mutateParams(crossoverParams(parentA.params, parentB.params), MUTATION_RATE * 0.5),
+        baseParams,
+        lockedKeys,
+      );
       newGeneration.push({ params: childParams, fitness: 0, games: 0, wins: 0 });
     }
 
-    // 突然変異による子供生成
+    // 突然変異による子供生戁E
     for (let i = 0; i < mutationCount; i++) {
       const parent = survivors[Math.floor(Math.random() * survivors.length)];
-      const childParams = mutateParams(parent.params, MUTATION_RATE);
+      const childParams = applyLockedParams(
+        mutateParams(parent.params, MUTATION_RATE),
+        baseParams,
+        lockedKeys,
+      );
       newGeneration.push({ params: childParams, fitness: 0, games: 0, wins: 0 });
     }
 
-    // 新個体の評価（既存生存者は評価済みなので新個体のみ）
+    // 全個体を評価�E�生存老E��再評価して運�E偏りを排除�E�E
     if (verbose) {
-      console.log(chalk.bold(`\n世代 ${gen}: 新個体${newGeneration.length - survivorCount}体を評価中...`));
+      console.log(chalk.bold(`\n世代 ${gen}: 全${newGeneration.length}体を評価中...`));
     }
 
-    for (let i = survivorCount; i < newGeneration.length; i++) {
-      if (verbose) printProgress(i - survivorCount + 1, newGeneration.length - survivorCount, '新個体評価');
-      newGeneration[i] = await evaluateIndividual(newGeneration[i], gamesPerEval, cardStats);
+    for (let i = 0; i < newGeneration.length; i++) {
+      if (verbose) printProgress(i + 1, newGeneration.length, '全個体評価');
+      newGeneration[i] = await evaluateIndividual(
+        { ...newGeneration[i], fitness: 0, games: 0, wins: 0 },
+        gamesPerEval,
+        cardStats,
+        evaluationConfig,
+      );
     }
     if (verbose) console.log('');
 
@@ -611,24 +798,24 @@ async function runEvolution(options: {
     const elapsed = Date.now() - genStart;
     printGenerationStats(gen, individuals, elapsed);
 
-    // 最優秀個体の更新
+    // 最優秀個体�E更新
     const genBest = individuals.sort((a, b) => b.fitness - a.fitness)[0];
     if (genBest.fitness > allTimeBest.fitness) {
       allTimeBest = genBest;
-      console.log(chalk.bold.green(`  新記録！ 適応度 ${genBest.fitness.toFixed(3)} VP`));
-      saveEvolvedParams(genBest.params, gen, genBest.fitness);
+      console.log(chalk.bold.green(`  新記録�E�E適応度 ${genBest.fitness.toFixed(3)} VP`));
+      saveEvolvedParams(genBest.params, gen, genBest.fitness, nameSuffix);
     }
 
-    // カード統計を毎世代保存
-    saveCardStats(cardStats);
+    // カード統計を毎世代保孁E
+    saveCardStats(cardStats, nameSuffix);
   }
-
-  // ── 最終結果 ──
-  console.log(chalk.bold.yellow('\n╔══════════════════════════════════════════╗'));
-  console.log(chalk.bold.yellow('║              進化完了！                  ║'));
-  console.log(chalk.bold.yellow('╚══════════════════════════════════════════╝'));
-  console.log(chalk.green(`\n全時間最優秀パラメータ (適応度: ${allTimeBest.fitness.toFixed(3)} VP):`));
-
+  console.log(chalk.bold.yellow('========================================'));
+  console.log(chalk.bold.yellow('             Evolution Result             '));
+  console.log(chalk.bold.yellow('========================================'));
+  console.log(chalk.bold.yellow('========================================'));
+  console.log(chalk.bold.yellow('             Evolution Result             '));
+  console.log(chalk.bold.yellow('========================================'));
+  console.log(chalk.green(`\nBest overall params (fitness: ${allTimeBest.fitness.toFixed(3)} VP):`));
   const params = allTimeBest.params;
   const paramEntries = Object.entries(params) as [keyof MajoParams, number][];
   for (const [key, val] of paramEntries) {
@@ -637,17 +824,19 @@ async function runEvolution(options: {
     const diffStr = diff >= 0
       ? chalk.green(`+${diff.toFixed(3)}`)
       : chalk.red(`${diff.toFixed(3)}`);
-    console.log(`  ${chalk.bold(key.padEnd(25))}: ${val.toFixed(3).padStart(8)}  (デフォルト比 ${diffStr})`);
+    console.log(`  ${chalk.bold(key.padEnd(25))}: ${val.toFixed(3).padStart(8)}  (チE��ォルト毁E${diffStr})`);
   }
 
-  console.log(chalk.gray(`\n  保存先: ${path.join(DATA_DIR, 'evolved-params.json')}`));
-  console.log(chalk.gray(`  カード統計: ${path.join(DATA_DIR, 'card-stats.json')}`));
-
-  // カード統計のサマリーを表示
-  console.log(chalk.bold('\n╔══ カード統計サマリー ══════════════════════╗'));
-  console.log(chalk.bold(`  集計ゲーム数: ${cardStats.totalGames}`));
-
-  // 魔導具ランキング（win correlation順）
+  const paramFile = nameSuffix ? `evolved-params-${nameSuffix}.json` : 'evolved-params.json';
+  const statsFile = nameSuffix ? `card-stats-${nameSuffix}.json` : 'card-stats.json';
+  console.log(chalk.gray(`\n  保存�E: ${path.join(DATA_DIR, paramFile)}`));
+  console.log(chalk.gray(`  カード統訁E ${path.join(DATA_DIR, statsFile)}`));
+  console.log(chalk.bold('========================================'));
+  console.log(chalk.bold('========================================'));
+  console.log(chalk.bold('  Card stats summary'));
+  console.log(chalk.bold(`  Total evaluated games: ${cardStats.totalGames}`));
+  console.log(chalk.bold('========================================'));
+  console.log(chalk.bold(`  Total evaluated games: ${cardStats.totalGames}`));
   const topTools = Object.values(cardStats.tools)
     .filter((t) => t.gamesWhenOwned >= 5)
     .map((t) => ({
@@ -660,22 +849,22 @@ async function runEvolution(options: {
     .slice(0, 5);
 
   if (topTools.length > 0) {
-    console.log(chalk.bold('\n  魔導具 勝利貢献度 TOP5:'));
+    console.log(chalk.bold('\n  魔導�E 勝利貢献度 TOP5:'));
     for (const t of topTools) {
       const corrStr = t.winCorr >= 0
         ? chalk.green(`+${t.winCorr.toFixed(2)}`)
         : chalk.red(`${t.winCorr.toFixed(2)}`);
-      console.log(`    ${t.name.padEnd(12)} 購入${String(t.timesBought).padStart(4)}回  所持時平均VP: ${(t.totalVPWhenOwned / t.gamesWhenOwned).toFixed(2)}  差: ${corrStr}`);
+      console.log(`    ${t.name.padEnd(12)} 購入${String(t.timesBought).padStart(4)}囁E 所持時平均VP: ${(t.totalVPWhenOwned / t.gamesWhenOwned).toFixed(2)}  差: ${corrStr}`);
     }
   }
 
-  // 聖者ランキング（撃破回数順）
+  // 聖老E��ンキング�E�撃破回数頁E��E
   const topSaints = Object.values(cardStats.saints)
     .sort((a, b) => b.timesKilled - a.timesKilled)
     .slice(0, 5);
 
   if (topSaints.length > 0) {
-    console.log(chalk.bold('\n  聖者 撃破回数 TOP5:'));
+    console.log(chalk.bold('\n  聖老E撁E��回数 TOP5:'));
     for (const s of topSaints) {
       console.log(`    ${s.name.padEnd(12)} ${String(s.timesKilled).padStart(5)}回撃破`);
     }
@@ -689,10 +878,19 @@ async function runEvolution(options: {
 const args = process.argv.slice(2);
 
 function parseArg(name: string, defaultVal: number): number {
-  const arg = args.find((a) => a.startsWith(`--${name}=`));
-  if (!arg) return defaultVal;
-  const val = parseInt(arg.split('=')[1], 10);
-  return isNaN(val) ? defaultVal : val;
+  // --name=value 形弁E
+  const eqArg = args.find((a) => a.startsWith(`--${name}=`));
+  if (eqArg) {
+    const val = parseInt(eqArg.split('=')[1], 10);
+    return isNaN(val) ? defaultVal : val;
+  }
+  // --name value 形弁E
+  const idx = args.indexOf(`--${name}`);
+  if (idx !== -1 && idx + 1 < args.length) {
+    const val = parseInt(args[idx + 1], 10);
+    return isNaN(val) ? defaultVal : val;
+  }
+  return defaultVal;
 }
 
 const generations = parseArg('generations', 50);
@@ -700,7 +898,38 @@ const population   = parseArg('population',  20);
 const games        = parseArg('games',        50);
 const verbose      = !args.includes('--quiet');
 
-runEvolution({ generations, population, games, verbose }).catch((err) => {
+function parseFloatArg(name: string, defaultVal: number): number {
+  const eqArg = args.find((a) => a.startsWith(`--${name}=`));
+  if (eqArg) {
+    const val = parseFloat(eqArg.split('=')[1]);
+    return Number.isNaN(val) ? defaultVal : val;
+  }
+  const idx = args.indexOf(`--${name}`);
+  if (idx !== -1 && idx + 1 < args.length) {
+    const val = parseFloat(args[idx + 1]);
+    return Number.isNaN(val) ? defaultVal : val;
+  }
+  return defaultVal;
+}
+function parseStringArg(name: string, defaultVal: string): string {
+  const eqArg = args.find((a) => a.startsWith(`--${name}=`));
+  if (eqArg) return eqArg.split('=')[1];
+  const idx = args.indexOf(`--${name}`);
+  if (idx !== -1 && idx + 1 < args.length) return args[idx + 1];
+  return defaultVal;
+}
+const name = parseStringArg('name', '');
+// Codex note (2026-03-14): CLI flags below were added so Claude can rerun seeded/locked training batches. Benchmark flags were added to score candidates against beta.
+const seedName = parseStringArg('seed-name', '');
+const lock = parseStringArg('lock', '');
+const benchmarkName = parseStringArg('benchmark-name', '');
+const benchmarkWeight = parseFloatArg('benchmark-weight', 1.5);
+const benchmarkMarginWeight = parseFloatArg('benchmark-margin-weight', 0.15);
+
+runEvolution({ generations, population, games, verbose, name, seedName, lock, benchmarkName, benchmarkWeight, benchmarkMarginWeight }).catch((err) => {
   console.error(chalk.red('エラー:'), err);
   process.exit(1);
 });
+
+
+

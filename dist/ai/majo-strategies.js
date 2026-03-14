@@ -10,7 +10,6 @@ const EVOLVED_PARAMS = {
     toolPowerWeight: 1,
     toolCostWeight: 0.11677511971195575,
     manaShopThreshold: 1,
-    manaReserveForCombat: 1.760355792173542,
     witchRoundThreshold: 1.8269779217940294,
     witchMinTools: 0.932527811599175,
     familiarVPThreshold: 2.3591065804402866,
@@ -27,6 +26,12 @@ const EVOLVED_PARAMS = {
     achievementRelicWeight: 0.8668959223739667,
     achievementToolWeight: 0.2302824907522335,
     familiarForPurchase: 0.1586524389169185,
+    violenceMinVP: 2,
+    violenceMinMana: 6,
+    prayerEarlyRound: 2,
+    prayerWeight: 0.5,
+    sacrificeMinRelics: 3,
+    sacrificeWeight: 0.5,
 };
 // ── 共通ヘルパー ──
 // 護符の戦闘ボーナスを効果テキストからパースする
@@ -97,16 +102,16 @@ function selectToolsForCombat(player, targetHP) {
     }
     return selected;
 }
-function getAvailablePower(player, witchUsageCount = 0) {
+function getAvailablePower(player, round = 1) {
     const availableTools = player.magicTools.filter((t) => !player.tappedToolIds.includes(t.id));
     let power = 0;
     for (const t of availableTools) {
         power += getEffectiveMagicPower(t, player.magicTools);
         power += getAmuletCombatBonus(t);
     }
-    // 魔女が魔力モードで使用済みなら永続ボーナス
+    // 魔女魔力モード：ラウンド数ぶんのボーナス
     if (player.witchTapped && player.witchMode === 'magic') {
-        power += 3 + witchUsageCount;
+        power += round;
     }
     return power;
 }
@@ -126,7 +131,7 @@ function getCombatRelicPower(player) {
 }
 // 倒せる聖者リスト（戦闘聖遺物の魔力ブーストも考慮）
 function getKillableSaints(state, player) {
-    const toolPower = getAvailablePower(player, state.witchUsageCount);
+    const toolPower = getAvailablePower(player, state.round);
     const { power: relicPower } = getCombatRelicPower(player);
     const totalPower = toolPower + relicPower;
     return state.saintSupply
@@ -150,10 +155,10 @@ function selectCombatRelics(player, targetHP, toolPower) {
     }
     return relicIds;
 }
-// M67（追加戦闘）を使うべきか判断：未タップ魔導具が残っていて倒せる聖者がいるなら使う
-function shouldUseM67(state, player, currentSaintId) {
-    const m67 = player.relics.find((r) => r.id === 'M67');
-    if (!m67)
+// 追加戦闘聖遺物を使うべきか判断：未タップ魔導具が残っていて倒せる聖者がいるなら使う
+function shouldUseExtraCombatRelic(state, player, currentSaintId) {
+    const extraCombatRelic = player.relics.find((r) => r.effect.includes('追加で戦闘'));
+    if (!extraCombatRelic)
         return false;
     // 現在の戦闘で使う魔導具をタップした後、残りの魔導具で倒せる聖者がいるか
     // 簡易判定：倒せる聖者が2体以上いるなら追加戦闘の価値あり
@@ -183,16 +188,29 @@ function selectExtraCombatTarget(state, player) {
 // 使い魔を温存すべきか判定（ゲーム中1回きりなので重要な場面でのみ使う）
 // allowFamiliar=false の場合、field_action のみを返す
 function findResearchAction(actions, toolId, allowFamiliar = true) {
-    // まず通常のfield_actionを探す
-    const normal = actions.find((a) => a.type === 'field_action' &&
+    // 通常のfield_actionを全て集め、割引が最大のものを選ぶ
+    const normals = actions.filter((a) => a.type === 'field_action' &&
         'details' in a && a.details.action === 'research' && a.details.toolId === toolId);
-    if (normal)
-        return normal;
+    if (normals.length > 0) {
+        // discountToolIdsが最も多い（=最大割引）アクションを選択
+        return normals.reduce((best, a) => {
+            const bestDiscount = best.details?.discountToolIds?.length ?? 0;
+            const aDiscount = a.details?.discountToolIds?.length ?? 0;
+            return aDiscount > bestDiscount ? a : best;
+        });
+    }
     // 通常がなければ使い魔を使う（許可されている場合のみ）
     if (!allowFamiliar)
         return undefined;
-    return actions.find((a) => a.type === 'use_familiar' &&
+    const familiars = actions.filter((a) => a.type === 'use_familiar' &&
         'details' in a && a.details.action === 'research' && a.details.toolId === toolId);
+    if (familiars.length === 0)
+        return undefined;
+    return familiars.reduce((best, a) => {
+        const bestDiscount = best.details?.discountToolIds?.length ?? 0;
+        const aDiscount = a.details?.discountToolIds?.length ?? 0;
+        return aDiscount > bestDiscount ? a : best;
+    });
 }
 function findViolenceAction(actions, saintId, allowFamiliar = true) {
     // 新方式: combat_select_saint (violence) - useFamiliar=falseを優先
@@ -273,7 +291,7 @@ function buildCombatAction(state, baseAction, player, targetHP) {
     const combatRelics = selectCombatRelics(player, targetHP, toolPower);
     if ('details' in baseAction && (baseAction.details.action === 'violence' || baseAction.details.action === 'sacrifice')) {
         const saintId = baseAction.details.saintId;
-        if (shouldUseM67(state, player, saintId)) {
+        if (shouldUseExtraCombatRelic(state, player, saintId)) {
             const remainingUntapped = player.magicTools.filter((t) => !player.tappedToolIds.includes(t.id) && !toolsToTap.includes(t.id));
             if (remainingUntapped.length > 0) {
                 combatRelics.push('M67');
@@ -288,95 +306,65 @@ function buildCombatAction(state, baseAction, player, targetHP) {
 }
 // 使える手番聖遺物の中で最も有効なものを選ぶ
 function selectBestTurnRelic(state, player) {
-    // タップマナが大量にある場合、アンタップ聖遺物（M56-M59）を最優先
-    // タップマナが2以上あれば即使う価値がある
+    // タップマナが2以上ある場合、タップマナアンタップ聖遺物を最優先
     if (player.tappedMana >= 2) {
         for (const relic of player.relics) {
             if (!relic.isDisposable || relic.timing !== 'turn')
                 continue;
-            if (relic.id === 'M56' || relic.id === 'M57' || relic.id === 'M58' || relic.id === 'M59') {
-                return {
-                    relicId: relic.id,
-                    reasoning: `聖遺物でタップマナ${player.tappedMana}をアンタップ！即座に使えるマナに変換`,
-                };
+            if (relic.effect.includes('タップマナをアンタップする')) {
+                return { relicId: relic.id, reasoning: `聖遺物でタップマナ${player.tappedMana}をアンタップ！即座に使えるマナに変換` };
             }
         }
     }
     for (const relic of player.relics) {
         if (!relic.isDisposable || relic.timing !== 'turn')
             continue;
-        switch (relic.id) {
-            case 'M43':
-            case 'M44': {
-                // タップ済み魔導具がある場合にアンタップ
-                if (player.tappedToolIds.length > 0) {
-                    return { relicId: relic.id, reasoning: `聖遺物で魔導具${player.tappedToolIds.length}個をアンタップ！` };
-                }
-                break;
+        const eff = relic.effect;
+        if (eff.includes('タップ済みの魔導具をアンタップ')) {
+            if (player.tappedToolIds.length > 0) {
+                return { relicId: relic.id, reasoning: `聖遺物で魔導具${player.tappedToolIds.length}個をアンタップ！` };
             }
-            case 'M56':
-            case 'M57':
-            case 'M58':
-            case 'M59': {
-                // タップマナが1でもあれば使う価値あり
-                if (player.tappedMana >= 1) {
-                    return {
-                        relicId: relic.id,
-                        reasoning: `聖遺物でタップマナ${player.tappedMana}をアンタップ`,
-                    };
-                }
-                break;
+        }
+        else if (eff.includes('タップマナをアンタップする')) {
+            if (player.tappedMana >= 1) {
+                return { relicId: relic.id, reasoning: `聖遺物でタップマナ${player.tappedMana}をアンタップ` };
             }
-            case 'M52': {
-                // 使い魔リセット
-                if (player.familiarTapped) {
-                    return { relicId: relic.id, reasoning: `聖遺物で使い魔を復活！` };
-                }
-                break;
+        }
+        else if (eff.includes('使い魔を未使用状態')) {
+            if (player.familiarTapped) {
+                return { relicId: relic.id, reasoning: `聖遺物で使い魔を復活！` };
             }
-            case 'M53': {
-                // select_free_tool アクションで処理するため、ここではスキップ
-                // （selectFreeToolAction ヘルパーで処理）
-                break;
+        }
+        else if (eff.includes('魔導具をタダで')) {
+            // selectFreeToolActionで処理するのでスキップ
+        }
+        else if (eff.includes('魔導具所持数')) {
+            if (player.magicTools.length >= 3) {
+                return { relicId: relic.id, reasoning: `聖遺物で${player.magicTools.length}タップマナ獲得！` };
             }
-            case 'M61': {
-                // 魔導具所持数分のタップマナ獲得（次ラウンドで使える）
-                if (player.magicTools.length >= 3) {
-                    return { relicId: relic.id, reasoning: `聖遺物で${player.magicTools.length}タップマナ獲得（次ラウンドで使用可）！` };
-                }
-                break;
+        }
+        else if (eff.includes('マナをサプライに戻し')) {
+            if (player.mana >= 2) {
+                return { relicId: relic.id, reasoning: `聖遺物で2マナ→6タップマナに変換！` };
             }
-            case 'M63': {
-                // 2アンタップマナ→6タップマナ（次ラウンドで使える大量マナ）
-                if (player.mana >= 2) {
-                    return { relicId: relic.id, reasoning: `聖遺物で2マナ→6タップマナに変換（次ラウンドで使用可）！` };
-                }
-                break;
+        }
+        else if (eff.includes('追加の手番を行う')) {
+            if (player.mana >= 3 || player.tappedToolIds.length === 0) {
+                return { relicId: relic.id, reasoning: `聖遺物で追加ターン獲得！` };
             }
-            case 'M60': {
-                // 追加ターン（何かやることがある時に）
-                if (player.mana >= 3 || player.tappedToolIds.length === 0) {
-                    return { relicId: relic.id, reasoning: `聖遺物で追加ターン獲得！` };
-                }
-                break;
+        }
+        else if (eff.includes('同じ数のマナを獲得')) {
+            if (player.mana >= 3) {
+                return { relicId: relic.id, reasoning: `聖遺物発動！この手番のマナ支払いが全額還元` };
             }
-            case 'M64': {
-                // マナ支払い分還元（高コスト魔導具購入や戦闘前に使うと最大効率）
-                if (player.mana >= 3) {
-                    return { relicId: relic.id, reasoning: `聖遺物M64発動！この手番のマナ支払いが全額還元` };
+        }
+        else if (eff.includes('魔導具を1つ捨て')) {
+            if (player.magicTools.length > 0 && state.toolSupply.length > 0) {
+                const minOwnCost = Math.min(...player.magicTools.map((t) => t.cost));
+                const maxSupplyCost = Math.max(...state.toolSupply.map((t) => t.cost));
+                if (maxSupplyCost > minOwnCost) {
+                    return { relicId: relic.id, reasoning: `聖遺物で魔導具交換！コスト${minOwnCost}→${maxSupplyCost}にアップグレード` };
                 }
-                break;
-            }
-            case 'M65': {
-                // 魔導具交換（売り場にコストが高い魔導具があるなら交換の価値あり）
-                if (player.magicTools.length > 0 && state.toolSupply.length > 0) {
-                    const minOwnCost = Math.min(...player.magicTools.map((t) => t.cost));
-                    const maxSupplyCost = Math.max(...state.toolSupply.map((t) => t.cost));
-                    if (maxSupplyCost > minOwnCost) {
-                        return { relicId: relic.id, reasoning: `聖遺物M65で魔導具交換！コスト${minOwnCost}→コスト${Math.min(minOwnCost + 3, maxSupplyCost)}にアップグレード` };
-                    }
-                }
-                break;
             }
         }
     }
@@ -638,14 +626,17 @@ const balanced = {
         if (!player.witchTapped && player.magicTools.length >= 1 && state.round >= 2) {
             const witchAction = actions.find((a) => a.type === 'use_witch' && a.choice === 'mana');
             if (witchAction) {
-                const gain = 2 + state.witchUsageCount;
-                return { action: witchAction, reasoning: `魔女マナモード → +${gain}マナ（温存して最大効果）` };
+                return { action: witchAction, reasoning: `魔女マナモード → +${state.round}マナ（温存して最大効果）` };
             }
         }
         // 7. マナがあるなら魔具店（パスするよりマシ）
         const shopAct = findFieldAction(fieldActions, 'magic_shop');
         if (shopAct)
             return { action: shopAct, reasoning: `パスよりマナ補充` };
+        // 8. 祈祷（SPトークン+マナ1）
+        const cathedralAct = findFieldAction(fieldActions, 'cathedral');
+        if (cathedralAct)
+            return { action: cathedralAct, reasoning: `パスより祈祷（SP+マナ1）` };
         return { action: passAction, reasoning: 'やることなし' };
     },
 };
@@ -675,7 +666,7 @@ const aggressive = {
         const killableSaints = getKillableSaints(state, player);
         // 0. アンタップ系聖遺物を最優先（戦闘後に使って再戦闘！）
         if (player.tappedToolIds.length > 0) {
-            const untapRelic = player.relics.find((r) => (r.id === 'M43' || r.id === 'M44') && r.isDisposable);
+            const untapRelic = player.relics.find((r) => r.effect.includes('タップ済みの魔導具をアンタップ') && r.isDisposable);
             if (untapRelic) {
                 return {
                     action: { type: 'use_relic', playerId, relicId: untapRelic.id },
@@ -710,6 +701,15 @@ const aggressive = {
                 return { action: optimized, reasoning: `攻撃！${target.name}(HP${target.hp}/★${target.victoryPoints})を撃破！` };
             }
         }
+        // 1.5. 大聖堂の枠が埋まっていても横暴で戦闘（5マナ、VP2以上の聖者）
+        if (killableSaints.length > 0 && player.mana >= 5) {
+            const target = killableSaints.find((s) => s.victoryPoints >= 2);
+            if (target) {
+                const act = actions.find((a) => a.type === 'combat_select_saint' && a.fieldId === 'sacrifice' && a.saintId === target.id);
+                if (act)
+                    return { action: act, reasoning: `横暴で${target.name}(★${target.victoryPoints})を強制撃破！` };
+            }
+        }
         // 2. 魔導具を買う（高魔力優先、使い魔は使わない）
         const affordable = state.toolSupply
             .filter((t) => t.cost <= player.mana)
@@ -732,14 +732,17 @@ const aggressive = {
         if (!player.witchTapped && state.round >= 1) {
             const witchAction = actions.find((a) => a.type === 'use_witch' && a.choice === 'mana');
             if (witchAction) {
-                const gain = 2 + state.witchUsageCount;
-                return { action: witchAction, reasoning: `魔女マナモード → +${gain}マナ` };
+                return { action: witchAction, reasoning: `魔女マナモード → +${state.round}マナ` };
             }
         }
         // 5. マナ稼ぎ（パスより良い、使い魔は使わない）
         const shopAct = findFieldAction(fieldActions, 'magic_shop', false);
         if (shopAct)
             return { action: shopAct, reasoning: `マナを貯めて次に備える` };
+        // 6. 祈祷（SPトークン+マナ1）
+        const cathedralAct = findFieldAction(fieldActions, 'cathedral');
+        if (cathedralAct)
+            return { action: cathedralAct, reasoning: `パスより祈祷（SP+マナ1）` };
         return { action: passAction, reasoning: '力を溜める' };
     },
 };
@@ -770,9 +773,9 @@ const economist = {
         // 0. 聖遺物を積極的に使う（経済型の特徴）
         // マナ生成系を優先
         const manaRelic = player.relics.find((r) => r.isDisposable && r.timing === 'turn' &&
-            (r.id === 'M63' && player.mana >= 2 || r.id === 'M61' && player.magicTools.length >= 2));
+            (r.effect.includes('マナをサプライに戻し') && player.mana >= 2 || r.effect.includes('魔導具所持数') && player.magicTools.length >= 2));
         if (manaRelic) {
-            const gain = manaRelic.id === 'M63' ? 4 : player.magicTools.length;
+            const gain = manaRelic.effect.includes('マナをサプライに戻し') ? 4 : player.magicTools.length;
             return {
                 action: { type: 'use_relic', playerId, relicId: manaRelic.id },
                 reasoning: `聖遺物でマナ+${gain}！`,
@@ -839,8 +842,7 @@ const economist = {
         if (!player.witchTapped && player.magicTools.length >= 1 && state.round >= 2) {
             const witchAction = actions.find((a) => a.type === 'use_witch' && a.choice === 'mana');
             if (witchAction) {
-                const gain = 2 + state.witchUsageCount;
-                return { action: witchAction, reasoning: `魔女マナモード → +${gain}マナ（スタック最大化）` };
+                return { action: witchAction, reasoning: `魔女マナモード → +${state.round}マナ（スタック最大化）` };
             }
         }
         // 7. まだ買えるなら買う（使い魔は使わない）
@@ -853,6 +855,18 @@ const economist = {
         const shopAct = findFieldAction(fieldActions, 'magic_shop', false);
         if (shopAct)
             return { action: shopAct, reasoning: `パスよりマナ補充` };
+        // 9. 祈祷（SPトークン+マナ1）
+        const cathedralAct = findFieldAction(fieldActions, 'cathedral');
+        if (cathedralAct)
+            return { action: cathedralAct, reasoning: `パスより祈祷（SP+マナ1）` };
+        // 10. 生贄（弱い聖遺物を換金）— 経済型は積極的にマナ化
+        const disposableRelic = player.relics.find((r) => r.isDisposable);
+        if (disposableRelic) {
+            const sacrificeAct = actions.find((a) => (a.type === 'field_action' || a.type === 'use_familiar') &&
+                'details' in a && a.details.action === 'prayer' && a.details.relicId === disposableRelic.id);
+            if (sacrificeAct)
+                return { action: sacrificeAct, reasoning: `生贄: 聖遺物→3マナ（経済型）` };
+        }
         return { action: passAction, reasoning: 'マナ温存' };
     },
 };

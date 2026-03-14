@@ -126,12 +126,11 @@ function describeAction(action, state, player) {
             return `${prefix}フィールドアクション`;
         }
         case 'use_witch': {
-            const bonus = state.witchUsageCount; // 今までの使用回数
             if (action.choice === 'mana') {
-                return `魔女発動(マナモード) → マナ+${2 + bonus} 【ゲーム${bonus + 1}人目の魔女使用】`;
+                return `魔女発動(マナモード) → マナ+${state.round}【R${state.round}】`;
             }
             else {
-                return `魔女発動(魔力モード) → 次の戦闘で魔力+${3 + bonus} 【ゲーム${bonus + 1}人目の魔女使用】`;
+                return `魔女発動(魔力モード) → 次の戦闘で魔力+${state.round}【R${state.round}】`;
             }
         }
         case 'use_relic': {

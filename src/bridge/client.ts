@@ -395,6 +395,8 @@ export class BridgeClient {
   private _majoGameInfo: Record<string, unknown> | null = null;
   /** 魔女ゲー: ボードからのアクション選択コールバック */
   private _majoActionCallback: ((index: number) => void) | null = null;
+  /** モダンアート: ゲーム状態 */
+  private _modernArtGameInfo: Record<string, unknown> | null = null;
 
   setAnnouncement(msg: string | null): void {
     this._announcement = msg;
@@ -410,6 +412,10 @@ export class BridgeClient {
 
   setMajoGameInfo(info: Record<string, unknown> | null): void {
     this._majoGameInfo = info;
+  }
+
+  setModernArtGameInfo(info: Record<string, unknown> | null): void {
+    this._modernArtGameInfo = info;
   }
 
   /** 魔女ゲー: ボードからのアクション選択イベントのコールバック登録 */
@@ -431,6 +437,9 @@ export class BridgeClient {
     }
     if (this._majoGameInfo) {
       payload.majoGameInfo = this._majoGameInfo;
+    }
+    if (this._modernArtGameInfo) {
+      payload.modernArtGameInfo = this._modernArtGameInfo;
     }
     this.socket.emit('sync:fullState', payload);
   }
