@@ -34,9 +34,7 @@ const EVOLVED_PARAMS = {
   violenceMinVP: 2,
   violenceMinMana: 6,
   prayerEarlyRound: 2,
-  prayerWeight: 0.5,
   sacrificeMinRelics: 3,
-  sacrificeWeight: 0.5,
 };
 
 // ── 共通ヘルパー ──

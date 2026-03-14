@@ -568,16 +568,12 @@ export interface MajoParams {
   violenceMinMana: number;
 
   // ── 祈祷（SPトークン+マナ1） ──
-  /** 祈祷を戦闘・購入より優先するラウンド閾値（このラウンド以下なら先手確保を優先）（デフォルト: 2） */
+  /** 祈祷を戦闘・購入より優先するラウンド閾値（このラウンド以下なら先手確保を優先、0=無効）（デフォルト: 2） */
   prayerEarlyRound: number;
-  /** SPを持っていない時に祈祷を選ぶ重み（0=無視, 1=常に取りに行く）（デフォルト: 0.5） */
-  prayerWeight: number;
 
   // ── 生贄（聖遺物捨て→3マナ） ──
   /** 生贄で捨てる聖遺物の最低所持数（これ以上持ってる時だけ換金する）（デフォルト: 3） */
   sacrificeMinRelics: number;
-  /** 生贄で使い捨て聖遺物を捨てる重み（0=温存, 1=積極換金）（デフォルト: 0.5） */
-  sacrificeWeight: number;
 }
 
 /** デフォルトパラメータ（手調整した合理的な初期値） */
@@ -621,10 +617,8 @@ export const DEFAULT_PARAMS: MajoParams = {
   violenceMinMana: 6,
 
   prayerEarlyRound: 2,
-  prayerWeight: 0.5,
 
   sacrificeMinRelics: 3,
-  sacrificeWeight: 0.5,
 };
 
 /** パラメータの変動範囲（最小値・最大値）：突然変異に使用 */
@@ -665,11 +659,9 @@ const PARAM_RANGES: Record<keyof MajoParams, [number, number]> = {
   violenceMinVP:                [0, 4],
   violenceMinMana:              [5, 10],
 
-  prayerEarlyRound:             [1, 5],
-  prayerWeight:                 [0, 1],
+  prayerEarlyRound:             [0, 5],
 
-  sacrificeMinRelics:           [1, 6],
-  sacrificeWeight:              [0, 1],
+  sacrificeMinRelics:           [1, 8],
 
   familiarForPurchase:          [0, 1],
 };
@@ -867,23 +859,6 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
       const untapM27 = selectUntapToolAction(actions, player);
       if (untapM27) return untapM27;
 
-      // ── ステップ3.5: 祈祷（SPトークン）の戦略的取得 ──
-      // ワーカープレイスメントではSP（先手）が超重要：限られたスロットを先に確保できる
-      // 序盤ほどSPの価値が高い（残りラウンドが多い＝先手の恩恵が大きい）
-      {
-        const playerIndex = state.players.findIndex((p) => p.config.id === playerId);
-        const hasStartPlayer = state.startPlayerIndex === playerIndex;
-        if (!hasStartPlayer && state.round <= params.prayerEarlyRound && params.prayerWeight > 0.3) {
-          const cathedralAct = findFieldAction(fieldActions, 'cathedral');
-          if (cathedralAct) {
-            return {
-              action: cathedralAct,
-              reasoning: `祈祷: R${state.round}でSP確保（先手＝限定スロット優先権、prayerWeight=${params.prayerWeight.toFixed(2)}）`,
-            };
-          }
-        }
-      }
-
       // ── ステップ4: パラメータに基づいてアクションを評価・選択 ──
       const killableSaints = getKillableSaints(state, player);
 
@@ -992,9 +967,9 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
       }
 
       // ── 生贄（聖遺物捨て→3マナ）: 使い捨て聖遺物を換金 ──
-      // 条件: sacrificeWeight > 0.5 かつ 聖遺物が十分ある（sacrificeMinRelics以上）
-      // 優先的に捨てる聖遺物: パッシブ（timing !== 'turn' && timing !== 'combat'）→ 効果が薄いもの
-      if (params.sacrificeWeight > 0.5 && player.relics.filter((r) => r.isDisposable).length >= params.sacrificeMinRelics) {
+      // 条件: 使い捨て聖遺物がsacrificeMinRelics以上ある時だけ（GA制御）
+      // 優先的に捨てる聖遺物: パッシブ > 戦闘 > 手番（手番は最も有用なので温存）
+      if (player.relics.filter((r) => r.isDisposable).length >= params.sacrificeMinRelics) {
         // 捨てる優先度: パッシブ聖遺物 > 戦闘聖遺物 > 手番聖遺物（手番は最も有用なので温存）
         const sacrificeCandidates = player.relics
           .filter((r) => r.isDisposable)
@@ -1014,6 +989,23 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
         }
       }
 
+      // ── 祈祷（SPトークン+マナ1）──
+      // 戦闘・購入・横暴・生贄より下、マナ補充より上
+      // SPは次ラウンドの先手権だが、今やれる生産的な行動があるならそっちが先
+      {
+        const playerIndex = state.players.findIndex((p) => p.config.id === playerId);
+        const hasStartPlayer = state.startPlayerIndex === playerIndex;
+        if (!hasStartPlayer && params.prayerEarlyRound > 0 && state.round <= params.prayerEarlyRound) {
+          const cathedralAct = findFieldAction(fieldActions, 'cathedral');
+          if (cathedralAct) {
+            return {
+              action: cathedralAct,
+              reasoning: `祈祷: R${state.round}でSP確保（次R先手権、閾値R${params.prayerEarlyRound}）`,
+            };
+          }
+        }
+      }
+
       // ── purchaseBeforeShop でマナ補充との優先順序を決定 ──
       // マナ補充の評価
       const needsMana = player.mana <= params.manaShopThreshold;
@@ -1024,21 +1016,6 @@ export function createParameterizedStrategy(params: MajoParams): MajoAIStrategy 
           action: shopAct,
           reasoning: `マナ${player.mana} <= 閾値${params.manaShopThreshold}のため補充（マナ優先: purchaseBeforeShop=${params.purchaseBeforeShop.toFixed(2)}）`,
         };
-      }
-
-      // ── 祈祷（SPトークン+マナ1）: SP未所持なら積極的に取る ──
-      {
-        const playerIndex = state.players.findIndex((p) => p.config.id === playerId);
-        const hasStartPlayer = state.startPlayerIndex === playerIndex;
-        if (!hasStartPlayer && params.prayerWeight > 0.3) {
-          const cathedralAct = findFieldAction(fieldActions, 'cathedral');
-          if (cathedralAct) {
-            return {
-              action: cathedralAct,
-              reasoning: `祈祷: SP確保+マナ1（先手で限定スロット優先）`,
-            };
-          }
-        }
       }
 
       // ── 魔女使用の判断（witchMagicModeWeight でモード選択） ──
